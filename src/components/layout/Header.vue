@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-18 12:52:21
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-19 17:58:54
+ * @LastEditTime: 2024-10-23 21:39:40
 -->
 <template>
   <header class="header">
@@ -16,7 +16,16 @@
           v-for="(route, index) in frontendMenuList"
           :key="index"
         >
-          <router-link :to="route.path">{{ route.name }}</router-link>
+          <router-link :to="route.path"
+            ><span
+              :style="{
+                color: isActive(route.path) ? '#8f8bf3' : '#ccc',
+                fontWeight: isActive(route.path) ? 'bold' : '400',
+                fontSize: isActive(route.path) ? '1.2rem' : '400',
+              }"
+              >{{ route.name }}</span
+            ></router-link
+          >
         </li>
       </ul>
     </nav>
@@ -29,6 +38,7 @@
 
 <script>
 import { getFrontendRoutes } from "@/router/index";
+import { useRoute } from "vue-router";
 export default {
   setup() {
     const frontendRoutes = getFrontendRoutes();
@@ -40,7 +50,11 @@ export default {
       })),
     ];
     console.log(frontendMenuList);
-    return { frontendMenuList };
+    const route = useRoute();
+    const isActive = (path) => {
+      return route.path === path; // 判断当前路由是否与链接路径相同
+    };
+    return { frontendMenuList, isActive };
   },
 };
 </script>
@@ -73,6 +87,7 @@ export default {
 
 .menu-list {
   display: flex;
+  align-items: center;
   justify-content: center; /* 使菜单居中 */
   list-style: none;
   padding: 0;

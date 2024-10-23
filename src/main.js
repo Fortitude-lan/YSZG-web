@@ -4,15 +4,17 @@
  * @Author: Hesin
  * @Date: 2024-10-17 13:34:11
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-19 16:56:38
+ * @LastEditTime: 2024-10-23 13:39:11
  */
 
 import { createApp } from 'vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import './assets/css/style.scss'
+import './assets/css/ui.css'
 import App from './App.vue'
 import router from './router'
+
 const app = createApp(App)
 
 app.use(ElementPlus)
