@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-23 14:25:06
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-23 16:59:29
+ * @LastEditTime: 2024-10-24 09:21:46
  */
 import Core from "../core";
 import Environment from "../environment";
@@ -71,7 +71,7 @@ export default class World {
 	}
 
 	private _handleLoadProgress([{ url, loaded, total }]: [{ url: string, loaded: number, total: number }]) {
-		console.log('加载')
+		console.log('_handleLoadProgress')
 		const percentage = ((loaded / total) * 100).toFixed(2);
 		if (/.*\.(blob|glb)$/i.test(url)) {
 			this.core.ui.updateLoadingProgress(`${url.includes("collision") ? "加载碰撞场景模型" : "加载其他场景模型"}：${percentage}%`);

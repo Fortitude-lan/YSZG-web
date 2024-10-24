@@ -39,7 +39,6 @@ export default class UI {
 				music_btn: document.querySelector("#three .music")!,
 				operating_intro: document.querySelector("#three .operating-intro")!,
 			};
-
 		}, 0); // 0 毫秒延迟，实际会在下一个事件循环中执行
 
 		document.body.addEventListener("click", this.handleClick.bind(this));
@@ -70,10 +69,10 @@ export default class UI {
 					verify: () => this._isBInA(["operating-intro-close", "operating-intro", "operating-intro-img"], (e.target as HTMLElement).classList.value.split(" ")),
 					handler: this.hideHelp.bind(this)
 				},
-				// {
-				// 	verify: () => (e.target as HTMLElement).classList.contains("music"),
-				// 	handler: this.core.world.getAudio().stopAudio()
-				// },
+				{
+					verify: () => (e.target as HTMLElement).classList.contains("music"),
+					handler: () => this.core.world.getAudio().stopAudio()
+				},
 			];
 
 			const event = MAP_EVENT.find(item => item.verify());

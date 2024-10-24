@@ -72,6 +72,7 @@
 
 <script>
 import { onMounted, ref } from "vue";
+import { useRoute } from 'vue-router';
 import Core from "@/components/exhibition/core";
 export default {
   setup() {

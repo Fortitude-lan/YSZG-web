@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-23 14:25:06
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-23 20:34:01
+ * @LastEditTime: 2024-10-24 09:12:54
  */
 import { ACESFilmicToneMapping, Clock, Color, PerspectiveCamera, Scene, SRGBColorSpace, WebGLRenderer } from "three";
 import World from "../world";
@@ -48,23 +48,25 @@ export default class Core extends Emitter {
 		this.world = new World();
 
 		setTimeout(() => {
-			this._initScene();
-			this._initCamera();
-			this._initRenderer();// 加载模型
-			this._initResponsiveResize();
+
 		}, 0); // 可以调节延迟时间
 
 	}
 
 	render() {
+		this._initScene();
+		this._initCamera();
+		this._initRenderer();// 加载模型
+		this._initResponsiveResize();
+		console.log('asdhkahsdahk')
+		this.ui.init(); // 在渲染时初始化 UI
+
 		this.renderer.setAnimationLoop(() => {
 			this.renderer.render(this.scene, this.camera);
 			const delta_time = Math.min(0.05, this.clock.getDelta());
 			this.world.update(delta_time);
 			this.orbit_controls.update();
 		});
-		this.ui.init(); // 在渲染时初始化 UI
-
 	}
 
 	private _initScene() {

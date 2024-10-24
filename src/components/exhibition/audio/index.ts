@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-23 21:27:37
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-23 21:28:11
+ * @LastEditTime: 2024-10-24 08:54:03
  */
 import { Mesh, MeshBasicMaterial, PlaneGeometry, PositionalAudio, AudioListener } from "three";
 import Core from "../core";
@@ -51,6 +51,6 @@ export default class Audio {
 	stopAudio() {
 		console.log('暂停音乐')
 		this.positional_audio?.pause(); // 暂停音乐
-		this.positional_audio.currentTime = 0; // 重置播放时间
+		// this.positional_audio.currentTime = 0; // 重置播放时间
 	}
 }
