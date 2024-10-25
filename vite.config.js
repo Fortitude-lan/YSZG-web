@@ -36,22 +36,12 @@ export default defineConfig({
       }
     }
   }, // 自定义 SVG 图标处理
-  build: {
-    rollupOptions: {
-      // 使用 svg-sprite-loader 替代 svg 的默认行为
-      plugins: [
-        {
-          name: 'svg-sprite-loader',
-          transform(src, id) {
-            if (id.endsWith('.svg')) {
-              return {
-                code: `<svg-sprite-loader>${src}</svg-sprite-loader>`,
-                map: null,
-              }
-            }
-          }
-        }
-      ]
+  // 设置scss的api类型为modern-compiler
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
     }
-  }
+  },
 })
