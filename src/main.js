@@ -16,10 +16,11 @@ import './assets/css/style.scss'
 import './assets/css/ui.css'
 import App from './App.vue'
 import router from './router'
-
+import store from './store';
 const app = createApp(App)
 
 app.use(ElementPlus)
 app.use(Antd)
+app.use(store);
 app.use(router) // 注册路由
 app.mount('#app')
