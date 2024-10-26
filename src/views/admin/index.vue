@@ -37,17 +37,25 @@
     </a-layout-sider>
     <a-layout>
       <!-- header -->
-      <a-layout-header style="background: #fff; padding: 0">
-        <menu-unfold-outlined
-          v-if="collapsed"
-          class="trigger"
-          @click="() => (collapsed = !collapsed)"
-        />
-        <menu-fold-outlined
-          v-else
-          class="trigger"
-          @click="() => (collapsed = !collapsed)"
-        />
+      <a-layout-header class="layout-header">
+        <div style="padding: 0 5px">
+          <menu-unfold-outlined
+            v-if="collapsed"
+            class="trigger"
+            @click="() => (collapsed = !collapsed)"
+          />
+          <menu-fold-outlined
+            v-else
+            class="trigger"
+            @click="() => (collapsed = !collapsed)"
+          />
+        </div>
+        <div class="title">
+          XXXXXXXXXXXXX后台管理系统
+          <router-link :to="{ path: '/front' }"
+            ><button>返回前台</button></router-link
+          >
+        </div>
       </a-layout-header>
       <a-layout-content
         :style="{
@@ -143,5 +151,19 @@ watch(selectedKeys, (newValue) => {
 
 .site-layout .site-layout-background {
   background: #fff;
+}
+.layout-header {
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  .title {
+    color: #000;
+    font-size: 1.5rem;
+    button {
+      margin: 0 10px 0 30px;
+    }
+  }
 }
 </style>
