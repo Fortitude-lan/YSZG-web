@@ -2,14 +2,28 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 // import Home from '@/views/Home.vue'
-import Index from '@/views/index.vue'
+// 布局
+import Index from '@/views/user/index.vue'
+import BackIndex from '@/views/admin/index.vue'
+
+/* ***********前台 start************ */
+
 //首页
 import Home from '@/views/user/Home.vue'
 //展馆
 import ArtworkGallery from '@/views/user/ArtworkGallery.vue'
 
-// import Login from '@/views/login.vue'
+/* ***********前台 end************ */
+
+/* ***********后台 start************ */
+import HomeBack from '@/views/admin/Home.vue'
+import UserCenter from '@/views/admin/UserCenter.vue'
+import UserInfo from '@/views/admin/UserInfo.vue'
+
+/* ***********后台 end************ */
+
 import NotFound from '@/views/404.vue'
+// import Login from '@/views/login.vue'
 // import UpdatePassword from '@/views/update-password.vue'
 // import pay from '@/views/pay.vue'
 // import register from '@/views/register.vue'
@@ -35,6 +49,11 @@ export const getFrontendRoutes = () => {
     const frontRoute = routes.find(route => route.path === '/front');
     return frontRoute ? frontRoute.children.filter(child => child.show === true) : [];
 };
+export const getBackRoutes = () => {
+    const backRoute = routes.find(route => route.path === '/back');
+    return backRoute ? backRoute.children.filter(child => child.show === true) : [];
+};
+
 //2.配置路由  
 
 const routes = [
@@ -143,6 +162,37 @@ const routes = [
     //     meta: { icon: '', title: 'register' }
     // },
     {
+        path: '/back',
+        name: '后台',
+        component: BackIndex,
+        children: [{
+            // 这里不设置值，是把main作为默认页面
+            path: '',
+            name: '系统首页',
+            component: HomeBack,
+            icon: ''
+        },
+        {
+            path: 'usercenter',
+            name: '个人中心',
+            show: true,
+            icon: IoFileTray,
+            children: [{
+                // 这里不设置值，是把main作为默认页面
+                path: 'index',
+                name: '修改密码',
+                component: UserCenter,
+                icon: ''
+            },
+            {
+                // 这里不设置值，是把main作为默认页面
+                path: 'userinfo',
+                name: '个人信息',
+                component: UserInfo,
+                icon: ''
+            }]
+        }]
+    }, {
         path: '/',
         redirect: '/front', // 默认跳转到 /index
     },
