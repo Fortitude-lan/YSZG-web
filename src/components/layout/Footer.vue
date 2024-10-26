@@ -24,7 +24,7 @@ export default {
 <style lang="scss" scoped>
 
 .footer {
-  background-color: #f8f9fa;
+  background-color: #3f404a;
   padding: 20px;
   text-align: center;
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
@@ -37,7 +37,7 @@ export default {
 .footer-link {
   margin: 0 15px;
   text-decoration: none;
-  color: #007bff;
+  color: #fff;
 }
 
 .footer-link:hover {
@@ -46,6 +46,6 @@ export default {
 
 .footer-info {
   font-size: 14px;
-  color: #666;
+  color: #a89ec9;
 }
 </style>

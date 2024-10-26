@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-17 14:13:55
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-26 13:30:33
+ * @LastEditTime: 2024-10-26 13:38:42
 -->
 
 <template>
@@ -54,6 +54,7 @@
             <div class="bg"></div>
           </li> -->
         </ul>
+        <button class="more">更多</button>
       </div>
     </div>
     <!-- 响应式的父盒子 -->
@@ -61,7 +62,6 @@
       <div class="pheading">
         <h1>最新咨询</h1>
       </div>
-
       <div class="news-grid">
         <News
           v-for="(news, index) in newsList"
@@ -75,6 +75,7 @@
           :creatorName="news.addtime"
         />
       </div>
+      <button class="more">更多</button>
     </div>
   </div>
 </template>
@@ -141,6 +142,7 @@ onMounted(fetchData);
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
   width: 100%;
+  margin: 20px 0 80px;
 }
 .pheading {
   position: relative;
@@ -265,5 +267,37 @@ onMounted(fetchData);
 .main-nav li.item5 {
   top: 0;
   left: 100%;
+}
+.more {
+  position: absolute;
+  right: 20px;
+  bottom: 25px;
+  --😀: #644dff;
+  --😀😀: #4836bb;
+  --😀😀😀: #654dff63;
+  cursor: pointer;
+  width: 70px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 0.8em;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #fff;
+  background: var(--😀);
+  border: 2px solid var(--😀😀);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 0 var(--😀😀);
+  transform: skew(-10deg);
+  transition: all 0.1s ease;
+  filter: drop-shadow(0 15px 20px var(--😀😀😀));
+}
+
+.more:active {
+  letter-spacing: 0px;
+  transform: skew(-10deg) translateY(8px);
+  box-shadow: 0 0 0 var(--😀😀😀);
 }
 </style>
