@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-23 14:25:06
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-23 16:50:26
+ * @LastEditTime: 2024-10-26 18:28:38
  */
 import {DoubleSide, Mesh, MeshStandardMaterial, NoBlending, PlaneGeometry, Scene} from "three";
 import {CSS3DObject, CSS3DRenderer} from "three/examples/jsm/renderers/CSS3DRenderer.js";
@@ -58,9 +58,10 @@ export default class Css3DRenderer {
 		this.core.scene.add(mesh);
 
 		const iframe = document.createElement("iframe");
-		iframe.src = IFRAME_SRC;
+		iframe.src = IFRAME_SRC.replace('@fs/', '');
+		console.log(IFRAME_SRC)
 		iframe.style.width = "1200px";
-		iframe.style.height = "900px";
+		iframe.style.height = "700px";
 		iframe.style.boxSizing = "border-box";
 		iframe.style.opacity = "1";
 

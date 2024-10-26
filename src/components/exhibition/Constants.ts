@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-23 14:25:21
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-23 21:22:31
+ * @LastEditTime: 2024-10-26 18:22:48
  */
 /*
 * Model Resources
@@ -39,7 +39,7 @@ export const AUDIO_URL = new URL("/audio/我记得.m4a", import.meta.url).href;
 /*
 * Intro
 * */
-export const BOARDS_INFO: Record<string, {title: string, author: string, describe: string}> = {
+export const BOARDS_INFO: Record<string, { title: string, author: string, describe: string }> = {
 	1: {
 		title: "《小橘贝》",
 		author: "小雅",
@@ -166,7 +166,7 @@ export const BOARDS_INFO: Record<string, {title: string, author: string, describ
 /*
 * Computer Iframe SRC
 * */
-export const IFRAME_SRC = new URL("/universe/index.html", import.meta.url).href;
+export const IFRAME_SRC = new URL("/front", import.meta.url).href;
 
 /*
 * Events

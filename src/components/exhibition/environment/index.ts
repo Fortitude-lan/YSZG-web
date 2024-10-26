@@ -73,6 +73,7 @@ export default class Environment {
 	* 设置画板userData数据、贴图翻转
 	* */
 	private _configureGallery() {
+		console.log(this.texture_boards)
 		for (const key in this.texture_boards) {
 			const board = this.gallery_boards[`gallery${key}_board`];
 			const board_material = board.material;
