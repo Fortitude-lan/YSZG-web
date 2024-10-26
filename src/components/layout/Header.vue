@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-18 12:52:21
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-26 17:59:42
+ * @LastEditTime: 2024-10-26 18:37:25
 -->
 <template>
   <header class="header">
@@ -17,13 +17,7 @@
           :key="index"
         >
           <router-link :to="route.path"
-            ><span
-              :style="{
-                color: isActive(route.path) ? '#a89ec9' : '#ccc',
-                fontWeight: isActive(route.path) ? 'bold' : '400',
-                fontSize: isActive(route.path) ? '1.2rem' : '400',
-              }"
-            >
+            ><span :class="isActive(route.path) ? 'curNav' : 'nav-item'">
               <component :is="route.icon" />{{ route.name }}</span
             ></router-link
           >
@@ -467,5 +461,54 @@ onMounted(() => {
   background: #fff;
   border-radius: 5px;
   padding: 2px 15px 2px 5px;
+}
+.curNav,
+.nav-item:hover {
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  font-style: normal;
+  font-weight: 400;
+  padding-left: 15px;
+  padding-right: 15px;
+  color: #fff;
+  -webkit-clip-path: polygon(
+    0 0,
+    0 0,
+    100% 0,
+    100% 0,
+    100% calc(100% - 15px),
+    calc(100% - 15px) 100%,
+    15px 100%,
+    0 100%
+  );
+  clip-path: polygon(
+    0 0,
+    0 0,
+    100% 0,
+    100% 0,
+    100% calc(100% - 15px),
+    calc(100% - 15px) 100%,
+    15px 100%,
+    0 100%
+  );
+  height: 40px;
+  font-size: 0.8rem;
+  line-height: 14px;
+  letter-spacing: 1.2px;
+  transition: 0.2s 0.1s;
+  background-image: linear-gradient(90deg, #28285a, #6220fb);
+  border: 0 solid;
+  overflow: hidden;
+}
+.curNav:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-weight: 600;
+  color: #000;
+  transition: all 0.1s ease-in;
+  background-image: linear-gradient(90deg, #9472e1, #6220fb);
+  // padding-right: 32px;
+  // padding-left: 32px;
 }
 </style>
