@@ -27,6 +27,9 @@ import NotFound from '@/views/404.vue'
 // import heimingdan from '@/views/modules/heimingdan/list.vue'
 
 
+//图标
+import { IoFileTray } from "vue3-icons/io5";
+
 // 提取前端路由的函数
 export const getFrontendRoutes = () => {
     const frontRoute = routes.find(route => route.path === '/front');
@@ -45,13 +48,14 @@ const routes = [
                 path: '',
                 name: '首页',
                 component: Home,
-                meta: { icon: '', title: 'center' }
+                icon: IoFileTray
             },
             {
                 path: 'artworkGallery',
                 name: '艺术品展馆',
                 show: true,
-                component: ArtworkGallery
+                component: ArtworkGallery,
+                icon: IoFileTray
             }
             // {
             //     path: '/updatePassword',

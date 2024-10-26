@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-23 14:25:06
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-24 09:12:54
+ * @LastEditTime: 2024-10-26 14:07:17
  */
 import { ACESFilmicToneMapping, Clock, Color, PerspectiveCamera, Scene, SRGBColorSpace, WebGLRenderer } from "three";
 import World from "../world";
@@ -102,4 +102,5 @@ export default class Core extends Emitter {
 			this.renderer.setPixelRatio(window.devicePixelRatio);
 		});
 	}
+	
 }

@@ -70,24 +70,18 @@
   </div>
 </template>
 
-<script>
-import { onMounted, ref } from "vue";
-import { useRoute } from 'vue-router';
+<script setup>
+import { onMounted, watch, ref } from "vue";
 import Core from "@/components/exhibition/core";
-export default {
-  setup() {
-    const loading = ref(true);
-    const core = new Core();
+import { useRoute } from 'vue-router';
+const core = new Core();
+const route = useRoute();
+onMounted(() => {
+  console.log("开始加载");
+  core.render();
+  // debugger
+});
 
-    onMounted(() => {
-      console.log("开始加载");
-      core.render();
-      loading.value = false; // 渲染完成后结束 loading
-    });
-
-    return { loading };
-  },
-};
 </script>
 
 <style lang="scss" scoped></style>

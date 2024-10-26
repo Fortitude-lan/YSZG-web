@@ -61,7 +61,6 @@ export default class World {
 	private async _onLoadModelFinish() {
 		// 场景模型加载完毕后开始加载音频
 		await this.audio.createAudio();
-
 		// 音频加载完毕后移除加载进度UI，显示进入确认UI
 		this.core.ui.removeLoading();
 		this.core.ui.showLoadingConfirm();

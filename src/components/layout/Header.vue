@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-18 12:52:21
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-26 12:25:56
+ * @LastEditTime: 2024-10-26 13:43:48
 -->
 <template>
   <header class="header">
@@ -23,7 +23,8 @@
                 fontWeight: isActive(route.path) ? 'bold' : '400',
                 fontSize: isActive(route.path) ? '1.2rem' : '400',
               }"
-              >{{ route.name }}</span
+            >
+              <component :is="route.icon" />{{ route.name }}</span
             ></router-link
           >
         </li>
@@ -162,6 +163,7 @@ import { loginService } from "@/services/headerServices";
 import { ElMessage } from "element-plus";
 import { reactive, ref, onMounted } from "vue";
 import { FaUserAstronaut } from "vue3-icons/fa";
+import { CiStar } from "vue3-icons/ci";
 
 // 控制对话框显示状态
 const dialogVisible = ref(false);
@@ -172,10 +174,11 @@ const username = ref("");
 // 获取前端路由
 const frontendRoutes = getFrontendRoutes();
 const frontendMenuList = [
-  { path: "/front", name: "首页" }, // 补充第一个路由
+  { path: "/front", name: "首页", icon: CiStar }, // 补充第一个路由
   ...frontendRoutes.flatMap((child) => ({
     path: `/front/${child.path}`, // 使用绝对路径
     name: child.name,
+    icon: child.icon,
   })),
 ];
 console.log(frontendMenuList);
@@ -309,7 +312,10 @@ onMounted(() => {
     color: #fff;
     text-decoration: none;
   }
-
+  span {
+    display: flex;
+    align-items: center;
+  }
   span:hover {
     color: rgb(188, 172, 197) !important;
   }

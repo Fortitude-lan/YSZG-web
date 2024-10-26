@@ -47,7 +47,7 @@ export default class UI {
 	init() {
 		// 这里可以添加初始化逻辑，比如监听加载进度等
 		console.log('UIUIUIUIUIUUI')
-		console.log(document.querySelector("#app1") ? '1' : '0')
+		console.log(document.querySelector("#app1") ? '有app1' : '0')
 	}
 
 	handleClick(e: MouseEvent) {
