@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-18 12:52:21
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-24 10:29:37
+ * @LastEditTime: 2024-10-26 12:25:56
 -->
 <template>
   <header class="header">
@@ -19,7 +19,7 @@
           <router-link :to="route.path"
             ><span
               :style="{
-                color: isActive(route.path) ? '#fc2c2c' : '#ccc',
+                color: isActive(route.path) ? '#a89ec9' : '#ccc',
                 fontWeight: isActive(route.path) ? 'bold' : '400',
                 fontSize: isActive(route.path) ? '1.2rem' : '400',
               }"
@@ -29,9 +29,38 @@
         </li>
       </ul>
     </nav>
-    <el-button class="login-btn" plain @click="dialogVisible = true"
-      >登录/注册</el-button
-    >
+    <!-- 登录 -->
+    <div>
+      <div v-if="isLoggedIn">
+        <el-dropdown placement="top-start">
+          <div class="login-box">
+            <el-avatar
+              :icon="FaUserAstronaut"
+              :size="35"
+              :style="{ background: '#1e62b9' }"
+            />
+            <span :style="{ marginLeft: '10px', fontWeight: 'bold' }"
+              >欢迎: {{ username }}</span
+            >
+          </div>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>
+                <router-link :to="{ path: '/back' }">后台管理</router-link>
+              </el-dropdown-item>
+              <el-dropdown-item @click="handleLogout"> 退出 </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+      <el-button
+        v-if="!isLoggedIn"
+        class="login-btn"
+        plain
+        @click="dialogVisible = true"
+        >登录/注册</el-button
+      >
+    </div>
   </header>
   <el-dialog
     v-model="dialogVisible"
@@ -131,10 +160,14 @@ import { getFrontendRoutes } from "@/router/index";
 import { useRoute } from "vue-router";
 import { loginService } from "@/services/headerServices";
 import { ElMessage } from "element-plus";
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
+import { FaUserAstronaut } from "vue3-icons/fa";
 
 // 控制对话框显示状态
 const dialogVisible = ref(false);
+//登录验证
+const isLoggedIn = ref(false);
+const username = ref("");
 
 // 获取前端路由
 const frontendRoutes = getFrontendRoutes();
@@ -171,6 +204,7 @@ const signinValidateForm = reactive({
   username: "",
   password: "",
 });
+// 登录处理
 const handleLogin = (formEl) => {
   if (!formSigninRef) return; // 处理注册逻辑
   formEl.validate(async (valid) => {
@@ -186,6 +220,7 @@ const handleLogin = (formEl) => {
           type: "success",
         });
         dialogVisible.value = false; // 关闭对话框
+        isLoggedIn.value = true;
       } else {
         ElMessage.error("密码或账号错误");
       }
@@ -194,6 +229,7 @@ const handleLogin = (formEl) => {
     }
   });
 };
+// 注册处理
 const handleSignUp = (formEl) => {
   if (!formSignupRef) return; // 处理注册逻辑
   formEl.validate((valid) => {
@@ -204,6 +240,31 @@ const handleSignUp = (formEl) => {
     }
   });
 };
+// 退出登录
+const handleLogout = () => {
+  // 退出登录逻辑
+  localStorage.clear();
+  isLoggedIn.value = false;
+  ElMessage({
+    message: "退出成功",
+    type: "success",
+  });
+};
+// 检查登录状态
+const checkLoginStatus = () => {
+  const role = localStorage.getItem("role");
+  if (role) {
+    isLoggedIn.value = true;
+    username.value = localStorage.getItem("adminName"); // 假设用户名存储在 localStorage 中
+  } else {
+    isLoggedIn.value = false;
+  }
+};
+
+// 在组件挂载时调用
+onMounted(() => {
+  checkLoginStatus();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -213,7 +274,7 @@ const handleSignUp = (formEl) => {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgb(63 64 74);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
@@ -246,6 +307,11 @@ const handleSignUp = (formEl) => {
   cursor: pointer;
   a {
     color: #fff;
+    text-decoration: none;
+  }
+
+  span:hover {
+    color: rgb(188, 172, 197) !important;
   }
 }
 
@@ -380,5 +446,12 @@ const handleSignUp = (formEl) => {
     width: 100px;
     height: 100px;
   }
+}
+.login-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 5px;
+  padding: 2px 15px 2px 5px;
 }
 </style>
