@@ -83,8 +83,10 @@ export default class UI {
 	}
 
 	onClickEnterApp() {
+		console.log('onClickEnterApp')
 		this.doms.loading_complete.classList.remove("display-none");
 		this.doms.loading_complete.remove();
+		this.doms.loading.remove();
 		this.core.$emit(ON_ENTER_APP);
 	}
 

@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-23 14:25:06
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-26 14:07:17
+ * @LastEditTime: 2024-10-26 15:26:44
  */
 import { ACESFilmicToneMapping, Clock, Color, PerspectiveCamera, Scene, SRGBColorSpace, WebGLRenderer } from "three";
 import World from "../world";
@@ -36,29 +36,31 @@ export default class Core extends Emitter {
 		}
 		instance = this;
 
+
+
+
+	}
+	init() {
 		this.scene = new Scene();
 		this.renderer = new WebGLRenderer({ antialias: true });
 		this.camera = new PerspectiveCamera();
 		this.clock = new Clock();
-		this.orbit_controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-		this.ui = new UI(this); // 传递 Core 实例
+		this.orbit_controls = new OrbitControls(this.camera, this.renderer.domElement);
 		this.control_manage = new ControlManage();
 		this.loader = new Loader();
 		this.world = new World();
-
-		setTimeout(() => {
-
-		}, 0); // 可以调节延迟时间
-
+		this.ui = new UI(this); // 传递 Core 实例
 	}
-
 	render() {
+		this.init()
+
 		this._initScene();
 		this._initCamera();
 		this._initRenderer();// 加载模型
 		this._initResponsiveResize();
-		console.log('asdhkahsdahk')
+
+
 		this.ui.init(); // 在渲染时初始化 UI
 
 		this.renderer.setAnimationLoop(() => {
@@ -68,7 +70,20 @@ export default class Core extends Emitter {
 			this.orbit_controls.update();
 		});
 	}
-
+	destroy() {
+		try {
+			// 清理场景中的所有物体和材料
+			this.renderer.dispose();
+			this.renderer.domElement.remove();
+			this.world.destroy();
+			this.world = null
+			this.ui = null
+			this.loader = null
+			console.log('XXXXXXXXXX')
+		} catch (e) {
+			console.error("Failed to destroy Three.js resources", e);
+		}
+	}
 	private _initScene() {
 		this.scene.background = new Color(0x000000);
 	}
@@ -102,5 +117,5 @@ export default class Core extends Emitter {
 			this.renderer.setPixelRatio(window.devicePixelRatio);
 		});
 	}
-	
+
 }

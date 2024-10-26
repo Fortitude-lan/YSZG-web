@@ -70,18 +70,31 @@
   </div>
 </template>
 
-<script setup>
-import { onMounted, watch, ref } from "vue";
+<script>
+import { onMounted, onBeforeUnmount, ref } from "vue";
 import Core from "@/components/exhibition/core";
-import { useRoute } from 'vue-router';
-const core = new Core();
-const route = useRoute();
-onMounted(() => {
-  console.log("开始加载");
-  core.render();
-  // debugger
-});
+export default {
+  setup() {
+    let core = null;
 
+    onMounted(() => {
+      if (core) {
+        console.log("销毁旧的 Core 实例");
+        core.destroy(); // 清理旧的实例
+      }
+      console.log("创建新的 Core 实例");
+      core = new Core(); // 创建新的 Core 实例
+      console.log("开始加载");
+      core.render(); // 渲染
+    });
+    onBeforeUnmount(() => {
+      if (core) {
+        console.log("组件卸载，清理 Core 实例");
+        core.destroy(); // 清理实例
+      }
+    });
+  },
+};
 </script>
 
 <style lang="scss" scoped></style>

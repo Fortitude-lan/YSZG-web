@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-19 17:14:48
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-26 13:15:56
+ * @LastEditTime: 2024-10-26 15:18:24
  */
 //轮播图接口
 
@@ -16,7 +16,7 @@ export const fetchCarouselImages = async (page = 1, limit = 5) => {
     try {
         const timestamp = new Date().getTime();
         const response = await get(API_ENDPOINTS.lunbotuAPI, { page, limit, t: timestamp });
-        console.log(response.data.list)
+        // console.log(response.data.list)
         return response.data.list
             .filter(item => item.name.includes('picture') && item.value)
             .map(item => item.value);

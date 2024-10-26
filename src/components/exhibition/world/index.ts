@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-23 14:25:06
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-24 09:21:46
+ * @LastEditTime: 2024-10-26 16:58:36
  */
 import Core from "../core";
 import Environment from "../environment";
@@ -41,19 +41,57 @@ export default class World {
 	}
 
 	update(delta: number) {
-
 		if (this.environment.collider && this.environment.is_load_finished) {
 			this.css_3d_renderer.update();
 			this.character.update(delta, this.environment.collider);
 			this.ray_caster_controls.updateTooltipRayCast(this.environment.raycast_objects);
 		}
 	}
+	// 新增 destroy 方法
+	destroy() {
+		try {
+			// 停止音频播放并销毁音频对象
+			// if (this.audio) {
+			// 	this.audio.destroy(); // 清理音频资源
+			// 	this.audio = null; // 清理引用
+			// }
 
+			// 清理其他组件
+			// if (this.environment) {
+			// 	this.environment.destroy(); // 假设 Environment 类有 destroy 方法
+			// 	this.environment = null;
+			// }
+			// if (this.character) {
+			// 	this.character.destroy(); // 假设 Character 类有 destroy 方法
+			// 	this.character = null;
+			// }
+			// if (this.css_3d_renderer) {
+			// 	this.css_3d_renderer.destroy(); // 假设 Css3DRenderer 类有 destroy 方法
+			// 	this.css_3d_renderer = null;
+			// }
+			// if (this.ray_caster_controls) {
+			// 	this.ray_caster_controls.destroy(); // 假设 RayCasterControls 类有 destroy 方法
+			// 	this.ray_caster_controls = null;
+			// }
+
+			// 清理核心和事件监听
+			this.core.$off(ON_LOAD_PROGRESS, this._handleLoadProgress.bind(this));
+			this.core.$off(ON_LOAD_MODEL_FINISH, this._onLoadModelFinish.bind(this));
+			this.core.$off(ON_CLICK_RAY_CAST, this._onClickRayCast.bind(this));
+			this.core.$off(ON_SHOW_TOOLTIP, this._onShowTooltip.bind(this));
+			this.core.$off(ON_HIDE_TOOLTIP, this._onHideTooltip.bind(this));
+			this.core.$off(ON_ENTER_APP, this._onEnterApp.bind(this));
+
+			console.log('World resources destroyed');
+		} catch (e) {
+			console.error("Failed to destroy World resources", e);
+		}
+	}
 	/*
 	* 点击进入展馆后的回调
 	* */
 	private _onEnterApp() {
-		this.audio.playAudio();
+		// this.audio.playAudio();
 		// 进入后才允许控制键盘
 		this.core.control_manage.enabled();
 	}
