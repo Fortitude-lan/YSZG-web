@@ -26,9 +26,9 @@ export const BOARD_TEXTURES = [
 	new URL("/boards/8.jpg", import.meta.url).href,
 	new URL("/boards/9.jpg", import.meta.url).href,
 	new URL("/boards/10.png", import.meta.url).href,
-	// new URL("/boards/8.jpg", import.meta.url).href,
-	// new URL("/boards/9.jpg", import.meta.url).href,
-	// new URL("/boards/10.png", import.meta.url).href
+	new URL("/boards/8.jpg", import.meta.url).href,
+	new URL("/boards/9.jpg", import.meta.url).href,
+	new URL("/boards/10.png", import.meta.url).href
 ];
 
 /*

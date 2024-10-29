@@ -6,6 +6,7 @@ import { isLight, isMesh } from "../utils/typeAssert";
 import { MeshBVH, MeshBVHOptions, StaticGeometryGenerator } from "three-mesh-bvh";
 import { Reflector } from "../../../lib/Reflector";
 import * as THREE from 'three';
+import { fetchShangpinList } from "../../../services/homeServices";
 
 export default class Environment {
 	private core: Core;
@@ -13,6 +14,7 @@ export default class Environment {
 	private collision_scene: Group | undefined;
 	collider: Mesh | undefined;
 	private texture_boards: Record<string, Texture> = {};
+	private texture_info: Record<string, {}> = {};
 	private gallery_boards: Record<string, Mesh> = {};
 	raycast_objects: Object3D[] = [];
 	is_load_finished = false;
@@ -41,10 +43,17 @@ export default class Environment {
 	}
 
 	private async _loadBoardsTexture(): Promise<void> {
-		for (let i = 0; i < BOARD_TEXTURES.length; i++) {
-			this.texture_boards[i + 1] = await this.loader.texture_loader.loadAsync(BOARD_TEXTURES[i]);
+		// for (let i = 0; i < BOARD_TEXTURES.length; i++) {
+		// 	this.texture_boards[i + 1] = await this.loader.texture_loader.loadAsync(BOARD_TEXTURES[i]);
+		// }
+		//调接口 查询列表
+		const datas = await fetchShangpinList();
+		for (let i = 0; i < datas.length; i++) {
+			this.texture_boards[i + 1] = await this.loader.texture_loader.loadAsync(datas[i].tupian);
+			console.log(`tupian${i + 1}`, datas[i].tupian)
+			console.log(`tupian${i + 1}`, this.texture_boards[i + 1])
+			this.texture_info[i + 1] = datas[i]
 		}
-
 		for (const key in this.texture_boards) {
 			const texture = this.texture_boards[key]
 			texture.colorSpace = SRGBColorSpace;
@@ -72,21 +81,33 @@ export default class Environment {
 	/*
 	* 设置画板userData数据、贴图翻转
 	* */
-	private _configureGallery() {
-		console.log(this.texture_boards)
-		for (const key in this.texture_boards) {
+	private async _configureGallery() {
+		console.log(' this.gallery_boards', this.gallery_boards)
+		for (let key in this.texture_boards) {
 			const board = this.gallery_boards[`gallery${key}_board`];
 			const board_material = board.material;
 			(board_material as MeshBasicMaterial).map = this.texture_boards[key];
+
+			console.log(`gallery${key}_board`, board_material.map)
 			board.userData = {
-				name: board.name,
-				title: BOARDS_INFO[key].title,
-				author: BOARDS_INFO[key].author,
-				describe: BOARDS_INFO[key].describe,
+				name: this.texture_info[key].shangpinmingcheng,
+				title: this.texture_info[key].shangpinmingcheng,
+				author: this.texture_info[key].pinpai,
+				describe: this.texture_info[key].shangpinxiangqing,
 				index: key,
 				src: this.texture_boards[key].image.src,
 				show_boards: true
 			};
+
+			// board.userData = {
+			// 	name: board.name,
+			// 	title: BOARDS_INFO[key].title,
+			// 	author: BOARDS_INFO[key].author,
+			// 	describe: BOARDS_INFO[key].describe,
+			// 	index: key,
+			// 	src: this.texture_boards[key].image.src,
+			// 	show_boards: true
+			// };
 
 			// 翻转贴图
 			if ([4, 5, 6, 7, 9].includes(+key)) {
@@ -153,7 +174,7 @@ export default class Environment {
 					if (item.name === "home001" || item.name === "PointLight") {
 						item.castShadow = true;
 					}
-					if (item.name === "home"||item.name ==='wall2') {
+					if (item.name === "home" || item.name === 'wall2') {
 						if (item.material) {
 							item.material.map = null; // 移除 UV 贴图
 							item.material.needsUpdate = true; // 更新材质

@@ -64,7 +64,13 @@
       <div class="close operating-intro-close" title="关闭"></div>
     </div>
     <div class="music" title="音乐">音</div>
-
+    <div class="menu">
+      <input type="checkbox" class="checkbox" />
+      <span class="button-menu"></span>
+      <button class="option-a option">A</button>
+      <button class="option-b option">B</button>
+      <button class="option-c option">C</button>
+    </div>
     <!-- 虚拟摇杆 -->
     <div id="joystick"></div>
   </div>
@@ -97,4 +103,101 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.menu {
+  position: absolute;
+  width: 40px;
+  z-index: 999;
+  right: 10px;
+  bottom: 5rem;
+  .button-menu {
+    cursor: pointer;
+    position: absolute;
+
+    background-color: #ffdd00;
+    border: 2px solid #1e1e1e;
+    color: #1e1e1e;
+    font-size: 30px;
+    font-weight: 700;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    -webkit-box-shadow: 0px 3px 10px 0px rgba(16, 16, 16, 0.5);
+    -moz-box-shadow: 0px 3px 10px 0px rgba(16, 16, 16, 0.5);
+    box-shadow: 0px 3px 10px 0px rgba(16, 16, 16, 0.5);
+  }
+
+  .checkbox {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+  }
+
+  .option {
+    position: absolute;
+    background-color: #1e1e1e;
+    border: 2px solid #ffdd00;
+    color: #ffdd00;
+    z-index: -1;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s;
+    -webkit-box-shadow: 3px 3px 10px 0px rgba(16, 16, 16, 0.5);
+    -moz-box-shadow: 3px 3px 10px 0px rgba(16, 16, 16, 0.5);
+    box-shadow: 3px 3px 10px 0px rgba(16, 16, 16, 0.5);
+  }
+
+  .checkbox:hover ~ .button-menu,
+  .checkbox:checked ~ .button-menu {
+    background-color: #eccd00;
+    scale: 0.98;
+    box-shadow: none;
+  }
+
+  .checkbox:not(:checked) ~ .button-menu::before {
+    content: "+";
+  }
+
+  .checkbox:checked ~ .button-menu::after {
+    content: "-";
+    scale: 0.98;
+    box-shadow: none;
+  }
+
+  .checkbox:not(:checked) ~ .option {
+    box-shadow: none;
+  }
+
+  .option:hover,
+  .option:active,
+  .option:focus {
+    box-shadow: none;
+    scale: 0.98;
+  }
+
+  .checkbox:checked ~ .option-a {
+    transition-delay: 0.1s;
+    transform: translateY(-70px);
+  }
+
+  .checkbox:checked ~ .option-b {
+    transition-delay: 0.2s;
+    transform: translateY(-140px);
+  }
+
+  .checkbox:checked ~ .option-c {
+    transition-delay: 0.3s;
+    transform: translateY(-210px);
+  }
+}
+</style>
