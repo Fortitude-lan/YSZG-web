@@ -160,9 +160,10 @@ watch(selectedKeys, (newValue) => {
   padding: 0;
   .title {
     color: #000;
-    font-size: 1.5rem;
     button {
+      font-size: 14px;
       margin: 0 10px 0 30px;
+      line-height: normal;
     }
   }
 }
