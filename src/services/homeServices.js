@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-19 17:14:48
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-29 18:56:03
+ * @LastEditTime: 2024-11-19 18:00:28
  */
 //轮播图接口
 
@@ -28,12 +28,12 @@ export const fetchCarouselImages = async (page = 1, limit = 5) => {
 };
 
 // 获取咨询数据
-export const fetchNewsList = async (page = 1, limit = 2 * 2, order = 'desc') => {
+export const fetchNewsList = async (page, limit, order = 'desc') => {
     try {
         const timestamp = new Date().getTime();
         const response = await get(API_ENDPOINTS.newsAPI, { page, limit, t: timestamp });
-        // console.log(response.data.list)
-        return response.data.list
+        // console.log(response.data)
+        return response.data
     } catch (error) {
         console.error('Error fetching carousel images:', error);
         throw error; // 抛出错误以供调用者处理
@@ -51,7 +51,7 @@ export const fetchShangpinSortList = async (page = 1) => {
         throw error; // 抛出错误以供调用者处理
     }
 };
-
+//
 export const fetchShangpinList = async (page = 1, limit = 13) => {
     try {
         const timestamp = new Date().getTime();

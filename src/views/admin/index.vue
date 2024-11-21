@@ -51,10 +51,27 @@
           />
         </div>
         <div class="title">
-          XXXXXXXXXXXXX后台管理系统
-          <router-link :to="{ path: '/front' }"
-            ><button>返回前台</button></router-link
-          >
+          <span class="tt"> XXXXXXXXXXXXX后台管理系统 </span>
+          <el-dropdown placement="top-start">
+            <div class="down">
+              <el-avatar
+                :icon="FaUserAstronaut"
+                :size="35"
+                :style="{ background: '#1e62b9', marginRight: '10px' }"
+              />
+              <span>欢迎：{{ username }}</span>
+            </div>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <router-link :to="{ path: '/front' }">返回前台</router-link>
+                </el-dropdown-item>
+                <el-dropdown-item @click="handleLogout">
+                  退出登录
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </div>
       </a-layout-header>
       <a-layout-content
@@ -73,11 +90,21 @@
 </template>
 <script setup>
 import { ref, onMounted, watch } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 import { getBackRoutes } from "@/router/index";
+
+import { ElMessage } from "element-plus";
 import { CiStar } from "vue3-icons/ci";
+import { FaUserAstronaut } from "vue3-icons/fa";
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons-vue";
 const collapsed = ref(false);
 const selectedKeys = ref([]);
+
+//路由
+const router = useRouter();
+const store = useStore();
+const username = localStorage.getItem("adminName");
 
 // 获取后台路由
 const backRoutes = getBackRoutes();
@@ -99,6 +126,17 @@ const setDefaultSelectedKey = () => {
       selectedKeys.value = [firstMenu.children[0].path]; // 如果有子菜单，则选中第一个子菜单
     }
   }
+};
+const handleLogout = () => {
+  // 退出登录逻辑
+  localStorage.clear();
+  // 更新 Vuex 的登录状态
+  store.commit("SET_LOGIN", { isLoggedIn: false, username: "" });
+  ElMessage({
+    message: "退出成功",
+    type: "success",
+  });
+  router.push({ path: "/login" });
 };
 
 // 页面刷新时保持选中状态
@@ -155,16 +193,29 @@ watch(selectedKeys, (newValue) => {
 .layout-header {
   background: #fff;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   padding: 0;
   .title {
+    display: flex;
+    width: 90%;
+    align-items: center;
+    justify-content: space-between;
     color: #000;
+    .tt {
+      font-weight: bold;
+      font-size: 20px;
+      padding-left: 50px;
+      letter-spacing: 5px;
+    }
     button {
       font-size: 14px;
       margin: 0 10px 0 30px;
       line-height: normal;
     }
+  }
+  .down {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
   }
 }
 </style>

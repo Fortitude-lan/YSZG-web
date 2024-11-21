@@ -16,10 +16,15 @@ import BackIndex from '@/views/admin/index.vue'
 import Home from '@/views/user/Home.vue'
 //展馆
 import ArtworkGallery from '@/views/user/ArtworkGallery.vue'
-
+//咨询
+import News from '@/views/user/News.vue'
+//客服
+import Chat from '@/views/user/Chat.vue'
 /* ***********前台 end************ */
 
+
 /* ***********后台 start************ */
+import Login from '@/views/admin/Login.vue'
 import HomeBack from '@/views/admin/Home.vue'
 import UserCenter from '@/views/admin/UserCenter.vue'
 import UserInfo from '@/views/admin/UserInfo.vue'
@@ -47,6 +52,7 @@ import NotFound from '@/views/404.vue'
 
 //图标
 import { IoFileTray } from "vue3-icons/io5";
+import { RiCustomerService2Line } from "vue3-icons/ri";
 
 // 提取前端路由的函数
 export const getFrontendRoutes = () => {
@@ -78,6 +84,29 @@ const routes = [
                 name: '艺术品展馆',
                 show: true,
                 component: ArtworkGallery,
+                icon: IoFileTray
+            },
+            {
+                path: 'news',
+                name: '最新咨询',
+                show: true,
+                component: News,
+                icon: IoFileTray
+            },
+            {
+                path: 'chat',
+                name: '智能客服',
+                meta: { requiresAuth: true },
+                show: true,
+                component: Chat,
+                icon: RiCustomerService2Line
+            },
+            {
+                path: 'usercenter',
+                name: '个人中心',
+                meta: { requiresAuth: true },
+                show: true,
+                component: News,
                 icon: IoFileTray
             }
             // {
@@ -157,7 +186,8 @@ const routes = [
     //     path: '/login',
     //     name: 'login',
     //     component: Login,
-    //     meta: { icon: '', title: 'login' }
+    //     show: true,
+    //     icon: IoFileTray,
     // },
     // {
     //     path: '/register',
@@ -179,7 +209,7 @@ const routes = [
         },
         {
             path: 'usercenter',
-            name: '个人中心',
+            name: '用户中心',
             show: true,
             icon: IoFileTray,
             children: [{
@@ -197,7 +227,15 @@ const routes = [
                 icon: ''
             }]
         }]
-    }, {
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login,
+        show: true,
+        icon: IoFileTray,
+    },
+    {
         path: '/',
         redirect: '/front', // 默认跳转到 /index
     },
@@ -220,6 +258,9 @@ router.beforeEach((to, from, next) => {
     store.commit('setLoginState', { isLoggedIn, username: isLoggedIn ? role : '' }); // 
 
     console.log('s守卫', to.meta.requiresAuth && !isLoggedIn)
+    console.log(' to.meta.requiresAuth', to)
+    console.log(' to.meta.requiresAuth', to.meta.requiresAuth)
+    console.log('!isLoggedIn', !isLoggedIn)
     if (to.meta.requiresAuth && !isLoggedIn) {
         ElMessage({
             message: "无权访问,请登录!",

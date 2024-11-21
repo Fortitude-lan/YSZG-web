@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-17 14:13:55
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-26 13:38:42
+ * @LastEditTime: 2024-11-19 18:06:14
 -->
 
 <template>
@@ -87,7 +87,13 @@ import {
   fetchNewsList,
 } from "@/services/homeServices";
 import News from "@/components/News.vue";
-import { ref, onMounted } from "vue";
+import { reactive, ref, onMounted } from "vue";
+// 分页状态
+const pagination = reactive({
+  currentPage: 1, // 当前页码
+  pageSize: 4, // 每页条数
+  totalPage: 0, // 总页数，从接口返回
+});
 
 const carouselImages = ref({}); // 用于存放轮播图的数组
 const newsList = ref({}); // 用于存news的数组
@@ -102,7 +108,11 @@ const fetchData = async () => {
     console.error("Error fetching carousel images:", error);
   }
   try {
-    newsList.value = await fetchNewsList();
+    const { list } = await fetchNewsList(
+      pagination.currentPage,
+      pagination.pageSize
+    );
+    newsList.value = list;
   } catch (error) {
     console.error("Error fetching news List:", error);
   }
@@ -143,40 +153,6 @@ onMounted(fetchData);
   gap: 20px;
   width: 100%;
   margin: 20px 0 80px;
-}
-.pheading {
-  position: relative;
-}
-.pheading h1 {
-  position: relative;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  width: 160px;
-  text-align: center;
-  margin: 2rem auto;
-  white-space: nowrap;
-  padding-bottom: 13px;
-}
-.pheading h1:before {
-  background-color: #a89ec9;
-  content: "";
-  display: block;
-  height: 3px;
-  width: 75px;
-  margin-bottom: 5px;
-}
-.pheading h1:after {
-  background-color: #a89ec9;
-  content: "";
-  display: block;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  height: 3px;
-  width: 75px;
-  margin-bottom: 0.25em;
 }
 
 // 推荐

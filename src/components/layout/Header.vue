@@ -1,11 +1,3 @@
-<!--
- * @Descripttion: 
- * @version: 1.0
- * @Author: Hesin
- * @Date: 2024-10-18 12:52:21
- * @LastEditors: Hesin
- * @LastEditTime: 2024-10-26 18:37:25
--->
 <template>
   <header class="header">
     <div class="logo">LOGO</div>
@@ -102,7 +94,7 @@
             <label for="chk" aria-hidden="true">注册</label>
             <el-form-item label="账号" class="form-item">
               <el-input
-                v-model="signupValidateForm.username"
+                v-model="signupValidateForm.yonghuming"
                 placeholder="账号"
                 required
               />
@@ -111,29 +103,29 @@
             <el-form-item label="密码" class="form-item">
               <el-input
                 type="password"
-                v-model="signupValidateForm.password"
+                v-model="signupValidateForm.mima"
                 placeholder="密码"
                 required
               />
             </el-form-item>
-            <el-form-item label="确认密码" class="form-item">
+            <!-- <el-form-item label="确认密码" class="form-item">
               <el-input
                 type="password"
-                v-model="signupValidateForm.confirmPassword"
+                v-model="signupValidateForm.mima2"
                 placeholder="确认密码"
                 required
               />
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="姓名" class="form-item">
               <el-input
-                v-model="signupValidateForm.name"
+                v-model="signupValidateForm.xingming"
                 placeholder="姓名"
                 required
               />
             </el-form-item>
             <el-form-item label="电话号码" class="form-item">
               <el-input
-                v-model="signupValidateForm.phone"
+                v-model="signupValidateForm.lianxidianhua"
                 placeholder="电话"
                 required
               />
@@ -153,6 +145,7 @@
 <script setup>
 import { getFrontendRoutes } from "@/router/index";
 import { useRoute } from "vue-router";
+import { signUpService } from "@/services/backServices";
 import { loginService } from "@/services/headerServices";
 import { ElMessage } from "element-plus";
 import { reactive, ref, onMounted, computed } from "vue";
@@ -188,15 +181,10 @@ const isActive = (path) => {
 
 const formSignupRef = ref();
 const signupValidateForm = reactive({
-  username: "",
-  phone: "",
-  password: "",
-  confirmPassword: "",
-  name: "",
-  cardNumber: "",
-  gender: "",
-  age: "",
-  photo: null,
+  xingming: "",
+  yonghuming: "",
+  mima: "",
+  lianxidianhua: "",
 });
 const formSigninRef = ref();
 const signinValidateForm = reactive({
@@ -235,9 +223,25 @@ const handleLogin = (formEl) => {
 // 注册处理
 const handleSignUp = (formEl) => {
   if (!formSignupRef) return; // 处理注册逻辑
-  formEl.validate((valid) => {
+  formEl.validate(async (valid) => {
     if (valid) {
       console.log(signupValidateForm.username);
+      const params = {
+        ...signupValidateForm,
+      };
+      const res = await signUpService(params);
+      if (res == 0) {
+        ElMessage({
+          message: `${signupValidateForm.yonghuming} 注册成功`,
+          type: "success",
+        });
+        dialogVisible.value = false; // 关闭对话框
+      } else {
+        ElMessage({
+          message: "注册失败",
+          type: "error",
+        });
+      }
     } else {
       console.log("error submit!");
     }
@@ -254,7 +258,6 @@ const handleLogout = () => {
     type: "success",
   });
 };
-// 检查登录状态
 // 检查登录状态
 const checkLoginStatus = () => {
   const role = localStorage.getItem("role");

@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  outline: none;
 }
 html,
 body {
@@ -100,4 +101,38 @@ a:hover {
   .menu-list {
     flex-direction: column;
   }
+}
+.pheading h1 {
+  position: relative;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 160px;
+  text-align: center;
+  margin: 2rem auto;
+  white-space: nowrap;
+  padding-bottom: 13px;
+}
+.pheading h1:before {
+  background-color: #a89ec9;
+  content: "";
+  display: block;
+  height: 3px;
+  width: 75px;
+  margin-bottom: 5px;
+}
+.pheading h1:after {
+  background-color: #a89ec9;
+  content: "";
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  width: 75px;
+  margin-bottom: 0.25em;
+}
+:root  {
+  --el-color-primary: #c8beff;
 }

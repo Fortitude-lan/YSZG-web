@@ -4,5 +4,9 @@ export const API_ENDPOINTS = {
   loginAPI: '/yonghu/login', //登录接口
   spsortAPI: 'shangpinxinxi/autoSort',//商品推荐
   spListAPI: 'shangpinxinxi/list',//商品信息list
+  chatAPI: '/chat/list',//聊天客服
+  chatAddAPI: '/chat/add',//聊天
+  userInfoAPI: '/yonghu/session',//用户信息
+  signUpYHAPI:'yonghu/register',//医生注册
   // 可以在这里继续添加其他接口路径
 };
