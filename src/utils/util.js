@@ -18,7 +18,7 @@ http.interceptors.request.use(
             config.headers['Token'] = token; // 设置自定义 Token 头
             config.headers['x-requested-with'] = 'XMLHttpRequest';
         }
-         // 可以在这里添加 Authorization 头或其他请求配置
+        // 可以在这里添加 Authorization 头或其他请求配置
         return config;
     },
     error => {
@@ -26,9 +26,17 @@ http.interceptors.request.use(
     }
 );
 
+
 // 响应拦截器
 http.interceptors.response.use(
     response => {
+        console.log(response.data)
+        if (response.data.code === 401) {
+            console.error('未登录，跳转到登录页');
+            // 清空本地存储
+            localStorage.clear();
+            window.location.href = '/login';
+        }
         return response.data; // 返回响应数据
     },
     error => {
