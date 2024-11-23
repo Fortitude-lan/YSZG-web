@@ -44,15 +44,27 @@ export const fetchShangpinSortList = async (page = 1) => {
         throw error; // 抛出错误以供调用者处理
     }
 };
-//
-export const fetchShangpinList = async (page = 1, limit = 13) => {
+// 商品列表
+export const fetchShangpinList = async (params, page, limit) => {
     try {
         const timestamp = new Date().getTime();
-        const response = await get(API_ENDPOINTS.spListAPI, { page, limit, t: timestamp });
-        // console.log(response.data.list)
-        return response.data.list
+        const response = await get(API_ENDPOINTS.spListAPI, { ...params, page, limit, t: timestamp });
+        return response.data
     } catch (error) {
         console.error('Error fetching carousel images:', error);
         throw error; // 抛出错误以供调用者处理
     }
 };
+
+//商品分类
+export const fetchSPFL = async () => {
+    try {
+        const timestamp = new Date().getTime();
+        const response = await get(API_ENDPOINTS.spfenleiAPI, { t: timestamp });
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+

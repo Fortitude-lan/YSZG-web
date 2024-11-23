@@ -1,11 +1,4 @@
-<!--
- * @Descripttion: 首页
- * @version: 1.0
- * @Author: Hesin
- * @Date: 2024-10-17 14:13:55
- * @LastEditors: Hesin
- * @LastEditTime: 2024-11-19 18:06:14
--->
+
 
 <template>
   <div class="block">
@@ -35,26 +28,10 @@
               <div class="info">{{ item.shangpinmingcheng }}</div>
             </div>
           </li>
-          <!-- <li class="item1">
-            <div
-              class="bg"
-              :style="{background:`url(${tuijianList.value[0].tupian}`）}"
-            ></div>
-          </li>
-          <li class="item2">
-            <div class="bg"></div>
-          </li>
-          <li class="item3">
-            <div class="bg"></div>
-          </li>
-          <li class="item4">
-            <div class="bg"></div>
-          </li>
-          <li class="item5">
-            <div class="bg"></div>
-          </li> -->
         </ul>
-        <button class="more">更多</button>
+        <router-link to="/front/artlist">
+          <button class="more">更多</button>
+        </router-link>
       </div>
     </div>
     <!-- 响应式的父盒子 -->

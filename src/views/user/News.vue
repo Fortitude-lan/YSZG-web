@@ -1,11 +1,3 @@
-<!--
- * @Descripttion: 
- * @version: 1.0
- * @Author: Hesin
- * @Date: 2024-10-17 14:13:55
- * @LastEditors: Hesin
- * @LastEditTime: 2024-11-22 00:03:52
--->
 
 <template>
   <div class="pageM">

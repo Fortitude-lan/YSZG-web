@@ -20,8 +20,11 @@ import ArtworkGallery from '@/views/user/ArtworkGallery.vue'
 import News from '@/views/user/News.vue'
 //客服
 import Chat from '@/views/user/Chat.vue'
+//商品信息
+import ArtList from '@/views/user/ArtList.vue';
 //购物车
 import Cart from '@/views/user/Cart.vue';
+
 //个人中心
 import UserCen from '@/views/user/UserCen.vue';
 import UInfo from '@/views/user/usercenter/UInfo.vue';
@@ -147,7 +150,13 @@ const routes = [
                         icon: IoFileTray
                     },
                 ]
+            },
+            {
+                path: 'artlist',
+                name: '艺术品列表',
+                component: ArtList,
             }
+
             // {
             //     path: '/updatePassword',
             //     name: '修改密码',
