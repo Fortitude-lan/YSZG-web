@@ -55,11 +55,11 @@
         <el-col
           v-for="item in ksList"
           :key="item.id"
-          :xs="12"
+          :xs="24"
           :sm="12"
           :md="6"
-          :lg="4"
-          :xl="4"
+          :lg="6"
+          :xl="6"
         >
           <!-- <el-card class="custom-card" @click="openDrawer(item)">
             <img
@@ -227,7 +227,7 @@ onMounted(() => {
   //   background: rgb(246, 246, 255);
   padding: 20px;
   //   height: 300px;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 .breadcrumb {
