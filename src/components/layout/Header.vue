@@ -170,7 +170,6 @@ const frontendMenuList = [
     icon: child.icon,
   })),
 ];
-console.log(frontendMenuList);
 
 const route = useRoute();
 const isActive = (path) => {

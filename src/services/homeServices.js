@@ -1,11 +1,4 @@
-/*
- * @Descripttion: 
- * @version: 1.0
- * @Author: Hesin
- * @Date: 2024-10-19 17:14:48
- * @LastEditors: Hesin
- * @LastEditTime: 2024-11-19 18:00:28
- */
+
 //轮播图接口
 
 import { API_ENDPOINTS } from '@/api/userAPI';

@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-17 14:13:55
  * @LastEditors: Hesin
- * @LastEditTime: 2024-11-19 18:40:05
+ * @LastEditTime: 2024-11-22 22:46:16
 -->
 
 <template>
@@ -14,8 +14,6 @@
       :style="{
         width: '100%',
         textAlign: 'center',
-        background:
-          'url(http://codegen.caihongy.cn/20221027/fc985400d2a2484d8d9e17eb893d2c05.png) no-repeat 10% center,url(http://codegen.caihongy.cn/20221027/6602c4fb09df4bd4881cabfef19d2ed3.png) no-repeat 90% center',
       }"
     >
       <div class="pheading">
@@ -115,13 +113,18 @@ onMounted(async () => {
   height: 300px;
   overflow-y: scroll;
   border: 1px solid #eeeeee;
-  background: url(https://th.bing.com/th/id/OIP.yzajnOAOhTiFnX3B6OtNeAHaEK?rs=1&pid=ImgDetMain);
+  background: url(https://wallpapercave.com/wp/wp10254485.jpg);
 
   .left-content {
     float: left;
     margin-bottom: 10px;
     padding: 10px;
     max-width: 80%;
+    :deep(.el-alert) {
+      background: rgba(188, 192, 247, 0.4);
+      border: 1px dashed #63edff;
+      color: rgb(255, 255, 255);
+    }
   }
 
   .right-content {
@@ -129,6 +132,11 @@ onMounted(async () => {
     margin-bottom: 10px;
     padding: 10px;
     max-width: 80%;
+    :deep(.el-alert) {
+      background: rgba(194, 255, 219, 0.4);
+      border: 1px dashed rgb(94, 255, 156);
+      color: rgb(255, 255, 255);
+    }
   }
 }
 .dialog-footer {

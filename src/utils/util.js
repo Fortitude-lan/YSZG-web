@@ -13,6 +13,8 @@ http.interceptors.request.use(
         console.log('请求拦截')
         // 从 localStorage 获取 token
         const token = localStorage.getItem('Token'); // 假设 token 存储在 localStorage 中
+        console.log('token', token)
+
         // 如果 token 存在，添加 Authorization 头部
         if (token) {
             config.headers['Token'] = token; // 设置自定义 Token 头
@@ -30,7 +32,8 @@ http.interceptors.request.use(
 // 响应拦截器
 http.interceptors.response.use(
     response => {
-        console.log(response.data)
+        console.log('响应截器')
+
         if (response.data.code === 401) {
             console.error('未登录，跳转到登录页');
             // 清空本地存储

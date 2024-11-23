@@ -4,8 +4,8 @@
     <HeaderComponent />
     <!-- 页头 -->
     <main>
-      <router-view />
       <!-- 子路由渲染区域 -->
+      <router-view />
     </main>
     <FooterComponent />
     <!-- 页脚 -->

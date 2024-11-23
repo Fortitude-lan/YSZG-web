@@ -20,6 +20,15 @@ import ArtworkGallery from '@/views/user/ArtworkGallery.vue'
 import News from '@/views/user/News.vue'
 //客服
 import Chat from '@/views/user/Chat.vue'
+//购物车
+import Cart from '@/views/user/Cart.vue';
+//个人中心
+import UserCen from '@/views/user/UserCen.vue';
+import UInfo from '@/views/user/usercenter/UInfo.vue';
+import Order from '@/views/user/usercenter/Order.vue';
+import Address from '@/views/user/usercenter/Address.vue';
+import Favor from '@/views/user/usercenter/Favor.vue';
+
 /* ***********前台 end************ */
 
 
@@ -102,12 +111,42 @@ const routes = [
                 icon: RiCustomerService2Line
             },
             {
-                path: 'usercenter',
+                path: 'ucenter',
                 name: '个人中心',
-                meta: { requiresAuth: true },
                 show: true,
-                component: News,
-                icon: IoFileTray
+                meta: { requiresAuth: true },
+                component: UserCen,
+                icon: IoFileTray,
+                children: [
+                    {
+                        // 这里不设置值，是把main作为默认页面
+                        path: '',
+                        name: '个人详情',
+                        component: UInfo,
+                        icon: IoFileTray
+                    },
+                    {
+                        path: 'favor',
+                        name: '我的收藏',
+                        show: true,
+                        component: Favor,
+                        icon: IoFileTray
+                    },
+                    {
+                        path: 'order',
+                        name: '个人订单',
+                        show: true,
+                        component: Order,
+                        icon: IoFileTray
+                    },
+                    {
+                        path: 'address',
+                        name: '地址管理',
+                        show: true,
+                        component: Address,
+                        icon: IoFileTray
+                    },
+                ]
             }
             // {
             //     path: '/updatePassword',
@@ -182,19 +221,6 @@ const routes = [
             // }
         ]
     },
-    // {
-    //     path: '/login',
-    //     name: 'login',
-    //     component: Login,
-    //     show: true,
-    //     icon: IoFileTray,
-    // },
-    // {
-    //     path: '/register',
-    //     name: 'register',
-    //     component: register,
-    //     meta: { icon: '', title: 'register' }
-    // },
     {
         path: '/back',
         name: '后台',
@@ -213,14 +239,12 @@ const routes = [
             show: true,
             icon: IoFileTray,
             children: [{
-                // 这里不设置值，是把main作为默认页面
                 path: 'index',
                 name: '修改密码',
                 component: UserCenter,
                 icon: ''
             },
             {
-                // 这里不设置值，是把main作为默认页面
                 path: 'userinfo',
                 name: '个人信息',
                 component: UserInfo,
@@ -258,9 +282,9 @@ router.beforeEach((to, from, next) => {
     store.commit('setLoginState', { isLoggedIn, username: isLoggedIn ? role : '' }); // 
 
     console.log('s守卫', to.meta.requiresAuth && !isLoggedIn)
-    console.log(' to.meta.requiresAuth', to)
-    console.log(' to.meta.requiresAuth', to.meta.requiresAuth)
-    console.log('!isLoggedIn', !isLoggedIn)
+    // console.log(' to.meta.requiresAuth', to)
+    // console.log(' to.meta.requiresAuth', to.meta.requiresAuth)
+    // console.log('!isLoggedIn', !isLoggedIn)
     if (to.meta.requiresAuth && !isLoggedIn) {
         ElMessage({
             message: "无权访问,请登录!",
@@ -272,3 +296,5 @@ router.beforeEach((to, from, next) => {
     }
 });
 export default router
+console.log(router.getRoutes());
+

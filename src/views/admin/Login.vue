@@ -92,8 +92,6 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { baseUrl } from "@/utils/util";
-import { CiCirclePlus } from "vue3-icons/ci";
 
 import { ElMessage } from "element-plus";
 
@@ -255,18 +253,6 @@ const checkLoginStatus = () => {
   }
 };
 
-// 上传成功回调
-const handleUploadSuccess = (response, file, fileListRef) => {
-  // 假设后端返回的是文件的URL
-  imgUrl.value.push(`upload/${response.file}`); // 修改为实际的返回路径字段
-  console.log("上传成功的图片URL:", imgUrl);
-
-  ElMessage.success("图片上传成功");
-};
-
-const handleRemove = (uploadFile, uploadFiles) => {
-  console.log(uploadFile, uploadFiles);
-};
 // 在组件挂载时调用
 onMounted(() => {
   checkLoginStatus();

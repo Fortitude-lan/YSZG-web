@@ -1,3 +1,11 @@
+/*
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: Hesin
+ * @Date: 2024-11-22 00:07:06
+ * @LastEditors: Hesin
+ * @LastEditTime: 2024-11-23 16:47:26
+ */
 import { API_ENDPOINTS } from '@/api/userAPI';
 import { post, get } from '@/utils/util';
 

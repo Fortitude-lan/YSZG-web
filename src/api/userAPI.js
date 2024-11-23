@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
   chatAPI: '/chat/list',//聊天客服
   chatAddAPI: '/chat/add',//聊天
   userInfoAPI: '/yonghu/session',//用户信息
-  signUpYHAPI:'yonghu/register',//医生注册
+  userUpdateAPI: '/yonghu/update',//用户 update
+  signUpYHAPI:'yonghu/register',//注册
   // 可以在这里继续添加其他接口路径
 };
