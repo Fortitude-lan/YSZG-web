@@ -126,15 +126,15 @@ onMounted(() => {
   &:hover {
     svg {
       transform: scale(1.25);
-      fill: #8c3bf6; // blue-400
-      color: #8c3bf6;
+      fill: #8b7add; // blue-400
+      color: #8b7add;
       transition: 0.2s 0.1s;
     }
     span {
       transform: scale(1.1);
       font-weight: bold;
       transition: 0.2s 0.1s;
-      color: #8c3bf6;
+      color: #8b7add;
     }
   }
   a {
@@ -154,15 +154,15 @@ onMounted(() => {
   box-shadow: 0 7px 10px -5px #8d91df;
   svg {
     transform: scale(1.25);
-    fill: #8c3bf6; // blue-400
-    color: #8c3bf6;
+    fill: #8b7add; // blue-400
+    color: #8b7add;
     transition: 0.2s 0.1s;
   }
   span {
     transform: scale(1.1);
     font-weight: bold;
     transition: 0.2s 0.1s;
-    color: #8c3bf6;
+    color: #8b7add;
   }
 }
 .container {

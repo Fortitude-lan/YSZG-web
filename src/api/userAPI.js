@@ -8,6 +8,11 @@ export const API_ENDPOINTS = {
   chatAddAPI: '/chat/add',//聊天
   userInfoAPI: '/yonghu/session',//用户信息
   userUpdateAPI: '/yonghu/update',//用户 update
-  signUpYHAPI:'yonghu/register',//注册
+  signUpYHAPI: 'yonghu/register',//注册
+  addressAPI: 'address/list',//我的地址
+  addressAddAPI: 'address/add',//我的地址 add
+  addressUpdAPI: 'address/update',//我的地址 add
+  addressDelAPI: 'address/delete',//我的地址 delete
+  
   // 可以在这里继续添加其他接口路径
 };
