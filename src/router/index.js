@@ -22,6 +22,7 @@ import News from '@/views/user/News.vue'
 import Chat from '@/views/user/Chat.vue'
 //商品信息
 import ArtList from '@/views/user/ArtList.vue';
+import ArtDetail from '@/views/user/ArtDetail.vue';
 //购物车
 import Cart from '@/views/user/Cart.vue';
 
@@ -98,6 +99,19 @@ const routes = [
                 component: ArtworkGallery,
                 icon: IoFileTray
             },
+
+            {
+                path: 'artlist',
+                name: '艺术品列表',
+                show: true,
+                component: ArtList,
+            },
+            {
+                path: 'artdetail/:id', // 动态路由参数 :id
+                name: '艺术品详情', // 详情
+                component: ArtDetail,
+                props: true // 将动态路由参数传递给组件
+            },
             {
                 path: 'news',
                 name: '最新咨询',
@@ -151,11 +165,6 @@ const routes = [
                     },
                 ]
             },
-            {
-                path: 'artlist',
-                name: '艺术品列表',
-                component: ArtList,
-            }
 
             // {
             //     path: '/updatePassword',
@@ -305,5 +314,5 @@ router.beforeEach((to, from, next) => {
     }
 });
 export default router
-console.log(router.getRoutes());
+// console.log(router.getRoutes());
 

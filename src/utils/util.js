@@ -13,7 +13,7 @@ http.interceptors.request.use(
         console.log('请求拦截')
         // 从 localStorage 获取 token
         const token = localStorage.getItem('Token'); // 假设 token 存储在 localStorage 中
-        console.log('token', token)
+        // console.log('token', token)
 
         // 如果 token 存在，添加 Authorization 头部
         if (token) {

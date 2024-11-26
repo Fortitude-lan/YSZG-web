@@ -52,7 +52,9 @@
           :creatorName="news.addtime"
         />
       </div>
-      <button class="more">更多</button>
+      <router-link to="/front/news">
+          <button class="more">更多</button>
+        </router-link>
     </div>
   </div>
 </template>

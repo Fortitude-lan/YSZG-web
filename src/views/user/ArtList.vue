@@ -83,7 +83,16 @@
               <p class="price">{{ item.price }} RMB</p>
               <hr />
               <div class="see">
-                <a><ins>查看详情</ins></a>
+                <a @click="goToDetail(item)">
+                  <!-- <router-link
+                    :to="{
+                      name: '艺术品详情',
+                      params: { id: item.id },
+                    }"
+                    >
+                    </router-link > -->
+                  查看详情
+                </a>
               </div>
             </div>
           </div>
@@ -107,7 +116,7 @@
 
 <script setup>
 import { reactive, ref, onMounted, computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { getFrontendRoutes } from "@/router/index";
 import { CiStar } from "vue3-icons/ci";
 import {
@@ -116,11 +125,12 @@ import {
   fetchShangpinList,
 } from "@/services/homeServices";
 const route = useRoute();
+const router = useRouter();
 
 // 分页状态
 const pagination = reactive({
   currentPage: 1, // 当前页码
-  pageSize: 5, // 每页条数
+  pageSize: 20, // 每页条数
   totalPage: 0, // 总页数，从接口返回
 });
 
@@ -165,7 +175,7 @@ const fetchData = async () => {
     pagination.pageSize
   );
   ksList.value = list;
-
+  console.log(list);
   pagination.totalPage = totalPage || 0; // 更新总页数
   pagination.currentPage = currPage || 1; // 更新当前页码
 };
@@ -198,6 +208,12 @@ const handleSizeChange = async (size) => {
   pagination.currentPage = 1; // 重置为第一页
   await fetchData();
 };
+
+const goToDetail = (item) => {
+  localStorage.setItem("artItem", JSON.stringify(item)); // 将 item 存储到 localStorage
+  router.push({ name: "艺术品详情", params: { id: item.id } });
+};
+
 // 在组件挂载时调用
 onMounted(() => {
   fetchData();
@@ -235,6 +251,7 @@ onMounted(() => {
 }
 
 .nft {
+  cursor: pointer;
   user-select: none;
   max-width: 300px;
   border: 1px solid #ffffff22;
@@ -257,7 +274,7 @@ onMounted(() => {
     border-bottom: 1px solid #88888855;
     margin-top: 0;
   }
-  ins {
+  a {
     text-decoration: none;
   }
   .main {
@@ -285,7 +302,7 @@ onMounted(() => {
       align-items: center;
       margin-top: 0.2rem;
       margin-bottom: -0.3rem;
-      ins {
+      a {
         color: #a89ec9;
         text-decoration: none;
       }
