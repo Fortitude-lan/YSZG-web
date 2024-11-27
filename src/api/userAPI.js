@@ -18,4 +18,8 @@ export const API_ENDPOINTS = {
   // 可以在这里继续添加其他接口路径
   remarkListAPI: 'discussshangpinxinxi/list',//商品评论列表
   remarkSaveAPI: 'discussshangpinxinxi/save',//商品评论save
+  favorListAPI: 'storeup/list',//收藏list
+  isfavorAPI: 'storeup/isCollected',//收藏list
+  favorSaveAPI: 'storeup/save',//收藏
+  favorDelAPI: 'storeup/delete',//收藏取消 [ids]
 };

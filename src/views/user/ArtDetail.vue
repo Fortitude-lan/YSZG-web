@@ -33,6 +33,13 @@
 
           <p><strong>品牌：</strong>{{ artItem.pinpai }}</p>
           <p><strong>点击数：</strong>{{ artItem.clicknum }}</p>
+          <el-button
+            :type="isfavor.status ? 'danger' : 'warning'"
+            :icon="FaStar"
+            round
+            @click="handleFavor(isfavor.status)"
+            >{{ isfavor.status ? "已收藏" : "点击收藏" }}</el-button
+          >
 
           <!-- 操作按钮 -->
           <div class="button-group">
@@ -48,7 +55,6 @@
             <el-button type="primary" @click="buyNow" class="btn"
               >立即购买</el-button
             >
-            <el-button type="Search" :icon="FaStar" circle />
             <!-- <button @click="addToFavorites" class="btn">收藏</button> -->
           </div>
         </div>
@@ -136,18 +142,29 @@
 import { reactive, ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { FaStar } from "vue3-icons/fa6";
-import { fetchRemarkList, fetchRemarkSave } from "@/services/homeServices";
+import {
+  fetchRemarkList,
+  fetchRemarkSave,
+  fetchIsFavor,
+  fetchAddFavor,
+  fetchDelFavor,
+} from "@/services/homeServices";
 import { ElMessage } from "element-plus";
 
 const route = useRoute();
+const userid = localStorage.getItem("userid"); // 假设用户ID存储在 localStorage 中
 
 // 分页状态
 const pagination = reactive({
   currentPage: 1, // 当前页码
-  pageSize: 10, // 每页条数
+  pageSize: 6, // 每页条数
   totalPage: 0, // 总页数，从接口返回
 });
 // 响应式数据
+const isfavor = ref({
+  status: false,
+  id: "",
+});
 const rkList = ref(null);
 const artItem = ref({
   tupian: "", // 商品图片的 URL
@@ -164,9 +181,10 @@ const form = reactive({
   content: "",
 });
 const fetchData = async () => {
+  //info
   const item = localStorage.getItem("artItem");
   artItem.value = item ? JSON.parse(item) : null;
-
+  await fetchIsfavor();
   const { list, totalPage, currPage } = await fetchRemarkList(
     { refid: artItem.value.id },
     pagination.currentPage,
@@ -177,7 +195,15 @@ const fetchData = async () => {
   pagination.totalPage = totalPage || 0; // 更新总页数
   pagination.currentPage = currPage || 1; // 更新当前页码
 };
-
+//favor
+const fetchIsfavor = async () => {
+  const data = await fetchIsFavor({ userid, refid: artItem.value.id });
+  if (data.code == 0) {
+    isfavor.value = data;
+  } else {
+    console.log("error");
+  }
+};
 const activeName = ref("detail");
 
 const handleClick = (tab, event) => {
@@ -185,6 +211,33 @@ const handleClick = (tab, event) => {
 };
 
 const num = ref(1);
+
+const handleFavor = async (state) => {
+  console.log(state);
+  if (state) {
+    console.log("取消");
+    console.log(isfavor.value);
+    const msg = await fetchDelFavor([isfavor.value.id]);
+    if (msg == 0) {
+      await fetchIsfavor();
+    } else {
+      console.log("error");
+    }
+  } else {
+    console.log("添加");
+    const params = {
+      name: artItem.value.shangpinmingcheng,
+      picture: artItem.value.tupian,
+      refid: artItem.value.id,
+      userid,
+      ...form,
+    };
+    const msg = await fetchAddFavor(params);
+    if (msg == 0) {
+      await fetchIsfavor();
+    }
+  }
+};
 // 加减
 const handleChange = (value) => {
   console.log(value);
@@ -201,8 +254,6 @@ const onSubmit = async (formEl) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      const userid = localStorage.getItem("userid"); // 假设用户ID存储在 localStorage 中
-
       const params = {
         refid: artItem.value.id,
         userid,
