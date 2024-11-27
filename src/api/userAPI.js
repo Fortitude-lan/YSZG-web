@@ -14,6 +14,8 @@ export const API_ENDPOINTS = {
   addressAddAPI: 'address/add',//我的地址 add
   addressUpdAPI: 'address/update',//我的地址 add
   addressDelAPI: 'address/delete',//我的地址 delete
-  
+
   // 可以在这里继续添加其他接口路径
+  remarkListAPI: 'discussshangpinxinxi/list',//商品评论列表
+  remarkSaveAPI: 'discussshangpinxinxi/save',//商品评论save
 };

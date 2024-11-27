@@ -2,7 +2,7 @@
 //轮播图接口
 
 import { API_ENDPOINTS } from '@/api/userAPI';
-import { get } from '@/utils/util';
+import { get,post } from '@/utils/util';
 
 // 获取轮播图数据
 export const fetchCarouselImages = async (page = 1, limit = 5) => {
@@ -68,3 +68,29 @@ export const fetchSPFL = async () => {
     }
 };
 
+//商品评论list
+export const fetchRemarkList = async (params, page, limit) => {
+    try {
+        const timestamp = new Date().getTime();
+        const response = await get(API_ENDPOINTS.remarkListAPI, { ...params, page, limit, t: timestamp });
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+
+
+export const fetchRemarkSave = async (params) => {
+    try {
+        const res = await post(API_ENDPOINTS.remarkSaveAPI, {
+            ...params,
+            t: new Date().getTime(),
+        });
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
