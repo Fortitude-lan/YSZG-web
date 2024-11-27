@@ -148,6 +148,7 @@ import {
   fetchIsFavor,
   fetchAddFavor,
   fetchDelFavor,
+  fetchCartAdd,
 } from "@/services/homeServices";
 import { ElMessage } from "element-plus";
 
@@ -210,8 +211,6 @@ const handleClick = (tab, event) => {
   console.log(tab, event);
 };
 
-const num = ref(1);
-
 const handleFavor = async (state) => {
   console.log(state);
   if (state) {
@@ -239,11 +238,35 @@ const handleFavor = async (state) => {
   }
 };
 // 加减
+const num = ref(1);
 const handleChange = (value) => {
+  num.value = value;
   console.log(value);
 };
-const addToCart = () => {
-  alert("商品已加入购物车");
+const addToCart = async () => {
+  console.log("商品已加入购物车");
+  console.log(artItem.value);
+  const params = {
+    buynumber: num.value,
+    discountprice: 0,
+    goodid: artItem.value.id,
+    goodname: artItem.value.shangpinmingcheng,
+    picture: artItem.value.tupian,
+    price: artItem.value.price,
+    userid: artItem.value.userid,
+  };
+  const msg = await fetchCartAdd(params);
+  if (msg == 0) {
+    ElMessage({
+      type: "success",
+      message: "添加成功",
+    });
+  } else {
+    ElMessage({
+      type: "error",
+      message: "添加失败",
+    });
+  }
 };
 
 const buyNow = () => {

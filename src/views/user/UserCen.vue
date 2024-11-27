@@ -46,7 +46,7 @@
 import { reactive, ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { getFrontendRoutes } from "@/router/index";
-import { CiStar } from "vue3-icons/ci";
+import { CiFileOn } from "vue3-icons/ci";
 import { fetchCarouselImages } from "@/services/homeServices";
 const carouselImages = ref({}); // 用于存放轮播图的数组
 const routList = getFrontendRoutes()
@@ -54,7 +54,7 @@ const routList = getFrontendRoutes()
   .children.filter((child) => child.show === true);
 console.log(routList);
 const ucenterRoutList = [
-  { path: "/front/ucenter", name: "个人信息", icon: CiStar }, // 补充第一个路由
+  { path: "/front/ucenter", name: "个人信息", icon: CiFileOn }, // 补充第一个路由
   ...routList.flatMap((child) => ({
     path: `/front/ucenter/${child.path}`, // 使用绝对路径
     name: child.name,

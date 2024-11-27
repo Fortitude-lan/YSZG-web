@@ -96,7 +96,6 @@ export const fetchRemarkSave = async (params) => {
 };
 
 //收藏 list
-
 export const fetchFavorList = async (params, page, limit) => {
     try {
         const timestamp = new Date().getTime();
@@ -134,7 +133,6 @@ export const fetchIsFavor = async (params) => {
     }
 };
 //取消收藏
-
 export const fetchDelFavor = async (params) => {
     try {
         const res = await post(API_ENDPOINTS.favorDelAPI, params);
@@ -142,6 +140,26 @@ export const fetchDelFavor = async (params) => {
 
     } catch (error) {
         console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+//购物车 add
+
+export const fetchCartAdd = async (params) => {
+    try {
+
+        const timestamp = new Date().getTime();
+        const resparams = {
+            tablename: "shangpinxinxi",
+            t: timestamp,
+            ...params
+        }
+        console.log(resparams)
+        const response = await post(API_ENDPOINTS.cartSaveAPI, resparams);
+        // console.log(response.data)
+        return response.code
+    } catch (error) {
+        console.error('Error fetching Cart Update:', error);
         throw error; // 抛出错误以供调用者处理
     }
 };

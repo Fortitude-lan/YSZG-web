@@ -23,8 +23,6 @@ import Chat from '@/views/user/Chat.vue'
 //商品信息
 import ArtList from '@/views/user/ArtList.vue';
 import ArtDetail from '@/views/user/ArtDetail.vue';
-//购物车
-import Cart from '@/views/user/Cart.vue';
 
 //个人中心
 import UserCen from '@/views/user/UserCen.vue';
@@ -32,6 +30,7 @@ import UInfo from '@/views/user/usercenter/UInfo.vue';
 import Order from '@/views/user/usercenter/Order.vue';
 import Address from '@/views/user/usercenter/Address.vue';
 import Favor from '@/views/user/usercenter/Favor.vue';
+import Cart from '@/views/user/usercenter/Cart.vue';
 
 /* ***********前台 end************ */
 
@@ -66,7 +65,9 @@ import NotFound from '@/views/404.vue'
 //图标
 import { IoFileTray } from "vue3-icons/io5";
 import { RiCustomerService2Line } from "vue3-icons/ri";
-
+import { CiStar } from "vue3-icons/ci";
+import { LiaAddressBook } from "vue3-icons/lia";
+import { CiShoppingCart } from "vue3-icons/ci";
 // 提取前端路由的函数
 export const getFrontendRoutes = () => {
     const frontRoute = routes.find(route => route.path === '/front');
@@ -140,14 +141,21 @@ const routes = [
                         path: '',
                         name: '个人详情',
                         component: UInfo,
-                        icon: IoFileTray
+                        icon: CiStar
+                    },
+                    {
+                        path: 'cart',
+                        name: '购物车车',
+                        show: true,
+                        component: Cart,
+                        icon: CiShoppingCart
                     },
                     {
                         path: 'favor',
                         name: '我的收藏',
                         show: true,
                         component: Favor,
-                        icon: IoFileTray
+                        icon: CiStar
                     },
                     {
                         path: 'order',
@@ -161,7 +169,7 @@ const routes = [
                         name: '地址管理',
                         show: true,
                         component: Address,
-                        icon: IoFileTray
+                        icon: LiaAddressBook
                     },
                 ]
             },

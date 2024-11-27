@@ -39,7 +39,6 @@ export const fetchAddressList = async (page, limit) => {
     }
 };
 // 获取地址 add
-
 export const fetchAddressAdd = async (params) => {
     try {
         console.log(params)
@@ -74,6 +73,50 @@ export const fetchAddressDel = async (params) => {
     try {
         console.log(params)
         const res = await post(API_ENDPOINTS.addressDelAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+//购物车
+export const fetchCartList = async (page, limit) => {
+    try {
+        const timestamp = new Date().getTime();
+        const userid = localStorage.getItem("userid"); // 假设用户ID存储在 localStorage 中
+
+        const response = await get(API_ENDPOINTS.cartListAPI, {
+            page,
+            limit,
+            t: timestamp,
+            userid
+        });
+        // console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+
+//购物车 数量
+export const fetchCartUpdate = async (params) => {
+    try {
+        const response = await post(API_ENDPOINTS.cartUpdateAPI, params);
+        // console.log(response.data)
+        return response.code
+    } catch (error) {
+        console.error('Error fetching Cart Update:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+
+//购物车 del 
+export const fetchCartDel = async (params) => {
+    try {
+        // console.log(params)
+        const res = await post(API_ENDPOINTS.cartDelAPI, params);
         return res.code
 
     } catch (error) {

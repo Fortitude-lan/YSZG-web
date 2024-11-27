@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-11-22 00:07:06
  * @LastEditors: Hesin
- * @LastEditTime: 2024-11-23 16:47:26
+ * @LastEditTime: 2024-11-27 13:06:46
  */
 import { API_ENDPOINTS } from '@/api/userAPI';
 import { post, get } from '@/utils/util';
@@ -30,8 +30,9 @@ export const loginService = async (params) => {
         return res.code
 
     } catch (error) {
-        console.error('Error fetching carousel images:', error);
-        throw error; // 抛出错误以供调用者处理
+        console.error('Error fetching :', error);
+        return error
+        // throw error; // 抛出错误以供调用者处理
     }
 };
 // 获取用户 Session 的方法
