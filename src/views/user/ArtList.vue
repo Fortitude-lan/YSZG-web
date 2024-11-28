@@ -210,7 +210,7 @@ const handleSizeChange = async (size) => {
 };
 
 const goToDetail = (item) => {
-  localStorage.setItem("artItem", JSON.stringify(item)); // 将 item 存储到 localStorage
+  localStorage.setItem("artItemID", JSON.stringify(item.id)); // 将 item 存储到 localStorage
   router.push({ name: "艺术品详情", params: { id: item.id } });
 };
 

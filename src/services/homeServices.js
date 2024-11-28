@@ -79,7 +79,18 @@ export const fetchRemarkList = async (params, page, limit) => {
         throw error; // 抛出错误以供调用者处理
     }
 };
+//商品信息
 
+export const fetchSPInfoList = async (id) => {
+    try {
+        const timestamp = new Date().getTime();
+        const response = await get(API_ENDPOINTS.spInfoAPI + '/' + id, { t: timestamp });
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
 //保存评论
 export const fetchRemarkSave = async (params) => {
     try {

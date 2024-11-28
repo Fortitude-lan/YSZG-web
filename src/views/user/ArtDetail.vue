@@ -135,6 +135,110 @@
         </el-tabs>
       </div>
     </div>
+    <!-- 抽屉 -->
+    <el-drawer v-model="drawerVisible" title="订单确认" size="80%">
+      <el-tag
+        type="primary"
+        style="font-size: 16px; padding: 15px; margin: 10px 0"
+        >地址</el-tag
+      >
+      <!-- 动态渲染表头 -->
+      <el-table
+        :data="tableData2"
+        :row-key="(row) => row.id"
+        ref="tableRef"
+        style="width: 100%"
+        class="table"
+        highlight-current-row
+        @current-change="handleCurrentChange"
+      >
+        <!-- 动态渲染表头 -->
+        <el-table-column
+          v-for="(column, index) in columns2"
+          :key="index"
+          :label="column.label"
+          :prop="column.prop"
+          :width="column.width || 'auto'"
+        >
+          <!-- 重写列内容 -->
+          <template #default="scope">
+            <div>
+              <span v-if="column.prop === 'num'">
+                {{
+                  (pagination.currentPage - 1) * pagination.pageSize +
+                  scope.$index +
+                  1
+                }}
+                <!-- 显示当前列的值，并显示当前行号 -->
+              </span>
+              <!-- 获取当前行数据（item） -->
+              <span v-if="column.prop === 'num'">
+                <!-- 显示当前列的值，并显示当前行号 -->
+              </span>
+              <!-- 其他列默认渲染 -->
+              <span v-else>
+                {{ scope.row[column.prop] }}
+              </span>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-tag
+        type="primary"
+        style="font-size: 16px; padding: 15px; margin: 10px 0"
+        >清单</el-tag
+      >
+      <!-- 清单列表 -->
+      <el-table
+        :data="tableData"
+        :row-key="(row) => row.id"
+        ref="tableRef"
+        style="width: 100%"
+        class="table"
+      >
+        <!-- 动态渲染表头 -->
+        <el-table-column
+          v-for="(column, index) in columns"
+          :key="index"
+          :prop="column.prop"
+          :label="column.label"
+          :width="column.width || 'auto'"
+        >
+          <!-- 重写列内容 -->
+          <template #default="scope">
+            <div>
+              <!-- 获取当前行数据（item） -->
+              <span v-if="column.prop === 'picture'">
+                <img :src="scope.row[column.prop]" alt="" style="width: 80px" />
+              </span>
+              <span v-else-if="column.prop === 'price'">
+                ￥{{ scope.row[column.prop] }}
+              </span>
+              <span v-else-if="column.prop === 'totalPrice'">
+                ￥{{
+                  (
+                    Number(scope.row["price"]) * Number(scope.row["buynumber"])
+                  ).toFixed(2)
+                }}
+              </span>
+              <!-- 其他列默认渲染 -->
+              <span v-else>
+                {{ scope.row[column.prop] }}
+              </span>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <!-- 支付 -->
+      <div class="btns">
+        <span>总价：￥{{ totalPrice }}</span>
+
+        <el-button type="danger" style="margin: 20px 0" @click="onPaySubmit">
+          <CiShoppingCart />确认支付</el-button
+        >
+      </div>
+    </el-drawer>
   </div>
 </template>
 
@@ -149,18 +253,46 @@ import {
   fetchAddFavor,
   fetchDelFavor,
   fetchCartAdd,
+  fetchSPInfoList,
 } from "@/services/homeServices";
 import { ElMessage } from "element-plus";
+import {
+  fetchAddressList,
+  fetchOrderAdd,
+} from "@/services/userServices";
+import { genTradeNo } from "@/utils/util";
 
 const route = useRoute();
 const userid = localStorage.getItem("userid"); // 假设用户ID存储在 localStorage 中
-
+// 表头数据
+const tableData = ref([]);
+// 自定义表头
+const columns = ref([
+  { prop: "picture", label: "商品图片", width: "180" },
+  { prop: "goodname", label: "商品名称", width: "180" },
+  { prop: "price", label: "单格", width: "120" },
+  { prop: "buynumber", label: "数量", width: "80" },
+  { prop: "totalPrice", label: "总价", width: "150" },
+]);
+// 表头数据
+const tableData2 = ref([]);
+// 自定义表头
+const columns2 = ref([
+  { prop: "num", label: "选择", width: "60" },
+  { prop: "name", label: "收件人", width: "200" },
+  { prop: "phone", label: "联系方式", width: "200" },
+  { prop: "address", label: "地址", width: "200" },
+]);
 // 分页状态
 const pagination = reactive({
   currentPage: 1, // 当前页码
   pageSize: 6, // 每页条数
   totalPage: 0, // 总页数，从接口返回
 });
+
+//totalPrice
+const totalPrice = ref(0);
+
 // 响应式数据
 const isfavor = ref({
   status: false,
@@ -183,8 +315,9 @@ const form = reactive({
 });
 const fetchData = async () => {
   //info
-  const item = localStorage.getItem("artItem");
-  artItem.value = item ? JSON.parse(item) : null;
+  const itemID = JSON.parse(localStorage.getItem("artItemID"));
+  artItem.value = await fetchSPInfoList(itemID);
+  console.log(artItem.value);
   await fetchIsfavor();
   const { list, totalPage, currPage } = await fetchRemarkList(
     { refid: artItem.value.id },
@@ -195,6 +328,12 @@ const fetchData = async () => {
   rkList.value = list;
   pagination.totalPage = totalPage || 0; // 更新总页数
   pagination.currentPage = currPage || 1; // 更新当前页码
+  //地址
+  const resAddressList = await fetchAddressList(
+    pagination.currentPage,
+    pagination.pageSize
+  );
+  tableData2.value = resAddressList.list;
 };
 //favor
 const fetchIsfavor = async () => {
@@ -268,10 +407,87 @@ const addToCart = async () => {
     });
   }
 };
+// 控制 el-drawer 的显示状态
+const drawerVisible = ref(false);
+const currentAddr = ref();
 
-const buyNow = () => {
-  alert("商品已加入购物车，准备结算");
+const buyNow = async () => {
+  console.log(artItem.value);
+  tableData.value = [
+    {
+      tablename: "shangpinxinxi",
+      goodid: artItem.value.id,
+      goodname: artItem.value.shangpinmingcheng,
+      picture: artItem.value.tupian,
+      buynumber: num.value,
+      price: artItem.value.price,
+      discountprice: 0,
+    },
+  ];
+  updateTotalPrice(tableData.value);
+  drawerVisible.value = true;
 };
+
+// 计算总价
+const updateTotalPrice = (list) => {
+  const total = Array.from(list.values()).reduce((sum, row) => {
+    const itemPrice = row.buynumber * row.price;
+    return sum + itemPrice;
+  }, 0);
+
+  totalPrice.value = parseFloat(total.toFixed(2)); // 保留两位小数
+};
+//地址
+const handleCurrentChange = (val) => {
+  currentAddr.value = val.address;
+};
+//支付
+const onPaySubmit = async () => {
+  if (!currentAddr.value) {
+    ElMessage({
+      message: "请选择一行收货地址",
+      type: "warning",
+    });
+  } else {
+    console.log(tableData);
+    let msg = 1;
+    for (let item of tableData.value) {
+      console.log("订单", item);
+      const orderid = genTradeNo();
+      let order = {
+        orderid,
+        tablename: item.tablename,
+        goodid: item.goodid,
+        goodname: item.goodname,
+        picture: item.picture,
+        buynumber: Number(item.buynumber),
+        discountprice: 0,
+        price: item.price,
+        discounttotal: Number(item.price) * Number(item.buynumber),
+        type: 1,
+        total: totalPrice.value,
+        address: currentAddr.value,
+        status: "未支付",
+      };
+      msg = await fetchOrderAdd(order);
+    }
+    console.log(msg);
+    if (msg == 0) {
+      ElMessage({
+        message: "订单成功，请到个人中心查看，",
+        type: "success",
+      });
+    } else {
+      ElMessage({
+        message: "订单失败",
+        type: "error",
+      });
+    }
+    drawerVisible.value = false;
+    await fetchData();
+  }
+};
+
 //提交
 const onSubmit = async (formEl) => {
   if (!formEl) return;
@@ -303,6 +519,7 @@ const resetForm = (formEl) => {
   if (!formEl) return;
   formEl.resetFields();
 };
+
 // 切换页码
 const handlePageChange = async (page) => {
   pagination.currentPage = page;
@@ -325,6 +542,9 @@ onMounted(() => {
   min-height: 400px;
   width: 1000px;
   margin: 60px auto 20px;
+}
+:deep(.el-table tr) {
+  cursor: pointer;
 }
 .breadcrumb {
   padding: 20px;
@@ -406,17 +626,15 @@ onMounted(() => {
     justify-content: center;
   }
 }
-// .button-group .btn {
-//   //   padding: 10px 20px;
-//   background-color: #9382ca;
-//   margin-right: 10px;
-//   border: none;
-//   cursor: pointer;
-//   font-size: 16px;
-//   border-radius: 5px;
-// }
-
-// .button-group .btn:hover {
-//   background: #a89ec9;
-// }
+.btns {
+  padding: 20px 20px 0 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  span {
+    padding: 0 20px;
+    font-weight: bold;
+    color: #f56c6c;
+  }
+}
 </style>

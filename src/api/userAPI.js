@@ -5,6 +5,8 @@ export const API_ENDPOINTS = {
   spsortAPI: 'shangpinxinxi/autoSort',//商品推荐
   spListAPI: 'shangpinxinxi/list',//商品信息list
   spfenleiAPI: 'option/shangpinfenlei/shangpinfenlei',//商品信息分类list
+  spInfoAPI: 'shangpinxinxi/detail',//商品信息
+  spInfo1API: 'shangpinxinxi/info',//商品信息
   chatAPI: '/chat/list',//聊天客服
   chatAddAPI: '/chat/add',//聊天
   userInfoAPI: '/yonghu/session',//用户信息
@@ -15,15 +17,18 @@ export const API_ENDPOINTS = {
   addressUpdAPI: 'address/update',//我的地址 add
   addressDelAPI: 'address/delete',//我的地址 delete
 
-  // 可以在这里继续添加其他接口路径
-  cartListAPI:'cart/list',//购物车 list
-  cartSaveAPI:'cart/save',//购物车添加
-  cartUpdateAPI:'cart/update',//购物车 update
-  cartDelAPI:'cart/delete',//购物车[ids] del
+  // 个人中心接口
+  cartListAPI: 'cart/list',//购物车 list
+  cartSaveAPI: 'cart/save',//购物车添加
+  cartUpdateAPI: 'cart/update',//购物车 update
+  cartDelAPI: 'cart/delete',//购物车[ids] del
   remarkListAPI: 'discussshangpinxinxi/list',//商品评论列表
   remarkSaveAPI: 'discussshangpinxinxi/save',//商品评论save
   favorListAPI: 'storeup/list',//收藏list
   isfavorAPI: 'storeup/isCollected',//收藏list
   favorSaveAPI: 'storeup/save',//收藏
   favorDelAPI: 'storeup/delete',//收藏取消 [ids]
+  orderAPI: 'orders/list',//订单
+  ordersAddAPI: 'orders/add',//订单 add
+  orderUpdateAPI: 'orders/update',//订单 update
 };

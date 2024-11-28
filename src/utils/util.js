@@ -57,5 +57,26 @@ export const get = async (url, params = {}) => {
 export const post = async (url, data = {}) => {
     return await http.post(url, data);
 };
-
+/**
+ * 生成订单
+ */
+export const genTradeNo = () => {
+    var date = new Date();
+    var tradeNo =
+      date.getFullYear().toString() +
+      (date.getMonth() + 1).toString() +
+      date.getDate().toString() +
+      date.getHours().toString() +
+      date.getMinutes().toString() +
+      date.getSeconds().toString() +
+      date.getMilliseconds().toString();
+    for (
+      var i = 0;
+      i < 5;
+      i++ //5位随机数，用以加在时间戳后面。
+    ) {
+      tradeNo += Math.floor(Math.random() * 10);
+    }
+    return tradeNo;
+  };
 // 其他 HTTP 方法可以在这里添加
