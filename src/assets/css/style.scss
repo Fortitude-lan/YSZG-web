@@ -87,7 +87,9 @@ a:hover {
   padding: 20px;
   margin: 10px 0;
 }
-
+ul,li {
+  list-style: none;
+}
 /* 页脚样式 */
 .footer {
   text-align: center;

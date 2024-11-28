@@ -18,6 +18,7 @@ import Home from '@/views/user/Home.vue'
 import ArtworkGallery from '@/views/user/ArtworkGallery.vue'
 //咨询
 import News from '@/views/user/News.vue'
+import NewsDetail from '@/views/user/NewsDetail.vue'
 //客服
 import Chat from '@/views/user/Chat.vue'
 //商品信息
@@ -119,6 +120,12 @@ const routes = [
                 show: true,
                 component: News,
                 icon: IoFileTray
+            },
+            {
+                path: 'newsdetail/:id', // 动态路由参数 :id
+                name: '咨询详情', // 详情
+                component: NewsDetail,
+                props: true // 将动态路由参数传递给组件
             },
             {
                 path: 'chat',

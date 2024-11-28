@@ -1,25 +1,13 @@
-
 <template>
   <div class="pageM">
     <!-- title -->
     <div class="pheading">
       <h1>最新咨询</h1>
     </div>
-    <!-- 选择器 -->
-    <!-- <el-form ref="formRef" :model="form" label-width="auto" class="form">
-      <el-form-item label="关键词" prop="title">
-        <el-input v-model="form.title" />
-      </el-form-item>
-      <el-form-item class="form-btns">
-        <el-button type="primary" @click="onSubmit(formRef)">查询</el-button>
-        <el-button @click="resetForm(formRef)">重置</el-button>
-      </el-form-item>
-    </el-form> -->
-
     <!-- 内容 -->
     <el-row :gutter="20">
       <!-- 设置卡片间距 -->
-      <el-col
+      <!-- <el-col
         v-for="item in newsLIst"
         :key="item.id"
         :xs="12"
@@ -51,8 +39,30 @@
             </p>
           </div>
         </el-card>
-      </el-col>
+      </el-col> -->
     </el-row>
+    <ul class="rklist">
+      <li
+        v-for="(item, index) in newsLIst"
+        :key="index"
+        @click="goToDetail(item)"
+      >
+        <div class="rkt">
+          <div class="rkt-1">
+            <el-avatar :size="50" :src="item.picture" />
+            <span
+              ><strong>{{ item.title }}</strong></span
+            >
+          </div>
+          <div class="time">
+            {{ item.addtime }}
+          </div>
+        </div>
+        <div class="rk-content">
+          <div v-html="truncateContent(item.content)"></div>
+        </div>
+      </li>
+    </ul>
     <el-row style="padding: 30px 0">
       <el-pagination
         background
@@ -70,8 +80,8 @@
 <script setup>
 import { reactive, onMounted, ref } from "vue";
 import { fetchNewsList } from "@/services/homeServices";
-import { baseUrl } from "@/utils/util";
-
+import { useRoute, useRouter } from "vue-router";
+const router = useRouter();
 // 分页状态
 const pagination = reactive({
   currentPage: 1, // 当前页码
@@ -101,27 +111,18 @@ const fetchData = async () => {
     console.error("Error fetching Home Page:", error);
   }
 };
-
-//查找
-const onSubmit = async (formEl) => {
-  if (!formEl) return;
-  await formEl.validate(async (valid, fields) => {
-    if (valid) {
-      pagination.currentPage = 1; // 查询时重置为第一页
-      // 发送请求
-      await fetchData();
-      console.log("submit!");
-    } else {
-      console.log("error submit!", fields);
-    }
-  });
+const truncateContent = (content) => {
+  // 如果内容长度大于 20 字符，截取前 20 字符并加上 "..." 作为标记
+  if (content && content.length > 20) {
+    return content.substring(0, 20) + "...";
+  }
+  return content;
 };
 
-const resetForm = (formEl) => {
-  if (!formEl) return;
-  formEl.resetFields();
+const goToDetail = (item) => {
+  localStorage.setItem("newsdetail", JSON.stringify(item)); // 将 item 存储到 localStorage
+  router.push({ name: "咨询详情", params: { id: item.id } });
 };
-
 // 在组件挂载时调用 fetchData
 onMounted(fetchData);
 </script>
@@ -132,7 +133,7 @@ onMounted(fetchData);
   background: url(https://th.bing.com/th/id/R.101f5fba7e4770e0da8c1def9bdb077f?rik=7oySW31kKSApkQ&pid=ImgRaw&r=0)
     no-repeat;
   background-size: cover;
-  background-color: rgb(0 0 0 / 50%);
+  background-color: rgb(255 255 255 / 10%);
   background-blend-mode: overlay;
 }
 
@@ -206,6 +207,37 @@ onMounted(fetchData);
     transform: translateY(-5px);
     transition: transform 0.5s ease;
   }
-
+}
+.rklist {
+  width: 95%;
+  margin: 0 auto;
+  padding: 20px 0;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  li {
+    padding: 5px 20px;
+    border-bottom: 2px solid #a38ffd;
+    &:hover {
+      cursor: pointer;
+      background: rgba(67, 46, 117, 0.2);
+    }
+  }
+}
+.rkt {
+  display: flex;
+  justify-content: space-between;
+  .rkt-1 {
+    display: flex;
+    align-items: center;
+  }
+  .el-avatar {
+    margin-right: 10px;
+  }
+  .time {
+    color: #cbbfff;
+  }
+}
+.rk-content {
+  padding-left: 58px;
 }
 </style>
