@@ -85,7 +85,7 @@ const router = useRouter();
 // 分页状态
 const pagination = reactive({
   currentPage: 1, // 当前页码
-  pageSize: 10, // 每页条数
+  pageSize: 20, // 每页条数
   totalPage: 0, // 总页数，从接口返回
 });
 // 响应式数据
@@ -130,10 +130,10 @@ onMounted(fetchData);
 <style lang="scss" scoped>
 .pageM {
   padding: 100px 5% 0;
-  background: url(https://th.bing.com/th/id/R.101f5fba7e4770e0da8c1def9bdb077f?rik=7oySW31kKSApkQ&pid=ImgRaw&r=0)
+  background: url(https://pic.616pic.com/bg_w1180/00/22/49/ls8Weuu5Sd.jpg!/fw/1120)
     no-repeat;
   background-size: cover;
-  background-color: rgb(255 255 255 / 10%);
+  background-color: rgba(255, 255, 255, 0.527);
   background-blend-mode: overlay;
 }
 
@@ -209,17 +209,19 @@ onMounted(fetchData);
   }
 }
 .rklist {
-  width: 95%;
+  width: 97%;
   margin: 0 auto;
   padding: 20px 0;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 20px;
+  border: 2px dashed #a38ffd;
+  padding: 20px;
   li {
     padding: 5px 20px;
-    border-bottom: 2px solid #a38ffd;
+    border-bottom: 1px solid #cbc1ff;
     &:hover {
       cursor: pointer;
-      background: rgba(67, 46, 117, 0.2);
+      background: rgb(246, 242, 255);
     }
   }
 }
