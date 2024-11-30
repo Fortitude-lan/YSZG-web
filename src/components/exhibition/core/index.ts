@@ -1,11 +1,4 @@
-/*
- * @Descripttion: 
- * @version: 1.0
- * @Author: Hesin
- * @Date: 2024-10-23 14:25:06
- * @LastEditors: Hesin
- * @LastEditTime: 2024-10-26 15:26:44
- */
+
 import { ACESFilmicToneMapping, Clock, Color, PerspectiveCamera, Scene, SRGBColorSpace, WebGLRenderer } from "three";
 import World from "../world";
 import Emitter from "../utils/Emitter";
@@ -79,7 +72,7 @@ export default class Core extends Emitter {
 			this.world = null
 			this.ui = null
 			this.loader = null
-			console.log('XXXXXXXXXX')
+			console.log('destroydestroy')
 		} catch (e) {
 			console.error("Failed to destroy Three.js resources", e);
 		}
@@ -98,7 +91,7 @@ export default class Core extends Emitter {
 	}
 
 	private _initRenderer() {
-		console.log('chushihhasd')
+		console.log('_initRenderer')
 		this.renderer.shadowMap.enabled = true;
 		this.renderer.outputColorSpace = SRGBColorSpace;
 		this.renderer.toneMapping = ACESFilmicToneMapping;

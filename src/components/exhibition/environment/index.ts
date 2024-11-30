@@ -41,13 +41,15 @@ export default class Environment {
 			console.log(e);
 		}
 	}
-
+	// 加载画廊数据纹理
 	private async _loadBoardsTexture(): Promise<void> {
 		// for (let i = 0; i < BOARD_TEXTURES.length; i++) {
 		// 	this.texture_boards[i + 1] = await this.loader.texture_loader.loadAsync(BOARD_TEXTURES[i]);
 		// }
 		//调接口 查询列表
-		const datas = await fetchShangpinList();
+		const res = await fetchShangpinList();
+		const datas = res.list
+		// console.log(datas)
 		for (let i = 0; i < datas.length; i++) {
 			this.texture_boards[i + 1] = await this.loader.texture_loader.loadAsync(datas[i].tupian);
 			console.log(`tupian${i + 1}`, datas[i].tupian)
@@ -84,6 +86,7 @@ export default class Environment {
 	private async _configureGallery() {
 		console.log(' this.gallery_boards', this.gallery_boards)
 		for (let key in this.texture_boards) {
+
 			const board = this.gallery_boards[`gallery${key}_board`];
 			const board_material = board.material;
 			(board_material as MeshBasicMaterial).map = this.texture_boards[key];
@@ -174,21 +177,41 @@ export default class Environment {
 					if (item.name === "home001" || item.name === "PointLight") {
 						item.castShadow = true;
 					}
+					// 墙壁
 					if (item.name === "home" || item.name === 'wall2') {
+						const textureLoader = new THREE.TextureLoader();
+						const diffuseTexture = textureLoader.load('/textures/synthetic_wood_diff_1k.jpg')
+						const normalTexture = textureLoader.load('/textures/synthetic_wood_nor_gl_1k.jpg'); // 法线纹理
+						const roughnessTexture = textureLoader.load('/textures/synthetic_wood_rough_1k.jpg'); // 粗糙度纹理
+
+						// 控制纹理的重复次数
+						diffuseTexture.repeat.set(13,0); // 纹理将在 X 轴和 Y 轴上各重复 2 次
+						diffuseTexture.wrapS = THREE.RepeatWrapping;
+						diffuseTexture.wrapT = THREE.RepeatWrapping;
+						normalTexture.repeat.set(13,0); // 纹理将在 X 轴和 Y 轴上各重复 2 次
+						normalTexture.wrapS = THREE.RepeatWrapping;
+						normalTexture.wrapT = THREE.RepeatWrapping;
+						roughnessTexture.repeat.set(13,0); // 纹理将在 X 轴和 Y 轴上各重复 2 次
+						roughnessTexture.wrapS = THREE.RepeatWrapping;
+						roughnessTexture.wrapT = THREE.RepeatWrapping;
+
 						if (item.material) {
 							item.material.map = null; // 移除 UV 贴图
 							item.material.needsUpdate = true; // 更新材质
 							// item.material.color.set(0x00ff00); // 将颜色改为红色
 							const material = new THREE.MeshStandardMaterial({
-								color: 0x00ff00, // 颜色
-								metalness: 0, // 金属感
+								color: 0xC02A2A, // 颜色
+								map: diffuseTexture,
+								normalMap: normalTexture, // 法线纹理
+								roughnessMap: roughnessTexture, // 粗糙度纹理
 								roughness: 1.0, // 粗糙度
 							});
 							item.material = material;
 						}
 					}
+					// 灯光
 					if (item.name.includes("PointLight") && isLight(item)) {
-						item.intensity *= 2000;
+						item.intensity *= 1500;
 					}
 
 					if (item.name === "home002") {

@@ -2,7 +2,7 @@
   <a-layout class="layout">
     <!-- 侧边栏 -->
     <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-      <div class="logo">LOGO</div>
+      <div class="logo">数字时代的艺术品展馆交易平台</div>
       <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
         <template v-for="route in backMenuList" :key="route.path">
           <template v-if="route.children && route.children.length">

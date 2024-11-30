@@ -1,11 +1,4 @@
-/*
- * @Descripttion: 
- * @version: 1.0
- * @Author: Hesin
- * @Date: 2024-10-23 14:25:06
- * @LastEditors: Hesin
- * @LastEditTime: 2024-10-26 18:28:38
- */
+
 import {DoubleSide, Mesh, MeshStandardMaterial, NoBlending, PlaneGeometry, Scene} from "three";
 import {CSS3DObject, CSS3DRenderer} from "three/examples/jsm/renderers/CSS3DRenderer.js";
 import Core from "../core";
