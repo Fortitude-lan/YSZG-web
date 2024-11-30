@@ -1,11 +1,4 @@
-/*
- * @Descripttion: 
- * @version: 1.0
- * @Author: Hesin
- * @Date: 2024-11-22 00:07:06
- * @LastEditors: Hesin
- * @LastEditTime: 2024-11-27 13:06:46
- */
+
 import { API_ENDPOINTS } from '@/api/userAPI';
 import { post, get } from '@/utils/util';
 
@@ -14,13 +7,19 @@ export const loginService = async (params) => {
     try {
         console.log(params)
         const { role } = params
-        const res = await get(`${role}/login`, { username: params.username, password: params.password });
+        let res;
+        if (role == 'users')
+            res = await post(`${role}/login?username=${params.username}&password=${params.password}`, { username: params.username, password: params.password });
+        else
+            res = await get(`${role}/login`, { username: params.username, password: params.password });
+
         if (res.code === 0) {
             localStorage.setItem('Token', res.token);
             localStorage.setItem('sessionTable', role);
             if (role == 'users') {
                 localStorage.setItem('role', '管理员');
-                localStorage.setItem('loginTable', 'yonghu');
+                localStorage.setItem('userTable', 'yonghu');
+                // localStorage.setItem('loginTable', 'yonghu');
             } else if (role == 'yonghu') {
                 localStorage.setItem('role', '用户');
                 localStorage.setItem('userTable', 'yonghu');

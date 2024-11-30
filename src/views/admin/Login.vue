@@ -58,14 +58,6 @@
               required
             />
           </el-form-item>
-          <!-- <el-form-item label="确认密码" class="form-item">
-              <el-input
-                type="password"
-                v-model="signupValidateForm.mima2"
-                placeholder="确认密码"
-                required
-              />
-            </el-form-item> -->
           <el-form-item label="姓名" class="form-item">
             <el-input
               v-model="signupValidateForm.xingming"

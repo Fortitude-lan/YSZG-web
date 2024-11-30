@@ -40,20 +40,6 @@
                 required
               />
             </el-form-item>
-            <el-form-item label="余额" class="form-item">
-              <el-input
-                v-model="infoValidateForm.money"
-                placeholder="余额"
-                required
-                disabled
-                :style="{
-                  width: '200px',
-                }"
-              />
-              <span class="chongzhi" @click="czFormVisible = true"
-                ><RiExchangeCnyFill size="20" color="red" />用户充值</span
-              >
-            </el-form-item>
           </div>
           <div class="form-row">
             <el-form-item label="照片" class="form-item">
@@ -97,40 +83,6 @@
       </div>
     </div>
 
-    <!-- 弹窗 add -->
-    <el-dialog v-model="czFormVisible" title="充值" width="500">
-      <el-form ref="czformRef" :model="czform">
-        <el-form-item label="充值金额" :label-width="formLabelWidth">
-          <el-input v-model="czform.money" autocomplete="off" type="number" />
-        </el-form-item>
-      </el-form>
-      <!-- 付款方式 -->
-      <el-form-item label="" :label-width="formLabelWidth">
-        <div class="image-options">
-          <span
-            v-for="(image, index) in images"
-            :key="index"
-            class="image-label"
-          >
-            <input
-              type="radio"
-              name="selectedImage"
-              :value="image"
-              v-model="czform.selectedImage"
-            />
-            <img :src="image" :alt="'图片' + (index + 1)" />
-          </span>
-        </div>
-      </el-form-item>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="czFormVisible = false">取消</el-button>
-          <el-button type="danger" @click="onUpdateSubmit(czformRef)">
-            充值
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
@@ -149,8 +101,6 @@ import nongye from "@/assets/img/charge/nongye.png";
 import zhongguo from "@/assets/img/charge/zhongguo.png";
 import weixin from "@/assets/img/charge/weixin.png";
 import zhifubao from "@/assets/img/charge/zhifubao.png";
-// 图片数组
-const images = [jianshe, jiaotong, nongye, zhongguo, weixin, zhifubao];
 
 // 响应式数据
 const userInfo = ref({});
@@ -161,11 +111,9 @@ const infoValidateForm = reactive({
   xingming: "",
   xingbie: "",
   lianxidianhua: "",
-  money: 0,
   touxiang: null,
 });
 
-const czformRef = ref();
 const czFormVisible = ref(false);
 const czform = reactive({
   money: "",
@@ -182,7 +130,6 @@ const fetchDate = async () => {
     infoValidateForm.xingming = userInfo.value.xingming || "";
     infoValidateForm.xingbie = userInfo.value.xingbie || "";
     infoValidateForm.lianxidianhua = userInfo.value.lianxidianhua || "";
-    infoValidateForm.money = Number(userInfo.value.money) || 0;
     infoValidateForm.touxiang = userInfo.value.touxiang || null;
     console.log(infoValidateForm.touxiang.split("upload")[0]);
 
@@ -220,41 +167,7 @@ const onSubmit = async (formEl) => {
     }
   });
 };
-//充值
-const onUpdateSubmit = async (formEl) => {
-  if (!formEl) return;
-  await formEl.validate(async (valid, fields) => {
-    if (valid) {
-      console.log("submit!");
-      console.log(czform);
-      const money = Number(czform.money) + infoValidateForm.money;
-      console.log(money);
-      const params = {
-        ...userInfo.value,
-        ...infoValidateForm,
-        money,
-      };
-      const msg = await fetchSaveInfo(params);
-      if (msg == 0) {
-        ElMessage({
-          message: "充值成功",
-          type: "success",
-        });
-        //
-        czFormVisible.value = false;
-        //更新
-        await fetchDate();
-      } else {
-        ElMessage({
-          message: "充值失败",
-          type: "error",
-        });
-      }
-    } else {
-      console.log("error submit!", fields);
-    }
-  });
-};
+
 const headers = ref({
   Token: localStorage.getItem("Token"),
 });
