@@ -2,7 +2,7 @@
   <a-layout class="layout">
     <!-- 侧边栏 -->
     <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-      <div class="logo">数字时代的艺术品展馆交易平台</div>
+      <div class="logo">LOGO</div>
       <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
         <template v-for="route in backMenuList" :key="route.path">
           <template v-if="route.children && route.children.length">
@@ -51,7 +51,7 @@
           />
         </div>
         <div class="title">
-          <span class="tt"> XXXXXXXXXXXXX后台管理系统 </span>
+          <span class="tt"> 数字时代的艺术品展馆交易平台后台管理系统 </span>
           <el-dropdown placement="top-start">
             <div class="down">
               <el-avatar

@@ -138,4 +138,7 @@ ul,li {
 :root {
   --el-color-primary: #a08fff;
   --el-color-primary-light-3: #bdb1ff;
+  :where(.css-dev-only-do-not-override-17yhhjv).ant-menu-dark .ant-menu-item-selected{
+    background: #a08fff;
+  }
 }
