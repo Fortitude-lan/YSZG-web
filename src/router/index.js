@@ -51,6 +51,8 @@ import UserManag from '@/views/admin/UserManag.vue'
 import UserManagBlack from '@/views/admin/UserManagBlack.vue'
 //系统管理--轮播图
 import SystemPicture from '@/views/admin/SystemPicture.vue'
+//系统管理--咨询
+import SystemNews from '@/views/admin/SystemNews.vue'
 
 
 /* ***********后台 end************ */
@@ -291,11 +293,11 @@ const routes = [
             {
                 path: 'newsmanag',
                 name: '咨询管理',
-                component: UserInfo,
+                component: SystemNews,
                 icon: ''
             },
             {
-                path: 'newsmanag',
+                path: 'chatmanag',
                 name: '客服管理',
                 component: UserInfo,
                 icon: ''
