@@ -54,14 +54,14 @@ button {
   padding: 10px 15px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #a08fff;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #907fef;
 }
 
 /* 主内容样式 */
@@ -87,7 +87,8 @@ a:hover {
   padding: 20px;
   margin: 10px 0;
 }
-ul,li {
+ul,
+li {
   list-style: none;
 }
 /* 页脚样式 */
@@ -138,7 +139,8 @@ ul,li {
 :root {
   --el-color-primary: #a08fff;
   --el-color-primary-light-3: #bdb1ff;
-  :where(.css-dev-only-do-not-override-17yhhjv).ant-menu-dark .ant-menu-item-selected{
+  :where(.css-dev-only-do-not-override-17yhhjv).ant-menu-dark
+    .ant-menu-item-selected {
     background: #a08fff;
   }
 }

@@ -112,3 +112,79 @@ export const fetchKeshiPage = async (params, page, limit) => {
         throw error; // 抛出错误以供调用者处理
     }
 };
+
+//用户列表
+export const fetchUserListPage = async (params, page, limit) => {
+    try {
+        const response = await get(API_ENDPOINTS.userListAPI, {
+            ...params, page, limit, sort: 'id',
+            heimd: 0
+        });
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+//用户列表 黑名单
+export const fetchUserBlackPage = async (params, page, limit) => {
+    try {
+        const response = await get(API_ENDPOINTS.userListAPI, {
+            ...params, page, limit, sort: 'id',
+            heimd: 1
+        });
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+//用户 add
+export const fetchUserAdd = async (params) => {
+    try {
+        // console.log(params)
+        const res = await post(API_ENDPOINTS.userAddAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+//用户 del
+export const fetchUserDel = async (params) => {
+    try {
+        // console.log(params)
+        const res = await post(API_ENDPOINTS.userDelAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+//用户 黑名单 add
+export const fetchUserAddBlacklist = async (params) => {
+    try {
+        // console.log(params)
+        const res = await get(API_ENDPOINTS.userHMDAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+export const fetchUserDelBlacklist = async (params) => {
+    try {
+        // console.log(params)
+        const res = await get(API_ENDPOINTS.userOFFHMDAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};

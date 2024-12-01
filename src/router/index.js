@@ -42,6 +42,12 @@ import HomeBack from '@/views/admin/Home.vue'
 import UserCenter from '@/views/admin/UserCenter.vue'
 import UserInfo from '@/views/admin/UserInfo.vue'
 
+//用户管理--用户
+import UserManag from '@/views/admin/UserManag.vue' 
+//用户管理--黑名单
+import UserManagBlack from '@/views/admin/UserManagBlack.vue' 
+
+
 /* ***********后台 end************ */
 
 import NotFound from '@/views/404.vue'
@@ -268,7 +274,7 @@ const routes = [
         },
         {
             path: 'usercenter',
-            name: '用户中心',
+            name: '个人管理',
             show: true,
             icon: IoFileTray,
             children: [{
@@ -281,6 +287,24 @@ const routes = [
                 path: 'userinfo',
                 name: '个人信息',
                 component: UserInfo,
+                icon: ''
+            }]
+        },
+        {
+            path: 'usermanagement',
+            name: '用户管理',
+            show: true,
+            icon: IoFileTray,
+            children: [{
+                path: 'index',
+                name: '用 户',
+                component: UserManag,
+                icon: ''
+            },
+            {
+                path: 'userblacklist',
+                name: '黑名单',
+                component: UserManagBlack,
                 icon: ''
             }]
         }]

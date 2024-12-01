@@ -1,6 +1,6 @@
 import axios from 'axios';
 export const baseUrl = '/YSZG'
-
+export const httpURL = 'http://localhost:8080/YSZG/' 
 // 创建 Axios 实例
 const http = axios.create({
     baseURL: baseUrl, // 替换为你的 API 基础 URL

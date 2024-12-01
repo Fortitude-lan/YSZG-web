@@ -31,4 +31,12 @@ export const API_ENDPOINTS = {
   orderAPI: 'orders/list',//订单
   ordersAddAPI: 'orders/add',//订单 add
   orderUpdateAPI: 'orders/update',//订单 update
+
+
+  //后端接口
+  userListAPI: 'yonghu/page',//用户列表
+  userAddAPI: 'yonghu/save',//用户add
+  userDelAPI: 'yonghu/delete',//用户 删除
+  userHMDAPI: 'yonghu/jiaru',//用户 黑名单
+  userOFFHMDAPI:'yonghu/quxiao',
 };

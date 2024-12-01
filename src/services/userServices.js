@@ -202,7 +202,7 @@ export const fetchOrderAdd = async (params) => {
             }
             const sessionTable = localStorage.getItem("sessionTable"); //
 
-            const resSaveUserinfo = await fetchSaveInfo(sessionTable,newuserInfo);
+            const resSaveUserinfo = await fetchSaveInfo(sessionTable, newuserInfo);
             console.log(resSaveUserinfo)
             if (resSaveUserinfo == 0) {
                 console.log('更新金额')
@@ -241,7 +241,7 @@ export const fetchRefond = async (itm) => {
     info.money = Number(info.money) + Number(itm.total);
     // 更新用户余额
     const sessionTable = localStorage.getItem("sessionTable"); //
-    const ressave = await fetchSaveInfo(sessionTable,info)
+    const ressave = await fetchSaveInfo(sessionTable, info)
     if (ressave == 0) {
         console.log('更新金额')
         const response = await fetchOrderUpdate({ ...itm, status: '已退款' })
