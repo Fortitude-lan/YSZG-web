@@ -2,7 +2,12 @@
   <div class="profile-container">
     <div class="profile-content">
       <div class="profile-info-section">
-        <el-form ref="formRef" :model="infoValidateForm" class="form-layout">
+        <el-form
+          v-if="role == '用户'"
+          ref="formRef"
+          :model="infoValidateForm"
+          class="form-layout"
+        >
           <div class="form-row">
             <el-form-item label="账号" class="form-item">
               <el-input
@@ -80,9 +85,29 @@
             >
           </div>
         </el-form>
+        <el-form
+          v-else
+          ref="formRef"
+          :model="infoValidateForm"
+          class="form-layout"
+        >
+          <div class="form-row">
+            <el-form-item label="用户名" class="form-item">
+              <el-input
+                v-model="infoValidateForm.yonghuming"
+                placeholder="用户名"
+                required
+              />
+            </el-form-item>
+          </div>
+          <div class="tt">
+            <el-button @click.prevent="onSubmit(formRef)" class="edit-button"
+              >修改</el-button
+            >
+          </div>
+        </el-form>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -90,7 +115,7 @@
 import { reactive, onMounted, ref } from "vue";
 import { PiEyeBold, PiEyeClosed } from "vue3-icons/pi";
 import { RiExchangeCnyFill } from "vue3-icons/ri";
-import { getSession } from "@/services/headerServices";
+import { getSession } from "@/services/backServices";
 import { fetchSaveInfo } from "@/services/userServices";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { baseUrl } from "@/utils/util";
@@ -101,6 +126,9 @@ import nongye from "@/assets/img/charge/nongye.png";
 import zhongguo from "@/assets/img/charge/zhongguo.png";
 import weixin from "@/assets/img/charge/weixin.png";
 import zhifubao from "@/assets/img/charge/zhifubao.png";
+
+const role = localStorage.getItem("adminName"); //
+const sessionTable = localStorage.getItem("sessionTable"); //
 
 // 响应式数据
 const userInfo = ref({});
@@ -121,7 +149,7 @@ const czform = reactive({
 
 const fetchDate = async () => {
   try {
-    userInfo.value = await getSession();
+    userInfo.value = await getSession(sessionTable);
     console.log(userInfo);
     // 回显数据到表单
     infoValidateForm.addtime = userInfo.value.addtime || "";
@@ -144,17 +172,21 @@ const onSubmit = async (formEl) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      const params = {
+      let params = {
         ...userInfo.value,
         ...infoValidateForm,
       };
-      const msg = await fetchSaveInfo(params);
+      if (sessionTable == "users") {
+        params = { ...userInfo.value, username: infoValidateForm.yonghuming };
+      }
+
+      const msg = await fetchSaveInfo(sessionTable,params);
       if (msg === 0) {
         ElMessage({
           message: "更新成功",
           type: "success",
         });
-        userInfo.value = await getSession();
+        userInfo.value = await getSession(sessionTable);
       } else {
         ElMessage({
           message: "更新失败",

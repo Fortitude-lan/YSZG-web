@@ -57,7 +57,7 @@
               <el-avatar
                 :icon="FaUserAstronaut"
                 :size="35"
-                :style="{ background: '#1e62b9', marginRight: '10px' }"
+                :style="{ background: '#7378f5', marginRight: '10px' }"
               />
               <span>欢迎：{{ username }}</span>
             </div>

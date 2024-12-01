@@ -176,6 +176,7 @@ import weixin from "@/assets/img/charge/weixin.png";
 import zhifubao from "@/assets/img/charge/zhifubao.png";
 // 图片数组
 const images = [jianshe, jiaotong, nongye, zhongguo, weixin, zhifubao];
+const sessionTable = localStorage.getItem("sessionTable"); //
 
 // 响应式数据
 const userInfo = ref({});
@@ -232,7 +233,7 @@ const onSubmit = async (formEl) => {
         ...userInfo.value,
         ...infoValidateForm,
       };
-      const msg = await fetchSaveInfo(params);
+      const msg = await fetchSaveInfo(sessionTable, params);
       if (msg === 0) {
         ElMessage({
           message: "更新成功",
@@ -265,7 +266,7 @@ const onUpdateSubmit = async (formEl) => {
         ...infoValidateForm,
         money,
       };
-      const msg = await fetchSaveInfo(params);
+      const msg = await fetchSaveInfo(sessionTable, params);
       if (msg == 0) {
         ElMessage({
           message: "充值成功",

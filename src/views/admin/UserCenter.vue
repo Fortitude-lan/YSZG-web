@@ -112,7 +112,8 @@ const submitForm = () => {
         mima: passwordForm.value.mima,
       };
       console.log("params", params);
-      const msg = await fetchSaveInfo(params);
+      const sessionTable = localStorage.getItem("sessionTable"); //
+      const msg = await fetchSaveInfo(sessionTable, params);
       if (msg === 0) {
         ElMessage({
           message: "更新成功",

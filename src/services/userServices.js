@@ -5,14 +5,15 @@ import { getSession } from "@/services/headerServices";
 import { ElMessage, ElMessageBox } from "element-plus";
 
 //用户信息更新
-export const fetchSaveInfo = async (params) => {
+export const fetchSaveInfo = async (role, params) => {
     try {
+
         const timestamp = new Date().getTime();
         const param = {
             ...params,
             t: timestamp
         }
-        const response = await await post(API_ENDPOINTS.userUpdateAPI, params);
+        const response = await await post(`${role}/update`, params);
         return response.code
     } catch (error) {
         console.error("Error sending chat message:", error);
@@ -199,7 +200,9 @@ export const fetchOrderAdd = async (params) => {
                 ...userInfo,
                 money: userInfo.money - params.total
             }
-            const resSaveUserinfo = await fetchSaveInfo(newuserInfo);
+            const sessionTable = localStorage.getItem("sessionTable"); //
+
+            const resSaveUserinfo = await fetchSaveInfo(sessionTable,newuserInfo);
             console.log(resSaveUserinfo)
             if (resSaveUserinfo == 0) {
                 console.log('更新金额')
@@ -237,7 +240,8 @@ export const fetchRefond = async (itm) => {
     }
     info.money = Number(info.money) + Number(itm.total);
     // 更新用户余额
-    const ressave = await fetchSaveInfo(info)
+    const sessionTable = localStorage.getItem("sessionTable"); //
+    const ressave = await fetchSaveInfo(sessionTable,info)
     if (ressave == 0) {
         console.log('更新金额')
         const response = await fetchOrderUpdate({ ...itm, status: '已退款' })
