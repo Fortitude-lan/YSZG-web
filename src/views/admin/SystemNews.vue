@@ -502,7 +502,7 @@ const delSubmit = () => {
       .then(async () => {
         const ids = selectedRows.value.map((i) => i.id);
         console.log(ids);
-        const msg = await fetchNewsDel([ids]);
+        const msg = await fetchNewsDel(ids);
         if (msg == 0) {
           ElMessage({
             type: "success",
