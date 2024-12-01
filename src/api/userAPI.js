@@ -38,5 +38,9 @@ export const API_ENDPOINTS = {
   userAddAPI: 'yonghu/save',//用户add
   userDelAPI: 'yonghu/delete',//用户 删除
   userHMDAPI: 'yonghu/jiaru',//用户 黑名单
-  userOFFHMDAPI:'yonghu/quxiao',
+  userOFFHMDAPI:'yonghu/quxiao',//用户 取消黑名单
+  configListAPI:'config/page',//系统 轮播图
+  configAddAPI:'config/save',//系统 轮播图
+  configUpdateAPI:'config/update',//系统 轮播图
+  configDelAPI:'config/delete',//系统 轮播图
 };

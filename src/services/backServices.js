@@ -177,10 +177,56 @@ export const fetchUserAddBlacklist = async (params) => {
         throw error; // 抛出错误以供调用者处理
     }
 };
+//用户 黑名单 取消
 export const fetchUserDelBlacklist = async (params) => {
     try {
         // console.log(params)
         const res = await get(API_ENDPOINTS.userOFFHMDAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+// 轮播图 list
+export const fetchConfigListPage = async (params, page, limit) => {
+    try {
+        const response = await get(API_ENDPOINTS.configListAPI, {
+            ...params, page, limit, sort: 'id',
+        });
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+// 轮播图 list add
+export const fetchConfigAdd = async (params) => {
+    try {
+        const res = await post(API_ENDPOINTS.configAddAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+// 轮播图 list update
+export const fetchConfigUpdate = async (params) => {
+    try {
+        const response = await await post(API_ENDPOINTS.configUpdateAPI, params);
+        return response.code
+    } catch (error) {
+        console.error("Error sending chat message:", error);
+    }
+};
+//
+export const fetchConfigDel = async (params) => {
+    try {
+        // console.log(params)
+        const res = await post(API_ENDPOINTS.configDelAPI, params);
         return res.code
 
     } catch (error) {

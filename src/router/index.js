@@ -38,14 +38,19 @@ import Cart from '@/views/user/usercenter/Cart.vue';
 
 /* ***********后台 start************ */
 import Login from '@/views/admin/Login.vue'
+//首页
 import HomeBack from '@/views/admin/Home.vue'
+//账号管理--密码
 import UserCenter from '@/views/admin/UserCenter.vue'
+//账号管理--个人信息
 import UserInfo from '@/views/admin/UserInfo.vue'
 
 //用户管理--用户
-import UserManag from '@/views/admin/UserManag.vue' 
+import UserManag from '@/views/admin/UserManag.vue'
 //用户管理--黑名单
-import UserManagBlack from '@/views/admin/UserManagBlack.vue' 
+import UserManagBlack from '@/views/admin/UserManagBlack.vue'
+//系统管理--轮播图
+import SystemPicture from '@/views/admin/SystemPicture.vue'
 
 
 /* ***********后台 end************ */
@@ -273,8 +278,32 @@ const routes = [
             icon: ''
         },
         {
+            path: 'systemanagement',
+            name: '系统管理',
+            show: true,
+            icon: IoFileTray,
+            children: [{
+                path: 'index',
+                name: '轮播图管理',
+                component: SystemPicture,
+                icon: ''
+            },
+            {
+                path: 'newsmanag',
+                name: '咨询管理',
+                component: UserInfo,
+                icon: ''
+            },
+            {
+                path: 'newsmanag',
+                name: '客服管理',
+                component: UserInfo,
+                icon: ''
+            }]
+        },
+        {
             path: 'usercenter',
-            name: '个人管理',
+            name: '账号管理',
             show: true,
             icon: IoFileTray,
             children: [{
