@@ -55,4 +55,7 @@ export const API_ENDPOINTS = {
   goodsAddAPI: 'shangpinxinxi/save',//商品 add
   goodsUpdateAPI: 'shangpinxinxi/update',//商品 ip
   goodsDelAPI: 'shangpinxinxi/delete',//商品 del
+  commentListAPI: 'discussshangpinxinxi/page',//商品 评价
+  commentUpdateAPI: 'discussshangpinxinxi/update',//商品 回复
+  commentDelAPI: 'discussshangpinxinxi/delete',//商品 del
 };

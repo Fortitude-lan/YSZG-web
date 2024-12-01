@@ -76,8 +76,15 @@
         >
           修改
         </el-button>
-
-        <el-popconfirm shangpinfenlei="确定要删除吗?">
+        <el-button
+          link
+          type="primary"
+          size="small"
+          @click="openComment(scope.row)"
+        >
+          查看评论
+        </el-button>
+        <el-popconfirm title="确定要删除吗?">
           <template #reference>
             <el-button link type="danger" size="small"> 删除 </el-button>
           </template>
@@ -343,6 +350,122 @@
       </div>
     </el-form>
   </el-drawer>
+  <!-- 抽屉 评论 -->
+  <el-drawer v-model="commentdrawerVisible" title="查看评论" size="90%">
+    <!-- 选择器 -->
+    <el-form ref="formRef1" :model="form1" label-width="auto" class="form">
+      <el-form-item label="评论内容" prop="content">
+        <el-input v-model="form.content" />
+      </el-form-item>
+      <el-form-item class="form-btns">
+        <el-button type="primary" @click="onSubmit(formRef1)">查询</el-button>
+        <el-button @click="resetForm(formRef1)">重置</el-button>
+      </el-form-item>
+    </el-form>
+    <div class="noraml-btn">
+      <button @click="delSubmit()">删除</button>
+    </div>
+    <!-- 动态渲染表头 -->
+    <el-table
+      :data="tableData1"
+      @selection-change="handleSelectionChange"
+      :row-key="(row) => row.id"
+      ref="tableRef"
+      style="width: 100%"
+      class="table"
+    >
+      <!-- 多选框 -->
+      <el-table-column type="selection" width="55"></el-table-column>
+
+      <!-- 动态渲染表头 -->
+      <el-table-column
+        v-for="(column, index) in columns1"
+        :key="index"
+        :prop="column.prop"
+        :label="column.label"
+        :width="column.width || 'auto'"
+      >
+        <!-- 重写列内容 -->
+        <template #default="scope">
+          <div>
+            <!-- 获取当前行数据（item） -->
+            <span v-if="column.prop === 'num'">
+              {{
+                (pagination.currentPage - 1) * pagination.pageSize +
+                scope.$index +
+                1
+              }}
+            </span>
+            <!-- 其他列默认渲染 -->
+            <span v-else>
+              {{ scope.row[column.prop] }}
+            </span>
+          </div>
+        </template>
+      </el-table-column>
+      <!-- 操作列 -->
+      <el-table-column fixed="right" label="操作" min-width="200">
+        <template #default="scope">
+          <el-button
+            link
+            type="primary"
+            size="small"
+            @click="openUpdate(scope.row)"
+          >
+            详情
+          </el-button>
+          <el-button
+            link
+            type="primary"
+            size="small"
+            @click="onReply(scope.row)"
+          >
+            回复
+          </el-button>
+          <el-popconfirm title="确定要删除评论吗?">
+            <template #reference>
+              <el-button link type="danger" size="small"> 删除 </el-button>
+            </template>
+            <template #actions="{ confirm, cancel }">
+              <el-button size="small" @click="cancel">否</el-button>
+              <el-button
+                type="danger"
+                size="small"
+                @click="delConfirm1(scope.row, cancel)"
+              >
+                是
+              </el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 分页 -->
+    <el-row style="margin: 20px 0 0">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :current-page="pagination.currentPage"
+        :page-size="pagination.pageSize"
+        :page-count="pagination.totalPage"
+        @current-change="handlePageChange"
+        @size-change="handleSizeChange"
+      />
+    </el-row>
+  </el-drawer>
+  <!-- 弹窗 回复评论 -->
+  <el-dialog v-model="dialogVisible" title="回复内容" width="700">
+    <template #default>
+      <el-form ref="cformRef" :model="cform" label-width="auto">
+        <el-form-item label="回复内容" prop="reply">
+          <el-input v-model="cform.reply" type="textarea" />
+        </el-form-item>
+        <el-button type="primary" @click.prevent="replySubmit(cformRef)"
+          >确认</el-button
+        >
+      </el-form>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -351,6 +474,9 @@ import {
   fetchGoodsDel,
   fetchGoodsAdd,
   fetchGoodsUpdate,
+  fetchCommentListPage,
+  fetchCommentUpdate,
+  fetchCommentDel,
 } from "@/services/backServices";
 import { fetchSPFL } from "@/services/homeServices";
 import { reactive, onMounted, ref } from "vue";
@@ -372,13 +498,26 @@ const ksflList = ref({});
 // 控制 el-drawer 的显示状态
 const drawerVisible = ref(false);
 const adddrawerVisible = ref(false);
+const commentdrawerVisible = ref(false);
+// 控制对话框显示状态
+const dialogVisible = ref(false);
+
 const selectRow = ref({});
+const selectRow1 = ref({});
 //查询 form
 const formRef = ref();
 const form = reactive({
   shangpinfenlei: "",
   biaoqian: "",
   pinpai: "",
+});
+const formRef1 = ref();
+const form1 = reactive({
+  content: "",
+});
+const cformRef = ref();
+const cform = reactive({
+  reply: "",
 });
 //llist form
 const infoformRef = ref();
@@ -408,6 +547,7 @@ const addValidateForm = reactive({
 const selectedRows = ref([]);
 // 表头数据
 const tableData = ref([]);
+const tableData1 = ref([]);
 // 自定义表头
 const columns = ref([
   { prop: "num", label: "序号", width: "80" },
@@ -418,7 +558,11 @@ const columns = ref([
   { prop: "pinpai", label: "系列", width: "120" },
   { prop: "price", label: "价格", width: "180" },
 ]);
-
+const columns1 = ref([
+  { prop: "num", label: "序号", width: "80" },
+  { prop: "content", label: "评论内容", width: "330" },
+  { prop: "reply", label: "回复内容", width: "330" },
+]);
 // 构建查询参数
 const buildQueryParams = () => {
   const query = {};
@@ -430,6 +574,14 @@ const buildQueryParams = () => {
   }
   if (form.pinpai) {
     query.pinpai = `%${form.pinpai}%`;
+  }
+  return query;
+};
+const buildQueryParams1 = () => {
+  const query = { refid: selectRow.value.id };
+  console.log(selectRow);
+  if (form1.content) {
+    query.content = `%${form.content}%`;
   }
   return query;
 };
@@ -496,6 +648,28 @@ const openUpdate = async (row) => {
   infoValidateForm.pinpai = row.pinpai || "";
   selectRow.value = row;
   drawerVisible.value = true;
+};
+//加载 评论
+const openComment = async (row) => {
+  selectRow.value = row;
+  commentdrawerVisible.value = true;
+  await fetchCommentData();
+};
+const fetchCommentData = async () => {
+  try {
+    const query = buildQueryParams1(); // 使用统一查询方法
+    const { list, totalPage, currPage } = await fetchCommentListPage(
+      query,
+      pagination.currentPage,
+      pagination.pageSize
+    );
+    // 获取list信息
+    tableData1.value = list;
+    pagination.totalPage = totalPage || 0; // 更新总页数
+    pagination.currentPage = currPage || 1; // 更新当前页码
+  } catch (error) {
+    console.error("Failed to fetch table columns:", error);
+  }
 };
 //打开抽屉
 const openAdd = async () => {
@@ -639,7 +813,61 @@ const delConfirm = async (row) => {
     });
   }
 };
+//del row 评论
+const delConfirm1 = async (row, cancel) => {
+  const msg = await fetchCommentDel([row.id]);
+  if (msg == 0) {
+    ElMessage({
+      type: "success",
+      message: "删除成功",
+    });
+    //刷新
+    commentdrawerVisible.value = false;
+    cancel();
+    await fetchData();
+  } else {
+    ElMessage({
+      type: "error",
+      message: "删除失败",
+    });
+  }
+};
+//reply update 评论
+const onReply = (row) => {
+  selectRow1.value = row;
+  dialogVisible.value = true;
+  console.log(row);
+};
 
+const replySubmit = async (formEl) => {
+  if (!formEl) return;
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      const params = {
+        ...selectRow1.value,
+        ...cform,
+      };
+      console.log(params);
+      const msg = await fetchCommentUpdate(params);
+      if (msg === 0) {
+        ElMessage({
+          message: "回复成功",
+          type: "success",
+        });
+        dialogVisible.value = false;
+        await fetchCommentData();
+      } else {
+        ElMessage({
+          message: "回复失败",
+          type: "error",
+        });
+      }
+      console.log("submit!");
+    } else {
+      console.log("error submit!", fields);
+    }
+  });
+};
 // 切换页码
 const handlePageChange = async (page) => {
   pagination.currentPage = page;
@@ -659,7 +887,7 @@ onMounted(fetchData);
 
 <style lang="scss" scoped>
 .table {
-  height: 500px;
+  height: 400px;
 }
 .form {
   margin: 10px 0;

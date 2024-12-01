@@ -30,8 +30,7 @@
             <span class="price"> ￥{{ artItem.price }}</span>
           </p>
           <p><strong>分类：</strong>{{ artItem.shangpinfenlei }}</p>
-
-          <p><strong>品牌：</strong>{{ artItem.pinpai }}</p>
+          <p><strong>作者/系列：</strong>{{ artItem.pinpai }}</p>
           <p><strong>点击数：</strong>{{ artItem.clicknum }}</p>
           <el-button
             :type="isfavor.status ? 'danger' : 'warning'"
@@ -92,7 +91,7 @@
 
               <el-form-item class="form-btns">
                 <el-button type="primary" @click="onSubmit(formRef)"
-                  >查询</el-button
+                  >评论</el-button
                 >
                 <el-button @click="resetForm(formRef)">重置</el-button>
               </el-form-item>
@@ -256,10 +255,7 @@ import {
   fetchSPInfoList,
 } from "@/services/homeServices";
 import { ElMessage } from "element-plus";
-import {
-  fetchAddressList,
-  fetchOrderAdd,
-} from "@/services/userServices";
+import { fetchAddressList, fetchOrderAdd } from "@/services/userServices";
 import { genTradeNo } from "@/utils/util";
 
 const route = useRoute();

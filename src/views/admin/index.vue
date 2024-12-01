@@ -8,6 +8,7 @@
         :open-keys="openKeys"
         theme="dark"
         mode="inline"
+        class="menu-list"
       >
         <template v-for="route in backMenuList" :key="route.path">
           <template v-if="route.children && route.children.length">
@@ -164,6 +165,35 @@ watch(selectedKeys, (newValue) => {
 <style lang="scss" scoped>
 .layout {
   height: 100vh;
+
+  /* 整体滚动条 */
+  ::-webkit-scrollbar {
+    width: 5px; /* 宽度 */
+    height: 5px; /* 高度 */
+  }
+
+  /* 滚动条轨道 */
+  ::-webkit-scrollbar-track {
+    background: #ffffff; /* 轨道背景色 */
+    border-radius: 10px; /* 圆角 */
+  }
+
+  /* 滚动条滑块 */
+  ::-webkit-scrollbar-thumb {
+    background: #222222; /* 滑块颜色 */
+    border-radius: 10px; /* 圆角 */
+  }
+
+  /* 滑块在悬停时的样式 */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4758bb; /* 悬停时颜色 */
+  }
+
+  /* 适用于 Firefox 的滚动条样式 */
+  .scrollable {
+    scrollbar-width: thin; /* 细滚动条 */
+    scrollbar-color: #858585 #f1f1f1; /* 滑块颜色和轨道颜色 */
+  }
 }
 .logo {
   font-weight: bold;
@@ -222,5 +252,9 @@ watch(selectedKeys, (newValue) => {
     display: flex;
     align-items: center;
   }
+}
+.menu-list {
+  height: calc(100vh - 60px);
+  overflow-y: scroll;
 }
 </style>

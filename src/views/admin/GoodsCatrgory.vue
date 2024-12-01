@@ -71,7 +71,7 @@
           修改
         </el-button>
 
-        <el-popconfirm shangpinfenlei="确定要删除吗?">
+        <el-popconfirm title="确定要删除吗?">
           <template #reference>
             <el-button link type="danger" size="small"> 删除 </el-button>
           </template>
