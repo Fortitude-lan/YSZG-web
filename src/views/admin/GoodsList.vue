@@ -355,15 +355,15 @@
     <!-- 选择器 -->
     <el-form ref="formRef1" :model="form1" label-width="auto" class="form">
       <el-form-item label="评论内容" prop="content">
-        <el-input v-model="form.content" />
+        <el-input v-model="form1.content" />
       </el-form-item>
       <el-form-item class="form-btns">
-        <el-button type="primary" @click="onSubmit(formRef1)">查询</el-button>
+        <el-button type="primary" @click="onSubmit1(formRef1)">查询</el-button>
         <el-button @click="resetForm(formRef1)">重置</el-button>
       </el-form-item>
     </el-form>
     <div class="noraml-btn">
-      <button @click="delSubmit()">删除</button>
+      <button @click="delSubmit1()">删除</button>
     </div>
     <!-- 动态渲染表头 -->
     <el-table
@@ -579,10 +579,10 @@ const buildQueryParams = () => {
 };
 const buildQueryParams1 = () => {
   const query = { refid: selectRow.value.id };
-  console.log(selectRow);
   if (form1.content) {
-    query.content = `%${form.content}%`;
+    query.content = `%${form1.content}%`;
   }
+  console.log(query);
   return query;
 };
 //获取数据
@@ -598,6 +598,23 @@ const fetchData = async () => {
     );
     // 获取list信息
     tableData.value = list;
+    pagination.totalPage = totalPage || 0; // 更新总页数
+    pagination.currentPage = currPage || 1; // 更新当前页码
+  } catch (error) {
+    console.error("Failed to fetch table columns:", error);
+  }
+};
+
+const fetchCommentData = async () => {
+  try {
+    const query = buildQueryParams1(); // 使用统一查询方法
+    const { list, totalPage, currPage } = await fetchCommentListPage(
+      query,
+      pagination.currentPage,
+      pagination.pageSize
+    );
+    // 获取list信息
+    tableData1.value = list;
     pagination.totalPage = totalPage || 0; // 更新总页数
     pagination.currentPage = currPage || 1; // 更新当前页码
   } catch (error) {
@@ -628,7 +645,18 @@ const onSubmit = async (formEl) => {
     }
   });
 };
-
+const onSubmit1 = async (formEl) => {
+  if (!formEl) return;
+  await formEl.validate(async (valid, fields) => {
+    if (valid) {
+      pagination.currentPage = 1; // 查询时重置为第一页
+      await fetchCommentData();
+      console.log("submit!");
+    } else {
+      console.log("error submit!", fields);
+    }
+  });
+};
 const resetForm = (formEl) => {
   if (!formEl) return;
   formEl.resetFields();
@@ -654,22 +682,6 @@ const openComment = async (row) => {
   selectRow.value = row;
   commentdrawerVisible.value = true;
   await fetchCommentData();
-};
-const fetchCommentData = async () => {
-  try {
-    const query = buildQueryParams1(); // 使用统一查询方法
-    const { list, totalPage, currPage } = await fetchCommentListPage(
-      query,
-      pagination.currentPage,
-      pagination.pageSize
-    );
-    // 获取list信息
-    tableData1.value = list;
-    pagination.totalPage = totalPage || 0; // 更新总页数
-    pagination.currentPage = currPage || 1; // 更新当前页码
-  } catch (error) {
-    console.error("Failed to fetch table columns:", error);
-  }
 };
 //打开抽屉
 const openAdd = async () => {
@@ -811,6 +823,41 @@ const delConfirm = async (row) => {
       type: "error",
       message: "删除失败",
     });
+  }
+};
+//del 评论
+const delSubmit1 = () => {
+  console.log("del");
+  if (selectedRows.value.length <= 0) {
+    ElMessage({
+      message: "至少选择一行",
+      type: "warning",
+    });
+  } else {
+    ElMessageBox.confirm("确认删除选中行?", "删除", {
+      confirmButtonText: "删除",
+      cancelButtonText: "取消",
+      type: "warning",
+    })
+      .then(async () => {
+        const ids = selectedRows.value.map((i) => i.id);
+        console.log(ids);
+        const msg = await fetchCommentDel(ids);
+        if (msg == 0) {
+          ElMessage({
+            type: "success",
+            message: "删除成功",
+          });
+          //刷新
+          await fetchCommentData();
+        }
+      })
+      .catch(() => {
+        ElMessage({
+          type: "error",
+          message: "删除失败",
+        });
+      });
   }
 };
 //del row 评论
