@@ -179,7 +179,7 @@ const handleLogin = (formEl) => {
       };
       console.log(params);
       const msg = await loginService(params);
-      if (msg == 0) {
+      if (msg.code == 0) {
         ElMessage({
           message: "登陆成功",
           type: "success",
@@ -201,7 +201,7 @@ const handleLogin = (formEl) => {
           }, 1000); // 适当延迟，例如100毫秒
         });
       } else {
-        ElMessage.error("密码或账号错误");
+        ElMessage.error(msg.msg);
       }
     } else {
       console.log("error submit!");

@@ -1,8 +1,8 @@
 <template>
   <!-- 选择器 -->
   <el-form ref="formRef" :model="form" label-width="auto" class="form">
-    <el-form-item label="用户名" prop="yonghuming">
-      <el-input v-model="form.yonghuming" />
+    <el-form-item label="标题" prop="shangpinfenlei">
+      <el-input v-model="form.shangpinfenlei" />
     </el-form-item>
     <el-form-item class="form-btns">
       <el-button type="primary" @click="onSubmit(formRef)">查询</el-button>
@@ -45,7 +45,7 @@
             }}
             <!-- 显示当前列的值，并显示当前行号 -->
           </span>
-          <span v-else-if="column.prop === 'touxiang'">
+          <span v-else-if="column.prop === 'picture'">
             <img
               :src="scope.row[column.prop]"
               alt="图片"
@@ -60,7 +60,7 @@
       </template>
     </el-table-column>
     <!-- 操作列 -->
-    <el-table-column fixed="right" label="操作" min-width="200">
+    <el-table-column label="操作" min-width="200">
       <template #default="scope">
         <el-button
           link
@@ -70,22 +70,8 @@
         >
           修改
         </el-button>
-        <el-popconfirm title="确定要将该用户加入黑名单?">
-          <template #reference>
-            <el-button link type="danger" size="small"> +黑名单 </el-button>
-          </template>
-          <template #actions="{ confirm, cancel }">
-            <el-button size="small" @click="cancel">否</el-button>
-            <el-button
-              type="danger"
-              size="small"
-              @click="addBlacklist(scope.row)"
-            >
-              是
-            </el-button>
-          </template>
-        </el-popconfirm>
-        <el-popconfirm title="确定要删除吗?">
+
+        <el-popconfirm shangpinfenlei="确定要删除吗?">
           <template #reference>
             <el-button link type="danger" size="small"> 删除 </el-button>
           </template>
@@ -116,92 +102,20 @@
     />
   </el-row>
   <!-- 抽屉 修改 -->
-  <el-drawer v-model="drawerVisible" title="修改信息" size="80%">
+  <el-drawer v-model="drawerVisible" shangpinfenlei="修改分类" size="80%">
     <el-form ref="infoformRef" :model="infoValidateForm" class="form-layout">
       <div class="form-row">
-        <el-form-item label="账号" class="form-item" required>
+        <el-form-item
+          label="分类名称"
+          class="form-item"
+          required
+          prop="shangpinfenlei"
+        >
           <el-input
-            v-model="infoValidateForm.yonghuming"
-            placeholder="账号"
+            v-model="infoValidateForm.shangpinfenlei"
+            placeholder="分类名称"
             required
           />
-        </el-form-item>
-        <el-form-item label="密码" class="form-item" required>
-          <el-input
-            :type="isPasswordVisible ? 'text' : 'password'"
-            v-model="infoValidateForm.mima"
-            placeholder="密码"
-            required
-          >
-            <template #append>
-              <component
-                :is="isPasswordVisible ? PiEyeBold : PiEyeClosed"
-                @click="togglePasswordVisibility"
-                style="cursor: pointer; font-size: 20px"
-              />
-            </template>
-          </el-input>
-        </el-form-item>
-      </div>
-      <div class="form-row">
-        <el-form-item label="姓名" class="form-item">
-          <el-input
-            v-model="infoValidateForm.xingming"
-            placeholder="姓名"
-            required
-          />
-        </el-form-item>
-        <el-form-item label="性别">
-          <el-select
-            v-model="infoValidateForm.xingbie"
-            placeholder="选择性别"
-            required
-          >
-            <el-option label="男" value="男"></el-option>
-            <el-option label="女" value="女"></el-option>
-          </el-select>
-        </el-form-item>
-      </div>
-      <div class="form-row">
-        <el-form-item label="电话" class="form-item">
-          <el-input
-            v-model="infoValidateForm.lianxidianhua"
-            placeholder="电话"
-            required
-          />
-        </el-form-item>
-      </div>
-      <div class="form-row">
-        <el-form-item label="照片" class="form-item">
-          <el-upload
-            class="upload-demo"
-            drag
-            :action="`${baseUrl}/file/upload`"
-            :headers="headers"
-            :show-file-list="false"
-            :on-success="(res) => handleUpdateImage(res, 'update')"
-          >
-            <img
-              :style="{
-                border: '1px dashed #999',
-                cursor: 'pointer',
-                color: '#999',
-                borderRadius: '6px',
-                textAlign: 'center',
-                background: '#f9f9f9',
-                width: '150px',
-                fontSize: '32px',
-                lineHeight: '100px',
-                height: 'auto',
-              }"
-              v-if="infoValidateForm.touxiang"
-              :src="infoValidateForm.touxiang"
-              class="avatar"
-            />
-
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">点击上传</div>
-          </el-upload>
         </el-form-item>
       </div>
       <div class="tt">
@@ -211,95 +125,31 @@
           class="edit-button"
           >提交</el-button
         >
+        <el-button
+          type="primary"
+          plain
+          @click="drawerVisible = false"
+          class="edit-button"
+          >取消</el-button
+        >
       </div>
     </el-form>
   </el-drawer>
   <!-- 抽屉 add -->
-  <el-drawer v-model="adddrawerVisible" title="添加用户" size="80%">
+  <el-drawer v-model="adddrawerVisible" shangpinfenlei="添加分类" size="80%">
     <el-form ref="addformRef" :model="addValidateForm" class="form-layout">
       <div class="form-row">
-        <el-form-item label="账号" class="form-item" required>
+        <el-form-item
+          label="分类名称"
+          class="form-item"
+          required
+          prop="shangpinfenlei"
+        >
           <el-input
-            v-model="addValidateForm.yonghuming"
-            placeholder="账号"
+            v-model="addValidateForm.shangpinfenlei"
+            placeholder="分类名称"
             required
           />
-        </el-form-item>
-        <el-form-item label="密码" class="form-item" required>
-          <el-input
-            :type="isPasswordVisible ? 'text' : 'password'"
-            v-model="addValidateForm.mima"
-            placeholder="密码"
-            required
-          >
-            <template #append>
-              <component
-                :is="isPasswordVisible ? PiEyeBold : PiEyeClosed"
-                @click="togglePasswordVisibility"
-                style="cursor: pointer; font-size: 20px"
-              />
-            </template>
-          </el-input>
-        </el-form-item>
-      </div>
-      <div class="form-row">
-        <el-form-item label="姓名" class="form-item">
-          <el-input
-            v-model="addValidateForm.xingming"
-            placeholder="姓名"
-            required
-          />
-        </el-form-item>
-        <el-form-item label="性别">
-          <el-select
-            v-model="addValidateForm.xingbie"
-            placeholder="选择性别"
-            required
-          >
-            <el-option label="男" value="男"></el-option>
-            <el-option label="女" value="女"></el-option>
-          </el-select>
-        </el-form-item>
-      </div>
-      <div class="form-row">
-        <el-form-item label="电话" class="form-item">
-          <el-input
-            v-model="addValidateForm.lianxidianhua"
-            placeholder="电话"
-            required
-          />
-        </el-form-item>
-      </div>
-      <div class="form-row">
-        <el-form-item label="照片" class="form-item">
-          <el-upload
-            class="upload-demo"
-            drag
-            :action="`${baseUrl}/file/upload`"
-            :headers="headers"
-            :show-file-list="false"
-            :on-success="(res) => handleUpdateImage(res, 'add')"
-          >
-            <img
-              :style="{
-                border: '1px dashed #999',
-                cursor: 'pointer',
-                color: '#999',
-                borderRadius: '6px',
-                textAlign: 'center',
-                background: '#f9f9f9',
-                width: '150px',
-                fontSize: '32px',
-                lineHeight: '100px',
-                height: 'auto',
-              }"
-              :src="addValidateForm.touxiang"
-              class="avatar"
-            />
-
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">点击上传</div>
-          </el-upload>
         </el-form-item>
       </div>
       <div class="tt">
@@ -309,6 +159,13 @@
           class="edit-button"
           >提交</el-button
         >
+        <el-button
+          type="primary"
+          plain
+          @click="adddrawerVisible = false"
+          class="edit-button"
+          >取消</el-button
+        >
       </div>
     </el-form>
   </el-drawer>
@@ -316,16 +173,15 @@
 
 <script setup>
 import {
-  fetchUserListPage,
-  fetchUserDel,
-  fetchUserAddBlacklist,
-  fetchUserAdd,
+  fetchGoodsListPage,
+  fetchGoodsDel,
+  fetchGoodsAdd,
+  fetchGoodsUpdate,
 } from "@/services/backServices";
 import { reactive, onMounted, ref } from "vue";
 import { baseUrl } from "@/utils/util";
 import { TiTick } from "vue3-icons/ti";
 import { PiEyeBold, PiEyeClosed } from "vue3-icons/pi";
-import { fetchSaveInfo } from "@/services/userServices";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { httpURL } from "@/utils/util";
 
@@ -342,27 +198,17 @@ const selectRow = ref({});
 
 const formRef = ref();
 const form = reactive({
-  yonghuming: "",
+  shangpinfenlei: "",
 });
 const infoformRef = ref();
 const infoValidateForm = reactive({
-  yonghuming: "",
-  mima: "",
-  xingming: "",
-  xingbie: "",
-  lianxidianhua: "",
-  money: 0,
-  touxiang: null,
+  id: "",
+  shangpinfenlei: "",
 });
 const addformRef = ref();
 const addValidateForm = reactive({
-  yonghuming: "",
-  mima: "",
-  xingming: "",
-  xingbie: "",
-  lianxidianhua: "",
-  money: 0,
-  touxiang: null,
+  id: "",
+  shangpinfenlei: "",
 });
 // 选中的行
 const selectedRows = ref([]);
@@ -371,19 +217,14 @@ const tableData = ref([]);
 // 自定义表头
 const columns = ref([
   { prop: "num", label: "序号", width: "80" },
-  { prop: "yonghuming", label: "账号", width: "130" },
-  { prop: "mima", label: "密码", width: "120" },
-  { prop: "xingming", label: "姓名", width: "100" },
-  { prop: "touxiang", label: "头像", width: "100" },
-  { prop: "xingbie", label: "性别", width: "80" },
-  { prop: "lianxidianhua", label: "联系电话", width: "150" },
+  { prop: "shangpinfenlei", label: "艺术品分类", width: "400" },
 ]);
 
 // 构建查询参数
 const buildQueryParams = () => {
   const query = {};
-  if (form.yonghuming) {
-    query.yonghuming = `%${form.yonghuming}%`;
+  if (form.shangpinfenlei) {
+    query.shangpinfenlei = `%${form.shangpinfenlei}%`;
   }
   return query;
 };
@@ -391,7 +232,7 @@ const buildQueryParams = () => {
 const fetchData = async () => {
   try {
     const query = buildQueryParams(); // 使用统一查询方法
-    const { list, totalPage, currPage } = await fetchUserListPage(
+    const { list, totalPage, currPage } = await fetchGoodsListPage(
       query,
       pagination.currentPage,
       pagination.pageSize
@@ -434,23 +275,14 @@ const resetForm = (formEl) => {
   formEl.resetFields();
 };
 
-// 控制密码显示/隐藏的状态
-const isPasswordVisible = ref(false);
-// 切换密码可见性
-const togglePasswordVisibility = () => {
-  isPasswordVisible.value = !isPasswordVisible.value;
-};
 const openUpdate = async (row) => {
   // 回显数据到表单
-  infoValidateForm.addtime = row.addtime || "";
-  infoValidateForm.yonghuming = row.yonghuming || "";
-  infoValidateForm.mima = row.mima || "";
-  infoValidateForm.xingming = row.xingming || "";
-  infoValidateForm.xingbie = row.xingbie || "";
-  infoValidateForm.lianxidianhua = row.lianxidianhua || "";
-  infoValidateForm.money = Number(row.money) || 0;
-  infoValidateForm.touxiang = row.touxiang || null;
-  console.log(infoValidateForm.touxiang.split("upload")[0]);
+
+  infoValidateForm.id = row.id || "";
+  infoValidateForm.shangpinfenlei = row.shangpinfenlei || "";
+  infoValidateForm.introduction = row.introduction || null;
+  infoValidateForm.content = row.content || null;
+  infoValidateForm.picture = row.picture || null;
   selectRow.value = row;
   drawerVisible.value = true;
 };
@@ -466,12 +298,12 @@ const handleUpdateImage = (response, type) => {
     imageUrl = `${httpURL}/upload/${response.file}`; // 修改为实际的返回路径字段
     console.log(imageUrl);
 
-    addValidateForm.touxiang = imageUrl; // 更新表单中的图片路径
+    addValidateForm.picture = imageUrl; // 更新表单中的图片路径
   } else {
     imageUrl = `${httpURL}/upload/${response.file}`; // 修改为实际的返回路径字段
     console.log(imageUrl);
 
-    infoValidateForm.touxiang = imageUrl; // 更新表单中的图片路径
+    infoValidateForm.picture = imageUrl; // 更新表单中的图片路径
   }
 
   // 提示用户上传成功
@@ -488,10 +320,10 @@ const onAddSubmit = async (formEl) => {
   await formEl.validate(async (valid, fields) => {
     if (valid) {
       const params = {
-        ...selectRow.value,
         ...addValidateForm,
       };
-      const msg = await fetchUserAdd(params);
+      console.log(params);
+      const msg = await fetchGoodsAdd(params);
       if (msg === 0) {
         ElMessage({
           message: "添加成功",
@@ -517,9 +349,11 @@ const onUpdateSubmit = async (formEl) => {
   await formEl.validate(async (valid, fields) => {
     if (valid) {
       const params = {
+        ...selectRow.value,
         ...infoValidateForm,
       };
-      const msg = await fetchSaveInfo("yonghu", params);
+      console.log(params);
+      const msg = await fetchGoodsUpdate(params);
       if (msg === 0) {
         ElMessage({
           message: "修改成功",
@@ -556,7 +390,7 @@ const delSubmit = () => {
       .then(async () => {
         const ids = selectedRows.value.map((i) => i.id);
         console.log(ids);
-        const msg = await fetchUserDel(ids);
+        const msg = await fetchGoodsDel(ids);
         if (msg == 0) {
           ElMessage({
             type: "success",
@@ -577,7 +411,7 @@ const delSubmit = () => {
 //del row
 const delConfirm = async (row) => {
   console.log(row);
-  const msg = await fetchUserDel([row.id]);
+  const msg = await fetchGoodsDel([row.id]);
   if (msg == 0) {
     ElMessage({
       type: "success",
@@ -589,24 +423,6 @@ const delConfirm = async (row) => {
     ElMessage({
       type: "error",
       message: "删除失败",
-    });
-  }
-};
-//add 黑名单
-const addBlacklist = async (row) => {
-  console.log(row);
-  const msg = await fetchUserAddBlacklist({ ids: row.id });
-  if (msg == 0) {
-    ElMessage({
-      type: "success",
-      message: "黑名单添加成功",
-    });
-    //刷新
-    await fetchData();
-  } else {
-    ElMessage({
-      type: "error",
-      message: "黑名单添加失败",
     });
   }
 };
@@ -652,6 +468,11 @@ onMounted(fetchData);
 .tt {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 100px 0 20px;
+}
+.no-flex {
+  :deep(.el-form-item__content) {
+    display: block;
+  }
 }
 </style>

@@ -200,9 +200,9 @@ const handleLogin = (formEl) => {
       };
       console.log(params);
       const msg = await loginService(params);
-      if (msg == 0) {
+      if (msg.code == 0) {
         ElMessage({
-          message: "登陆成功",
+          message: "登录成功",
           type: "success",
         });
         dialogVisible.value = false; // 关闭对话框
@@ -212,7 +212,7 @@ const handleLogin = (formEl) => {
           username: params.username,
         });
       } else {
-        ElMessage.error("密码或账号错误");
+        ElMessage.error(msg.msg);
       }
     } else {
       console.log("error submit!");

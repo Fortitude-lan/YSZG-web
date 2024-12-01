@@ -373,6 +373,7 @@ const onAddSubmit = async (formEl) => {
           type: "success",
         });
         adddrawerVisible.value = false;
+        formEl.resetFields();
         await fetchData();
       } else {
         ElMessage({

@@ -47,4 +47,8 @@ export const API_ENDPOINTS = {
   newsAddAPI: 'news/save',//咨询 add
   newsUpdateAPI: 'news/update',//咨询 ip
   newsDelAPI: 'news/delete',//咨询 del
+  goodsListAPI: 'shangpinfenlei/page',//咨询 list
+  goodsAddAPI: 'shangpinfenlei/save',//咨询 add
+  goodsUpdateAPI: 'shangpinfenlei/update',//咨询 ip
+  goodsDelAPI: 'shangpinfenlei/delete',//咨询 del
 };

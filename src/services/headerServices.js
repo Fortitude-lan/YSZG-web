@@ -17,7 +17,7 @@ export const loginService = async (params) => {
             localStorage.setItem('adminName', params.username);
             getSession()
         }
-        return res.code
+        return res
 
     } catch (error) {
         console.error('Error fetching carousel images:', error);

@@ -53,6 +53,8 @@ import UserManagBlack from '@/views/admin/UserManagBlack.vue'
 import SystemPicture from '@/views/admin/SystemPicture.vue'
 //系统管理--咨询
 import SystemNews from '@/views/admin/SystemNews.vue'
+//艺术品管理--分类
+import GoodsCatrgory from '@/views/admin/GoodsCatrgory.vue'
 
 
 /* ***********后台 end************ */
@@ -193,78 +195,6 @@ const routes = [
                     },
                 ]
             },
-
-            // {
-            //     path: '/updatePassword',
-            //     name: '修改密码',
-            //     component: UpdatePassword,
-            //     meta: { icon: '', title: 'updatePassword' }
-            // }, {
-            //     path: '/pay',
-            //     name: '支付',
-            //     component: pay,
-            //     meta: { icon: '', title: 'pay' }
-            // }, {
-            //     path: '/center',
-            //     name: '个人信息',
-            //     component: center,
-            //     meta: { icon: '', title: 'center' }
-            // }
-            //     , {
-            //     path: '/heimingdan',
-            //     name: '黑名单',
-            //     component: heimingdan
-            // }
-            //     , {
-            //     path: '/news',
-            //     name: '商品资讯',
-            //     component: news
-            // }
-            //     , {
-            //     path: '/shangpinpingjia',
-            //     name: '商品评价',
-            //     component: shangpinpingjia
-            // }
-            //     , {
-            //     path: '/yonghu',
-            //     name: '用户',
-            //     component: yonghu
-            // }
-            //     , {
-            //     path: '/shangpinfenlei',
-            //     name: '商品分类',
-            //     component: shangpinfenlei
-            // }
-            //     , {
-            //     path: '/chat',
-            //     name: '客服管理',
-            //     component: chat
-            // }
-            //     , {
-            //     path: '/discussshangpinxinxi',
-            //     name: '商品信息评论',
-            //     component: discussshangpinxinxi
-            // }
-            //     , {
-            //     path: '/shangpinxinxi',
-            //     name: '商品信息',
-            //     component: shangpinxinxi
-            // }
-            //     , {
-            //     path: '/orders/:status',
-            //     name: '订单管理',
-            //     component: orders
-            // }
-            //     , {
-            //     path: '/storeup',
-            //     name: '心愿单管理',
-            //     component: storeup
-            // }
-            //     , {
-            //     path: '/config',
-            //     name: '轮播图管理',
-            //     component: config
-            // }
         ]
     },
     {
@@ -338,6 +268,31 @@ const routes = [
                 component: UserManagBlack,
                 icon: ''
             }]
+        },
+        {
+            path: 'artmanagement',
+            name: '艺术品管理',
+            show: true,
+            icon: IoFileTray,
+            children: [{
+                path: 'index',
+                name: '艺术品分类',
+                component: GoodsCatrgory,
+                icon: ''
+            },
+            {
+                path: 'artlist',
+                name: '艺术品信息',
+                component: UserManagBlack,
+                icon: ''
+            },
+            {
+                path: 'artcommend',
+                name: '艺术品评价',
+                component: UserManagBlack,
+                icon: ''
+            },
+        ]
         }]
     },
     {

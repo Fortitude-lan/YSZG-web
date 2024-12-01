@@ -26,7 +26,7 @@ export const loginService = async (params) => {
             }
             getSession(role);
         }
-        return res.code
+        return res
 
     } catch (error) {
         console.error('Error fetching :', error);
@@ -272,6 +272,51 @@ export const fetchNewsDel = async (params) => {
     try {
         // console.log(params)
         const res = await post(API_ENDPOINTS.newsDelAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+//  Goods list
+export const fetchGoodsListPage = async (params, page, limit) => {
+    try {
+        const response = await get(API_ENDPOINTS.goodsListAPI, {
+            ...params, page, limit, sort: 'id',
+        });
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+// Goods add
+export const fetchGoodsAdd = async (params) => {
+    try {
+        const res = await post(API_ENDPOINTS.goodsAddAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+// Goods update
+export const fetchGoodsUpdate = async (params) => {
+    try {
+        const response = await await post(API_ENDPOINTS.goodsUpdateAPI, params);
+        return response.code
+    } catch (error) {
+        console.error("Error sending chat message:", error);
+    }
+};
+// Goods  del
+export const fetchGoodsDel = async (params) => {
+    try {
+        // console.log(params)
+        const res = await post(API_ENDPOINTS. goodsDelAPI, params);
         return res.code
 
     } catch (error) {
