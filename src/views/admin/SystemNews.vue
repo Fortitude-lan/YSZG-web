@@ -1,8 +1,8 @@
 <template>
   <!-- 选择器 -->
   <el-form ref="formRef" :model="form" label-width="auto" class="form">
-    <el-form-item label="用户名" prop="name">
-      <el-input v-model="form.name" />
+    <el-form-item label="标题" prop="title">
+      <el-input v-model="form.title" />
     </el-form-item>
     <el-form-item class="form-btns">
       <el-button type="primary" @click="onSubmit(formRef)">查询</el-button>
@@ -45,7 +45,7 @@
             }}
             <!-- 显示当前列的值，并显示当前行号 -->
           </span>
-          <span v-else-if="column.prop === 'value'">
+          <span v-else-if="column.prop === 'picture'">
             <img
               :src="scope.row[column.prop]"
               alt="图片"
@@ -105,14 +105,15 @@
   <el-drawer v-model="drawerVisible" title="修改信息" size="80%">
     <el-form ref="infoformRef" :model="infoValidateForm" class="form-layout">
       <div class="form-row">
-        <el-form-item label="名称" class="form-item" required prop="name">
+        <el-form-item label="标题" class="form-item" required prop="title">
           <el-input
-            v-model="infoValidateForm.name"
-            placeholder="名称"
+            v-model="infoValidateForm.title"
+            placeholder="标题"
             required
           />
         </el-form-item>
-        <el-form-item label="照片" class="form-item">
+
+        <el-form-item label="图片" class="form-item" required>
           <el-upload
             class="upload-demo"
             drag
@@ -134,14 +135,39 @@
                 lineHeight: '100px',
                 height: 'auto',
               }"
-              v-if="infoValidateForm.value"
-              :src="infoValidateForm.value"
+              v-if="infoValidateForm.picture"
+              :src="infoValidateForm.picture"
               class="avatar"
             />
 
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">点击上传</div>
           </el-upload>
+        </el-form-item>
+        <el-form-item
+          label="标题"
+          class="form-item"
+          required
+          prop="introduction"
+        >
+          <el-input
+            type="textarea"
+            minlengt="5"
+            maxlength="200"
+            placeholder="简介"
+            show-word-limit
+            v-model="infoValidateForm.introduction"
+            rows="5"
+          />
+        </el-form-item>
+        <el-form-item label="内容" required prop="content">
+          <div class="no-flex">
+            <QuillEditor
+              theme="snow"
+              v-model:content="infoValidateForm.content"
+              contentType="html"
+            />
+          </div>
         </el-form-item>
       </div>
       <div class="tt">
@@ -151,6 +177,13 @@
           class="edit-button"
           >提交</el-button
         >
+        <el-button
+          type="primary"
+          plain
+          @click="drawerVisible = false"
+          class="edit-button"
+          >取消</el-button
+        >
       </div>
     </el-form>
   </el-drawer>
@@ -158,14 +191,15 @@
   <el-drawer v-model="adddrawerVisible" title="添加" size="80%">
     <el-form ref="addformRef" :model="addValidateForm" class="form-layout">
       <div class="form-row">
-        <el-form-item label="名称" class="form-item" required>
+        <el-form-item label="标题" class="form-item" required prop="title">
           <el-input
-            v-model="addValidateForm.name"
-            placeholder="名称"
+            v-model="addValidateForm.title"
+            placeholder="标题"
             required
           />
         </el-form-item>
-        <el-form-item label="照片" class="form-item">
+
+        <el-form-item label="图片" class="form-item" required>
           <el-upload
             class="upload-demo"
             drag
@@ -187,7 +221,8 @@
                 lineHeight: '100px',
                 height: 'auto',
               }"
-              :src="addValidateForm.value"
+              v-if="addValidateForm.picture"
+              :src="addValidateForm.picture"
               class="avatar"
             />
 
@@ -195,14 +230,45 @@
             <div class="el-upload__text">点击上传</div>
           </el-upload>
         </el-form-item>
+        <el-form-item
+          label="标题"
+          class="form-item"
+          required
+          prop="introduction"
+        >
+          <el-input
+            type="textarea"
+            minlengt="5"
+            maxlength="200"
+            placeholder="简介"
+            show-word-limit
+            v-model="addValidateForm.introduction"
+            :rows="5"
+          />
+        </el-form-item>
+        <el-form-item label="内容" required prop="content">
+          <div class="no-flex">
+            <QuillEditor
+              theme="snow"
+              v-model:content="addValidateForm.content"
+              contentType="html"
+            />
+          </div>
+        </el-form-item>
       </div>
-
       <div class="tt">
         <el-button
           type="primary"
           @click.prevent="onAddSubmit(addformRef)"
           class="edit-button"
           >提交</el-button
+        >
+        <el-button
+          type="primary"
+          plain
+          @click="adddrawerVisible = false"
+          class="edit-button"
+          >取消</el-button
         >
       </div>
     </el-form>
@@ -211,16 +277,15 @@
 
 <script setup>
 import {
-  fetchConfigListPage,
-  fetchConfigDel,
-  fetchConfigAdd,
-  fetchConfigUpdate,
+  fetchNewsListPage,
+  fetchNewsDel,
+  fetchNewsAdd,
+  fetchNewsUpdate,
 } from "@/services/backServices";
 import { reactive, onMounted, ref } from "vue";
 import { baseUrl } from "@/utils/util";
 import { TiTick } from "vue3-icons/ti";
 import { PiEyeBold, PiEyeClosed } from "vue3-icons/pi";
-import { fetchSaveInfo } from "@/services/userServices";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { httpURL } from "@/utils/util";
 
@@ -237,18 +302,23 @@ const selectRow = ref({});
 
 const formRef = ref();
 const form = reactive({
-  name: "",
+  title: "",
 });
 const infoformRef = ref();
 const infoValidateForm = reactive({
   id: "",
-  name: "",
-  value: "",
+  title: "",
+  introduction: "",
+  content: "",
+  picture: null,
 });
 const addformRef = ref();
 const addValidateForm = reactive({
-  name: "",
-  value: "",
+  id: "",
+  title: "",
+  introduction: "",
+  content: "",
+  picture: null,
 });
 // 选中的行
 const selectedRows = ref([]);
@@ -257,15 +327,17 @@ const tableData = ref([]);
 // 自定义表头
 const columns = ref([
   { prop: "num", label: "序号", width: "80" },
-  { prop: "name", label: "名称", width: "130" },
-  { prop: "value", label: "值", width: "120" },
+  { prop: "title", label: "标题", width: "130" },
+  { prop: "introduction", label: "简介", width: "130" },
+  { prop: "picture", label: "图片", width: "120" },
+  // { prop: "content", label: "内容", width: "130" },
 ]);
 
 // 构建查询参数
 const buildQueryParams = () => {
   const query = {};
-  if (form.name) {
-    query.name = `%${form.name}%`;
+  if (form.title) {
+    query.title = `%${form.title}%`;
   }
   return query;
 };
@@ -273,7 +345,7 @@ const buildQueryParams = () => {
 const fetchData = async () => {
   try {
     const query = buildQueryParams(); // 使用统一查询方法
-    const { list, totalPage, currPage } = await fetchConfigListPage(
+    const { list, totalPage, currPage } = await fetchNewsListPage(
       query,
       pagination.currentPage,
       pagination.pageSize
@@ -318,9 +390,12 @@ const resetForm = (formEl) => {
 
 const openUpdate = async (row) => {
   // 回显数据到表单
+
   infoValidateForm.id = row.id || "";
-  infoValidateForm.name = row.name || "";
-  infoValidateForm.value = row.value || null;
+  infoValidateForm.title = row.title || "";
+  infoValidateForm.introduction = row.introduction || null;
+  infoValidateForm.content = row.content || null;
+  infoValidateForm.picture = row.picture || null;
   selectRow.value = row;
   drawerVisible.value = true;
 };
@@ -336,12 +411,12 @@ const handleUpdateImage = (response, type) => {
     imageUrl = `${httpURL}/upload/${response.file}`; // 修改为实际的返回路径字段
     console.log(imageUrl);
 
-    addValidateForm.value = imageUrl; // 更新表单中的图片路径
+    addValidateForm.picture = imageUrl; // 更新表单中的图片路径
   } else {
     imageUrl = `${httpURL}/upload/${response.file}`; // 修改为实际的返回路径字段
     console.log(imageUrl);
 
-    infoValidateForm.value = imageUrl; // 更新表单中的图片路径
+    infoValidateForm.picture = imageUrl; // 更新表单中的图片路径
   }
 
   // 提示用户上传成功
@@ -360,7 +435,8 @@ const onAddSubmit = async (formEl) => {
       const params = {
         ...addValidateForm,
       };
-      const msg = await fetchConfigAdd(params);
+      console.log(params);
+      const msg = await fetchNewsAdd(params);
       if (msg === 0) {
         ElMessage({
           message: "添加成功",
@@ -388,7 +464,8 @@ const onUpdateSubmit = async (formEl) => {
         ...selectRow.value,
         ...infoValidateForm,
       };
-      const msg = await fetchConfigUpdate(params);
+      console.log(params);
+      const msg = await fetchNewsUpdate(params);
       if (msg === 0) {
         ElMessage({
           message: "修改成功",
@@ -424,7 +501,8 @@ const delSubmit = () => {
     })
       .then(async () => {
         const ids = selectedRows.value.map((i) => i.id);
-        const msg = await fetchConfigDel(ids);
+        console.log(ids);
+        const msg = await fetchNewsDel([ids]);
         if (msg == 0) {
           ElMessage({
             type: "success",
@@ -445,7 +523,7 @@ const delSubmit = () => {
 //del row
 const delConfirm = async (row) => {
   console.log(row);
-  const msg = await fetchConfigDel([row.id]);
+  const msg = await fetchNewsDel([row.id]);
   if (msg == 0) {
     ElMessage({
       type: "success",
@@ -502,6 +580,11 @@ onMounted(fetchData);
 .tt {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 100px 0 20px;
+}
+.no-flex {
+  :deep(.el-form-item__content) {
+    display: block;
+  }
 }
 </style>
