@@ -47,8 +47,12 @@ export const API_ENDPOINTS = {
   newsAddAPI: 'news/save',//咨询 add
   newsUpdateAPI: 'news/update',//咨询 ip
   newsDelAPI: 'news/delete',//咨询 del
-  goodsListAPI: 'shangpinfenlei/page',//咨询 list
-  goodsAddAPI: 'shangpinfenlei/save',//咨询 add
-  goodsUpdateAPI: 'shangpinfenlei/update',//咨询 ip
-  goodsDelAPI: 'shangpinfenlei/delete',//咨询 del
+  categoryListAPI: 'shangpinfenlei/page',//分类 list
+  categoryAddAPI: 'shangpinfenlei/save',//分类 add
+  categoryUpdateAPI: 'shangpinfenlei/update',//分类 ip
+  categoryDelAPI: 'shangpinfenlei/delete',//分类 del
+  goodsListAPI: 'shangpinxinxi/page',//商品 list
+  goodsAddAPI: 'shangpinxinxi/save',//商品 add
+  goodsUpdateAPI: 'shangpinxinxi/update',//商品 ip
+  goodsDelAPI: 'shangpinxinxi/delete',//商品 del
 };

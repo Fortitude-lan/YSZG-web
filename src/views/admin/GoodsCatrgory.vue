@@ -102,7 +102,7 @@
     />
   </el-row>
   <!-- 抽屉 修改 -->
-  <el-drawer v-model="drawerVisible" shangpinfenlei="修改分类" size="80%">
+  <el-drawer v-model="drawerVisible" title="修改分类" size="80%">
     <el-form ref="infoformRef" :model="infoValidateForm" class="form-layout">
       <div class="form-row">
         <el-form-item
@@ -136,7 +136,7 @@
     </el-form>
   </el-drawer>
   <!-- 抽屉 add -->
-  <el-drawer v-model="adddrawerVisible" shangpinfenlei="添加分类" size="80%">
+  <el-drawer v-model="adddrawerVisible" title="添加分类" size="80%">
     <el-form ref="addformRef" :model="addValidateForm" class="form-layout">
       <div class="form-row">
         <el-form-item
@@ -173,10 +173,10 @@
 
 <script setup>
 import {
-  fetchGoodsListPage,
-  fetchGoodsDel,
-  fetchGoodsAdd,
-  fetchGoodsUpdate,
+  fetchCategoryListPage,
+  fetchCategoryDel,
+  fetchCategoryAdd,
+  fetchCategoryUpdate,
 } from "@/services/backServices";
 import { reactive, onMounted, ref } from "vue";
 import { baseUrl } from "@/utils/util";
@@ -232,7 +232,7 @@ const buildQueryParams = () => {
 const fetchData = async () => {
   try {
     const query = buildQueryParams(); // 使用统一查询方法
-    const { list, totalPage, currPage } = await fetchGoodsListPage(
+    const { list, totalPage, currPage } = await fetchCategoryListPage(
       query,
       pagination.currentPage,
       pagination.pageSize
@@ -323,7 +323,7 @@ const onAddSubmit = async (formEl) => {
         ...addValidateForm,
       };
       console.log(params);
-      const msg = await fetchGoodsAdd(params);
+      const msg = await fetchCategoryAdd(params);
       if (msg === 0) {
         ElMessage({
           message: "添加成功",
@@ -353,7 +353,7 @@ const onUpdateSubmit = async (formEl) => {
         ...infoValidateForm,
       };
       console.log(params);
-      const msg = await fetchGoodsUpdate(params);
+      const msg = await fetchCategoryUpdate(params);
       if (msg === 0) {
         ElMessage({
           message: "修改成功",
@@ -390,7 +390,7 @@ const delSubmit = () => {
       .then(async () => {
         const ids = selectedRows.value.map((i) => i.id);
         console.log(ids);
-        const msg = await fetchGoodsDel(ids);
+        const msg = await fetchCategoryDel(ids);
         if (msg == 0) {
           ElMessage({
             type: "success",
@@ -411,7 +411,7 @@ const delSubmit = () => {
 //del row
 const delConfirm = async (row) => {
   console.log(row);
-  const msg = await fetchGoodsDel([row.id]);
+  const msg = await fetchCategoryDel([row.id]);
   if (msg == 0) {
     ElMessage({
       type: "success",
@@ -446,7 +446,7 @@ onMounted(fetchData);
 
 <style lang="scss" scoped>
 .table {
-  height: 400px;
+  height: 500px;
 }
 .form {
   margin: 10px 0;

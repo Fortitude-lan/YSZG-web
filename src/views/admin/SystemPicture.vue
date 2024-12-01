@@ -488,7 +488,7 @@ onMounted(fetchData);
 
 <style lang="scss" scoped>
 .table {
-  height: 400px;
+  height: 500px;
 }
 .form {
   margin: 10px 0;

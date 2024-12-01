@@ -279,6 +279,51 @@ export const fetchNewsDel = async (params) => {
         throw error; // 抛出错误以供调用者处理
     }
 };
+//  Category list
+export const fetchCategoryListPage = async (params, page, limit) => {
+    try {
+        const response = await get(API_ENDPOINTS.goodsListAPI, {
+            ...params, page, limit, sort: 'id',
+        });
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+// Category update
+export const fetchCategoryUpdate = async (params) => {
+    try {
+        const response = await await post(API_ENDPOINTS.categoryUpdateAPI, params);
+        return response.code
+    } catch (error) {
+        console.error("Error sending chat message:", error);
+    }
+};
+// Category  del
+export const fetchCategoryDel = async (params) => {
+    try {
+        // console.log(params)
+        const res = await post(API_ENDPOINTS.categoryDelAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+// Category add
+export const fetchCategoryAdd = async (params) => {
+    try {
+        const res = await post(API_ENDPOINTS.categoryAddAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
 //  Goods list
 export const fetchGoodsListPage = async (params, page, limit) => {
     try {
@@ -316,7 +361,7 @@ export const fetchGoodsUpdate = async (params) => {
 export const fetchGoodsDel = async (params) => {
     try {
         // console.log(params)
-        const res = await post(API_ENDPOINTS. goodsDelAPI, params);
+        const res = await post(API_ENDPOINTS.goodsDelAPI, params);
         return res.code
 
     } catch (error) {

@@ -55,6 +55,8 @@ import SystemPicture from '@/views/admin/SystemPicture.vue'
 import SystemNews from '@/views/admin/SystemNews.vue'
 //艺术品管理--分类
 import GoodsCatrgory from '@/views/admin/GoodsCatrgory.vue'
+//艺术品管理-- 列表
+import GoodsList from '@/views/admin/GoodsList.vue'
 
 
 /* ***********后台 end************ */
@@ -300,7 +302,7 @@ const routes = [
             {
                 path: 'artlist',
                 name: '艺术品信息',
-                component: UserManagBlack,
+                component: GoodsList,
                 icon: ''
             },
             {
