@@ -406,14 +406,14 @@
       <!-- 操作列 -->
       <el-table-column fixed="right" label="操作" min-width="200">
         <template #default="scope">
-          <el-button
+          <!-- <el-button
             link
             type="primary"
             size="small"
             @click="openUpdate(scope.row)"
           >
             详情
-          </el-button>
+          </el-button> -->
           <el-button
             link
             type="primary"
