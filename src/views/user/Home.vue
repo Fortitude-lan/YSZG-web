@@ -1,5 +1,3 @@
-
-
 <template>
   <div class="block">
     <el-carousel height="100vh">
@@ -23,7 +21,7 @@
             :key="index"
             :class="`item${index + 1}`"
           >
-            <div class="bg">
+            <div class="bg" @click="goToDetail(item)">
               <img :src="`${item.tupian}`" mode="scaleToFill" />
               <div class="info">{{ item.shangpinmingcheng }}</div>
             </div>
@@ -53,20 +51,24 @@
         />
       </div>
       <router-link to="/front/news">
-          <button class="more">更多</button>
-        </router-link>
+        <button class="more">更多</button>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script setup>
+import { reactive, ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import {
   fetchCarouselImages,
   fetchShangpinSortList,
   fetchNewsList,
 } from "@/services/homeServices";
 import News from "@/components/News.vue";
-import { reactive, ref, onMounted } from "vue";
+
+const router = useRouter();
+
 // 分页状态
 const pagination = reactive({
   currentPage: 1, // 当前页码
@@ -95,6 +97,10 @@ const fetchData = async () => {
   } catch (error) {
     console.error("Error fetching news List:", error);
   }
+};
+const goToDetail = (item) => {
+  localStorage.setItem("artItemID", JSON.stringify(item.id)); // 将 item 存储到 localStorage
+  router.push({ name: "艺术品详情", params: { id: item.id } });
 };
 
 // 在组件挂载时调用 fetchData

@@ -62,11 +62,11 @@ onMounted(fetchData);
 </script>
 <style lang="scss" scoped>
 .page {
-  margin-top: 60px;
   min-height: 400px;
   width: 1000px;
-  margin: 60px auto 20px;
+  margin: 80px auto 20px;
 }
+
 .newitem {
   text-align: center;
   .tt {

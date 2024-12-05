@@ -136,18 +136,6 @@ const routes = [
             },
 
             {
-                path: 'artlist',
-                name: '艺术品列表',
-                show: true,
-                component: ArtList,
-            },
-            {
-                path: 'artdetail/:id', // 动态路由参数 :id
-                name: '艺术品详情', // 详情
-                component: ArtDetail,
-                props: true // 将动态路由参数传递给组件
-            },
-            {
                 path: 'news',
                 name: '最新咨询',
                 show: true,
@@ -160,6 +148,19 @@ const routes = [
                 component: NewsDetail,
                 props: true // 将动态路由参数传递给组件
             },
+            {
+                path: 'artlist',
+                name: '艺术品列表',
+                show: true,
+                component: ArtList,
+            },
+            {
+                path: 'artdetail/:id', // 动态路由参数 :id
+                name: '艺术品详情', // 详情
+                component: ArtDetail,
+                props: true // 将动态路由参数传递给组件
+            },
+
             {
                 path: 'chat',
                 name: '智能客服',

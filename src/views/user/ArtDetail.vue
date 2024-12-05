@@ -2,7 +2,7 @@
   <div class="page">
     <!-- 面包屑 -->
     <el-breadcrumb separator="/" class="breadcrumb">
-      <el-breadcrumb-item :to="{ path: '/front/ucenter' }"
+      <el-breadcrumb-item :to="{ path: '/front/artlist' }"
         >当前位置：艺术品详情</el-breadcrumb-item
       >
       <el-breadcrumb-item :to="{ path: route.path }">{{
