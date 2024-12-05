@@ -283,11 +283,10 @@ import {
   fetchNewsUpdate,
 } from "@/services/backServices";
 import { reactive, onMounted, ref } from "vue";
-import { baseUrl } from "@/utils/util";
+import { baseUrl, httpURL } from "@/utils/util";
 import { TiTick } from "vue3-icons/ti";
 import { PiEyeBold, PiEyeClosed } from "vue3-icons/pi";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { httpURL } from "@/utils/util";
 
 // 分页状态
 const pagination = reactive({

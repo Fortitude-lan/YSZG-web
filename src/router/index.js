@@ -68,6 +68,10 @@ import GoodsEvaluate from '@/views/admin/GoodsEvaluate.vue'
 import FavorList from '@/views/admin/FavorList.vue'
 
 
+//订单管理
+import OrderList from '@/views/admin/OrderList.vue'
+
+
 /* ***********后台 end************ */
 import NotFound from '@/views/404.vue'
 
@@ -317,56 +321,53 @@ const routes = [
             show: true,
             icon: IoFileTray,
             children: [
-            {
-                path: 'evaluatemanag',
-                name: '评价管理',
-                component: GoodsEvaluate,
-                icon: ''
-            },
-            {
-                path: 'favormanag',
-                name: '收藏管理',
-                component: FavorList,
-                icon: ''
-            },
+                {
+                    path: 'evaluatemanag',
+                    name: '评价管理',
+                    component: GoodsEvaluate,
+                    icon: ''
+                },
+                {
+                    path: 'favormanag',
+                    name: '收藏管理',
+                    component: FavorList,
+                    icon: ''
+                },
             ]
         },
         {
             path: 'ordermanag',
             name: '订单管理',
             show: true,
+            component: OrderList,
             icon: IoFileTray,
-            children: [{
-                path: 'index',
-                name: '未支付',
-                component: UserCenter,
-                icon: ''
-            },
-            {
-                path: 'payed',
-                name: '已支付',
-                component: UserInfo,
-                icon: ''
-            },
-            {
-                path: 'paycanceled',
-                name: '已取消',
-                component: UserInfo,
-                icon: ''
-            },
-            {
-                path: 'paysent',
-                name: '已发货',
-                component: UserInfo,
-                icon: ''
-            },
-            {
-                path: 'payok',
-                name: '已完成',
-                component: UserInfo,
-                icon: ''
-            }]
-        },]
+        }
+            // {
+            //     path: 'payed',
+            //     name: '已支付',
+            //     component: UserInfo,
+            //     icon: ''
+            // },
+            // {
+            //     path: 'paycanceled',
+            //     name: '已取消',
+            //     component: UserInfo,
+            //     icon: ''
+            // },
+            // {
+            //     path: 'paysent',
+            //     name: '已发货',
+            //     component: UserInfo,
+            //     icon: ''
+            // },
+            // {
+            //     path: 'payok',
+            //     name: '已完成',
+            //     component: UserInfo,
+            //     icon: ''
+            // }
+            // ]
+        ]
     },
     {
         path: '/login',

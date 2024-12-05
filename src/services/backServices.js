@@ -469,3 +469,17 @@ export const fetchCommentDel = async (params) => {
         throw error; // 抛出错误以供调用者处理
     }
 };
+
+//订单 list
+export const fetchFavorPage = async (params, page, limit) => {
+    try {
+        const response = await get(API_ENDPOINTS.favorPageAPI, {
+            ...params, page, limit, sort: 'id',
+        });
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};

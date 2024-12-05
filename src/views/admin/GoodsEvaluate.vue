@@ -16,7 +16,7 @@
     </el-form-item>
   </el-form>
   <div class="noraml-btn">
-    <button @click="openAdd()">新增</button>
+    <button v-if="role == '管理员'" @click="openAdd()">新增</button>
     <button @click="delSubmit()">删除</button>
   </div>
   <!-- 动态渲染表头 -->
@@ -737,37 +737,7 @@ const handleUpdateImage = (response, type) => {
 const headers = ref({
   Token: localStorage.getItem("Token"),
 });
-const onAddSubmit = async (formEl) => {
-  if (!formEl) return;
-  await formEl.validate(async (valid, fields) => {
-    if (valid) {
-      const params = {
-        ...selectRow.value,
-        ...addValidateForm,
-      };
-      console.log(params);
-      debugger;
-      const msg = await fetchEvaluateAdd(params);
-      if (msg === 0) {
-        ElMessage({
-          message: "添加成功",
-          type: "success",
-        });
-        adddrawerVisible.value = false;
-        formEl.resetFields();
-        await fetchData();
-      } else {
-        ElMessage({
-          message: "添加失败",
-          type: "error",
-        });
-      }
-      console.log("submit!");
-    } else {
-      console.log("error submit!", fields);
-    }
-  });
-};
+
 const onUpdateSubmit = async (formEl) => {
   if (!formEl) return;
   await formEl.validate(async (valid, fields) => {
@@ -851,96 +821,7 @@ const delConfirm = async (row) => {
     });
   }
 };
-//del 评论
-const delSubmit1 = () => {
-  console.log("del");
-  if (selectedRows.value.length <= 0) {
-    ElMessage({
-      message: "至少选择一行",
-      type: "warning",
-    });
-  } else {
-    ElMessageBox.confirm("确认删除选中行?", "删除", {
-      confirmButtonText: "删除",
-      cancelButtonText: "取消",
-      type: "warning",
-    })
-      .then(async () => {
-        const ids = selectedRows.value.map((i) => i.id);
-        console.log(ids);
-        const msg = await fetchCommentDel(ids);
-        if (msg == 0) {
-          ElMessage({
-            type: "success",
-            message: "删除成功",
-          });
-          //刷新
-          await fetchCommentData();
-        }
-      })
-      .catch(() => {
-        ElMessage({
-          type: "error",
-          message: "删除失败",
-        });
-      });
-  }
-};
-//del row 评论
-const delConfirm1 = async (row, cancel) => {
-  const msg = await fetchCommentDel([row.id]);
-  if (msg == 0) {
-    ElMessage({
-      type: "success",
-      message: "删除成功",
-    });
-    //刷新
-    aprovaldrawerVisible.value = false;
-    cancel();
-    await fetchData();
-  } else {
-    ElMessage({
-      type: "error",
-      message: "删除失败",
-    });
-  }
-};
-//reply update 评论
-const onReply = (row) => {
-  selectRow1.value = row;
-  dialogVisible.value = true;
-  console.log(row);
-};
 
-const replySubmit = async (formEl) => {
-  if (!formEl) return;
-  await formEl.validate(async (valid, fields) => {
-    if (valid) {
-      const params = {
-        ...selectRow1.value,
-        ...cform,
-      };
-      console.log(params);
-      const msg = await fetchCommentUpdate(params);
-      if (msg === 0) {
-        ElMessage({
-          message: "回复成功",
-          type: "success",
-        });
-        dialogVisible.value = false;
-        await fetchCommentData();
-      } else {
-        ElMessage({
-          message: "回复失败",
-          type: "error",
-        });
-      }
-      console.log("submit!");
-    } else {
-      console.log("error submit!", fields);
-    }
-  });
-};
 // 切换页码
 const handlePageChange = async (page) => {
   pagination.currentPage = page;

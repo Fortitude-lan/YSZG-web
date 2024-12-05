@@ -70,8 +70,6 @@ export const getSession = async () => {
     try {
         // 发起请求，直接在请求头中带上 token
         const response = await get(API_ENDPOINTS.userInfoAPI);
-        console.log(response.code === 0, response.data)
-
         // 处理请求结果
         if (response.code === 0) {
             const sessionData = response.data;
