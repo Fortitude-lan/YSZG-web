@@ -35,7 +35,8 @@ export const fetchChat = async () => {
             userid: userid,
             sort: "addtime",
             order: "asc",
-            t: timestamp
+            t: timestamp,
+            limit: 9999
         });
         console.log(response)
         if (response.code === 0) {

@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-17 14:13:55
  * @LastEditors: Hesin
- * @LastEditTime: 2024-11-22 22:46:16
+ * @LastEditTime: 2024-12-05 16:11:52
 -->
 
 <template>
@@ -82,18 +82,27 @@ const addChat = async () => {
 
   try {
     const response = await fetchAddChat(form.ask);
-
     if (response === 1) {
       form.ask = ""; // 清空输入框
-      await getChatList(); // 重新加载聊天记录
+      // await getChatList(); // 重新加载聊天记录
     }
   } catch (error) {
     console.error("Error sending chat message:", error);
   }
 };
+let intervalId = ref(null);
 // 页面加载时获取聊天记录
 onMounted(async () => {
-  await getChatList(); // 加载聊天记录
+  intervalId.value = setInterval(async () => {
+    await getChatList(); // 加载聊天记录
+  }, 3000);
+});
+import { onBeforeUnmount } from "vue";
+onBeforeUnmount(() => {
+  if (intervalId.value) {
+    clearInterval(intervalId.value); // 清除定时器
+    intervalId.value = null;
+  }
 });
 </script>
 

@@ -53,6 +53,10 @@ import UserManagBlack from '@/views/admin/UserManagBlack.vue'
 import SystemPicture from '@/views/admin/SystemPicture.vue'
 //系统管理--咨询
 import SystemNews from '@/views/admin/SystemNews.vue'
+//系统管理--chat
+import SystemChat from '@/views/admin/SystemChat.vue'
+
+
 //艺术品管理--分类
 import GoodsCatrgory from '@/views/admin/GoodsCatrgory.vue'
 //艺术品管理-- 列表
@@ -240,15 +244,15 @@ const routes = [
                 icon: ''
             },
             {
-                path: 'newsmanag',
+                path: 'sysnew',
                 name: '咨询管理',
                 component: SystemNews,
                 icon: ''
             },
             {
-                path: 'chatmanag',
+                path: 'syschat',
                 name: '客服管理',
-                component: UserInfo,
+                component: SystemChat,
                 icon: ''
             }]
         },

@@ -1,98 +1,98 @@
 <template>
-  <a-layout class="layout">
-    <!-- 侧边栏 -->
-    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-      <div class="logo">LOGO</div>
-      <a-menu
-        v-model:selectedKeys="selectedKeys"
-        :open-keys="openKeys"
-        theme="dark"
-        mode="inline"
-        class="menu-list"
-      >
-        <template v-for="route in backMenuList" :key="route.path">
-          <template v-if="route.children && route.children.length">
-            <a-sub-menu :key="route.path">
-              <template #title>
-                <span>
+    <a-layout class="layout">
+      <!-- 侧边栏 -->
+      <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
+        <div class="logo">LOGO</div>
+        <a-menu
+          v-model:selectedKeys="selectedKeys"
+          :open-keys="openKeys"
+          theme="dark"
+          mode="inline"
+          class="menu-list"
+        >
+          <template v-for="route in backMenuList" :key="route.path">
+            <template v-if="route.children && route.children.length">
+              <a-sub-menu :key="route.path">
+                <template #title>
+                  <span>
+                    <component :is="route.icon" />
+                    <span>{{ route.name }}</span>
+                  </span>
+                </template>
+                <a-menu-item
+                  v-for="child in route.children"
+                  :key="`${route.path}/${child.path}`"
+                  :path="`${route.path}/${child.path}`"
+                >
+                  <router-link :to="`${route.path}/${child.path}`">
+                    <span>{{ child.name }}</span></router-link
+                  >
+                </a-menu-item>
+              </a-sub-menu>
+            </template>
+            <template v-else>
+              <a-menu-item :key="route.path">
+                <router-link :to="`${route.path}`">
                   <component :is="route.icon" />
                   <span>{{ route.name }}</span>
-                </span>
-              </template>
-              <a-menu-item
-                v-for="child in route.children"
-                :key="`${route.path}/${child.path}`"
-                :path="`${route.path}/${child.path}`"
-              >
-                <router-link :to="`${route.path}/${child.path}`">
-                  <span>{{ child.name }}</span></router-link
-                >
+                </router-link>
               </a-menu-item>
-            </a-sub-menu>
-          </template>
-          <template v-else>
-            <a-menu-item :key="route.path">
-              <router-link :to="`${route.path}`">
-                <component :is="route.icon" />
-                <span>{{ route.name }}</span>
-              </router-link>
-            </a-menu-item>
-          </template>
-        </template>
-      </a-menu>
-    </a-layout-sider>
-    <a-layout>
-      <!-- header -->
-      <a-layout-header class="layout-header">
-        <div style="padding: 0 5px">
-          <menu-unfold-outlined
-            v-if="collapsed"
-            class="trigger"
-            @click="() => (collapsed = !collapsed)"
-          />
-          <menu-fold-outlined
-            v-else
-            class="trigger"
-            @click="() => (collapsed = !collapsed)"
-          />
-        </div>
-        <div class="title">
-          <span class="tt"> 数字时代的艺术品展馆交易平台后台管理系统 </span>
-          <el-dropdown placement="top-start">
-            <div class="down">
-              <el-avatar
-                :icon="FaUserAstronaut"
-                :size="35"
-                :style="{ background: '#7378f5', marginRight: '10px' }"
-              />
-              <span>欢迎：{{ username }}</span>
-            </div>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>
-                  <router-link :to="{ path: '/front' }">返回前台</router-link>
-                </el-dropdown-item>
-                <el-dropdown-item @click="handleLogout">
-                  退出登录
-                </el-dropdown-item>
-              </el-dropdown-menu>
             </template>
-          </el-dropdown>
-        </div>
-      </a-layout-header>
-      <a-layout-content
-        :style="{
-          margin: '24px 16px',
-          padding: '24px',
-          background: '#fff',
-          minHeight: '280px',
-          overflow: 'scroll',
-        }"
-      >
-        <router-view />
-      </a-layout-content>
+          </template>
+        </a-menu>
+      </a-layout-sider>
+      <a-layout>
+        <!-- header -->
+        <a-layout-header class="layout-header">
+          <div style="padding: 0 5px">
+            <menu-unfold-outlined
+              v-if="collapsed"
+              class="trigger"
+              @click="() => (collapsed = !collapsed)"
+            />
+            <menu-fold-outlined
+              v-else
+              class="trigger"
+              @click="() => (collapsed = !collapsed)"
+            />
+          </div>
+          <div class="title">
+            <span class="tt"> 数字时代的艺术品展馆交易平台后台管理系统 </span>
+            <el-dropdown placement="top-start">
+              <div class="down">
+                <el-avatar
+                  :icon="FaUserAstronaut"
+                  :size="35"
+                  :style="{ background: '#7378f5', marginRight: '10px' }"
+                />
+                <span>欢迎：{{ username }}</span>
+              </div>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>
+                    <router-link :to="{ path: '/front' }">返回前台</router-link>
+                  </el-dropdown-item>
+                  <el-dropdown-item @click="handleLogout">
+                    退出登录
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
+        </a-layout-header>
+        <a-layout-content
+          :style="{
+            margin: '24px 16px',
+            padding: '24px',
+            background: '#fff',
+            minHeight: '280px',
+            overflow: 'scroll',
+          }"
+        >
+          <router-view />
+        </a-layout-content>
+      </a-layout>
     </a-layout>
-  </a-layout>
 </template>
 <script setup>
 import { ref, onMounted, watch } from "vue";
@@ -256,5 +256,6 @@ watch(selectedKeys, (newValue) => {
 .menu-list {
   height: calc(100vh - 60px);
   overflow-y: scroll;
+  padding-bottom: 50px;
 }
 </style>

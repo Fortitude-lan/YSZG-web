@@ -83,7 +83,6 @@ export const updateYSService = async (params) => {
 };
 
 //注册
-
 export const signUpService = async (params) => {
     try {
         const res = await post(API_ENDPOINTS.signUpYHAPI, {
@@ -98,12 +97,23 @@ export const signUpService = async (params) => {
     }
 };
 
-// 科室信息
-export const fetchKeshiPage = async (params, page, limit) => {
+//聊天
+export const fetchChatPage = async (params, page, limit) => {
     try {
-        const response = await get(API_ENDPOINTS.keshixinxiPageAPI, {
-            ...params, page, limit, sort: 'id',
-            order: 'desc'
+        const response = await get(API_ENDPOINTS.chatPageAPI, {
+            ...params, page, limit, sort: 'addtime', order: 'desc', isreply: 1
+        });
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+export const fetchChat = async (params) => {
+    try {
+        const response = await get(API_ENDPOINTS.chatPageAPI, {
+            ...params, sort: 'addtime', order: 'desc', limit: 9999
+
         });
         console.log(response.data)
         return response.data
@@ -113,6 +123,16 @@ export const fetchKeshiPage = async (params, page, limit) => {
     }
 };
 
+export const fetchChatSave = async (params) => {
+    try {
+        console.log(params)
+        const res = await post(API_ENDPOINTS.chatSaveAPI, { ...params });
+        return res.code
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
 //用户列表
 export const fetchUserListPage = async (params, page, limit) => {
     try {
@@ -282,7 +302,7 @@ export const fetchNewsDel = async (params) => {
 //  Category list
 export const fetchCategoryListPage = async (params, page, limit) => {
     try {
-        const response = await get(API_ENDPOINTS.goodsListAPI, {
+        const response = await get(API_ENDPOINTS.categoryListAPI, {
             ...params, page, limit, sort: 'id',
         });
         console.log(response.data)
