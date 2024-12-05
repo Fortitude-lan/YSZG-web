@@ -75,6 +75,7 @@
     <el-table-column fixed="right" label="操作" min-width="200">
       <template #default="scope">
         <el-button
+          v-if="role == '管理员'"
           link
           type="success"
           size="small"
@@ -509,6 +510,7 @@ import { TiTick } from "vue3-icons/ti";
 import { PiEyeBold, PiEyeClosed } from "vue3-icons/pi";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { httpURL } from "@/utils/util";
+const role = localStorage.getItem("role"); //
 
 // 分页状态
 const pagination = reactive({
@@ -679,18 +681,7 @@ const onSubmit = async (formEl) => {
     }
   });
 };
-const onSubmit1 = async (formEl) => {
-  if (!formEl) return;
-  await formEl.validate(async (valid, fields) => {
-    if (valid) {
-      pagination.currentPage = 1; // 查询时重置为第一页
-      await fetchCommentData();
-      console.log("submit!");
-    } else {
-      console.log("error submit!", fields);
-    }
-  });
-};
+
 const resetForm = (formEl) => {
   if (!formEl) return;
   formEl.resetFields();

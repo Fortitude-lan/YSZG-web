@@ -1,113 +1,104 @@
 <template>
-  <div class="profile-container">
-    <div class="profile-content">
-      <div class="profile-info-section">
-        <el-form
-          v-if="role == '用户'"
-          ref="formRef"
-          :model="infoValidateForm"
-          class="form-layout"
-        >
-          <div class="form-row">
-            <el-form-item label="账号" class="form-item">
-              <el-input
-                v-model="infoValidateForm.yonghuming"
-                placeholder="账号"
-                required
-                disabled
-              />
-            </el-form-item>
-          </div>
-          <div class="form-row">
-            <el-form-item label="姓名" class="form-item">
-              <el-input
-                v-model="infoValidateForm.xingming"
-                placeholder="姓名"
-                required
-              />
-            </el-form-item>
-            <el-form-item label="性别">
-              <el-select
-                v-model="infoValidateForm.xingbie"
-                placeholder="选择性别"
-                required
-              >
-                <el-option label="男" value="男"></el-option>
-                <el-option label="女" value="女"></el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-          <div class="form-row">
-            <el-form-item label="电话" class="form-item">
-              <el-input
-                v-model="infoValidateForm.lianxidianhua"
-                placeholder="电话"
-                required
-              />
-            </el-form-item>
-          </div>
-          <div class="form-row">
-            <el-form-item label="照片" class="form-item">
-              <el-upload
-                class="upload-demo"
-                drag
-                :action="`${baseUrl}/file/upload`"
-                :headers="headers"
-                :show-file-list="false"
-                :on-success="handleUpdateImage"
-              >
-                <img
-                  :style="{
-                    border: '1px dashed #999',
-                    cursor: 'pointer',
-                    color: '#999',
-                    borderRadius: '6px',
-                    textAlign: 'center',
-                    background: '#f9f9f9',
-                    width: '200px',
-                    fontSize: '32px',
-                    lineHeight: '100px',
-                    height: 'auto',
-                  }"
-                  v-if="infoValidateForm.touxiang"
-                  :src="infoValidateForm.touxiang"
-                  class="avatar"
-                />
-
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">点击上传</div>
-              </el-upload>
-            </el-form-item>
-          </div>
-          <div class="tt">
-            <el-button @click.prevent="onSubmit(formRef)" class="edit-button"
-              >修改</el-button
-            >
-          </div>
-        </el-form>
-        <el-form
-          v-else
-          ref="formRef"
-          :model="infoValidateForm"
-          class="form-layout"
-        >
-          <div class="form-row">
-            <el-form-item label="用户名" class="form-item">
-              <el-input
-                v-model="infoValidateForm.yonghuming"
-                placeholder="用户名"
-                required
-              />
-            </el-form-item>
-          </div>
-          <div class="tt">
-            <el-button @click.prevent="onSubmit(formRef)" class="edit-button"
-              >修改</el-button
-            >
-          </div>
-        </el-form>
+  <div class="page">
+    <el-form
+      v-if="role == '用户'"
+      ref="formRef"
+      :model="infoValidateForm"
+      class="form-layout"
+    >
+      <div class="form-row">
+        <el-form-item label="账号" class="form-item">
+          <el-input
+            v-model="infoValidateForm.yonghuming"
+            placeholder="账号"
+            required
+            disabled
+          />
+        </el-form-item>
       </div>
-    </div>
+      <div class="form-row">
+        <el-form-item label="姓名" class="form-item">
+          <el-input
+            v-model="infoValidateForm.xingming"
+            placeholder="姓名"
+            required
+          />
+        </el-form-item>
+        <el-form-item label="性别">
+          <el-select
+            v-model="infoValidateForm.xingbie"
+            placeholder="选择性别"
+            required
+          >
+            <el-option label="男" value="男"></el-option>
+            <el-option label="女" value="女"></el-option>
+          </el-select>
+        </el-form-item>
+      </div>
+      <div class="form-row">
+        <el-form-item label="电话" class="form-item">
+          <el-input
+            v-model="infoValidateForm.lianxidianhua"
+            placeholder="电话"
+            required
+          />
+        </el-form-item>
+      </div>
+      <div class="form-row">
+        <el-form-item label="照片" class="form-item">
+          <el-upload
+            class="upload-demo"
+            drag
+            :action="`${baseUrl}/file/upload`"
+            :headers="headers"
+            :show-file-list="false"
+            :on-success="handleUpdateImage"
+          >
+            <img
+              :style="{
+                border: '1px dashed #999',
+                cursor: 'pointer',
+                color: '#999',
+                borderRadius: '6px',
+                textAlign: 'center',
+                background: '#f9f9f9',
+                width: '150px',
+                fontSize: '32px',
+                lineHeight: '100px',
+                height: 'auto',
+              }"
+              v-if="infoValidateForm.touxiang"
+              :src="infoValidateForm.touxiang"
+              class="avatar"
+            />
+
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">点击上传</div>
+          </el-upload>
+        </el-form-item>
+      </div>
+      <div class="tt">
+        <el-button @click.prevent="onSubmit(formRef)" class="edit-button"
+          >修改</el-button
+        >
+      </div>
+    </el-form>
+    <el-form v-else ref="formRef" :model="infoValidateForm" class="form-layout">
+      <div class="form-row">
+        <el-form-item label="用户名" class="form-item">
+          <el-input
+            v-model="infoValidateForm.yonghuming"
+            placeholder="用户名"
+            required
+          />
+        </el-form-item>
+      </div>
+      <div class="tt">
+        <el-button @click.prevent="onSubmit(formRef)" class="edit-button"
+          >修改</el-button
+        >
+      </div>
+    </el-form>
   </div>
 </template>
 
@@ -120,14 +111,7 @@ import { fetchSaveInfo } from "@/services/userServices";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { baseUrl } from "@/utils/util";
 
-import jianshe from "@/assets/img/charge/jianshe.png";
-import jiaotong from "@/assets/img/charge/jiaotong.png";
-import nongye from "@/assets/img/charge/nongye.png";
-import zhongguo from "@/assets/img/charge/zhongguo.png";
-import weixin from "@/assets/img/charge/weixin.png";
-import zhifubao from "@/assets/img/charge/zhifubao.png";
-
-const role = localStorage.getItem("adminName"); //
+const role = localStorage.getItem("role"); //
 const sessionTable = localStorage.getItem("sessionTable"); //
 
 // 响应式数据
@@ -180,7 +164,7 @@ const onSubmit = async (formEl) => {
         params = { ...userInfo.value, username: infoValidateForm.yonghuming };
       }
 
-      const msg = await fetchSaveInfo(sessionTable,params);
+      const msg = await fetchSaveInfo(sessionTable, params);
       if (msg === 0) {
         ElMessage({
           message: "更新成功",
@@ -226,6 +210,9 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.page {
+  width: 95%;
+}
 .form-layout {
   .tt {
     display: flex;
@@ -233,20 +220,7 @@ onMounted(() => {
     margin-bottom: 20px;
   }
 }
-.profile-container {
-  margin: 0 auto;
-  background-color: white;
-  border-radius: 1rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
-  width: 100%;
-  padding: 30px 50px;
-  transition: all 0.3s ease;
-  animation: fade-in 0.5s ease-out;
-  :deep(.el-form-item__label) {
-    min-width: 80px;
-  }
-}
+
 .section-title {
   font-size: 1.25rem;
   font-weight: 600;
@@ -301,10 +275,6 @@ onMounted(() => {
 
 .edit-button:hover {
   background-color: #434190;
-}
-
-.profile-info-section {
-  flex-grow: 1;
 }
 
 .profile-description {

@@ -250,3 +250,28 @@ export const fetchRefond = async (itm) => {
     }
 
 }
+//收藏 list
+export const fetchFavorListPage = async (params, page, limit) => {
+    try {
+        const response = await get(API_ENDPOINTS.storeAPI, {
+            ...params, page, limit, sort: 'id',
+        });
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+// 收藏  del
+export const fetchFavorDel = async (params) => {
+    try {
+        // console.log(params)
+        const res = await post(API_ENDPOINTS.storeDelAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};

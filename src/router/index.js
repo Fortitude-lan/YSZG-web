@@ -57,12 +57,15 @@ import SystemNews from '@/views/admin/SystemNews.vue'
 import SystemChat from '@/views/admin/SystemChat.vue'
 
 
+
 //艺术品管理--分类
 import GoodsCatrgory from '@/views/admin/GoodsCatrgory.vue'
 //艺术品管理-- 列表
 import GoodsList from '@/views/admin/GoodsList.vue'
 //艺术品管理-- 评价
 import GoodsEvaluate from '@/views/admin/GoodsEvaluate.vue'
+//艺术品管理-- 收藏
+import FavorList from '@/views/admin/FavorList.vue'
 
 
 /* ***********后台 end************ */
@@ -79,9 +82,13 @@ export const getFrontendRoutes = () => {
     const frontRoute = routes.find(route => route.path === '/front');
     return frontRoute ? frontRoute.children.filter(child => child.show === true) : [];
 };
-export const getBackRoutes = () => {
+export const getBackRoutesAdmin = () => {
     const backRoute = routes.find(route => route.path === '/back');
     return backRoute ? backRoute.children.filter(child => child.show === true) : [];
+};
+export const getBackRoutesUser = () => {
+    const backRoute = routes.find(route => route.path === '/back');
+    return backRoute ? backRoute.children.filter(child => child.show === true && !child.auth) : [];
 };
 export const getUrls = () => {
     let urls = [];
@@ -220,6 +227,7 @@ const routes = [
             path: 'systemanagement',
             name: '系统管理',
             show: true,
+            auth: true,
             icon: IoFileTray,
             children: [{
                 path: 'index',
@@ -262,6 +270,7 @@ const routes = [
             path: 'usermanagement',
             name: '用户管理',
             show: true,
+            auth: true,
             icon: IoFileTray,
             children: [{
                 path: 'index',
@@ -280,6 +289,7 @@ const routes = [
             path: 'artmanagement',
             name: '艺术品管理',
             show: true,
+            auth: true,
             icon: IoFileTray,
             children: [{
                 path: 'index',
@@ -297,6 +307,26 @@ const routes = [
                 path: 'artcommend',
                 name: '艺术品评价',
                 component: GoodsEvaluate,
+                icon: ''
+            },
+            ]
+        },
+        {
+            path: 'spmanag',
+            name: '商品管理',
+            show: true,
+            icon: IoFileTray,
+            children: [
+            {
+                path: 'evaluatemanag',
+                name: '评价管理',
+                component: GoodsEvaluate,
+                icon: ''
+            },
+            {
+                path: 'favormanag',
+                name: '收藏管理',
+                component: FavorList,
                 icon: ''
             },
             ]
