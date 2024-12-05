@@ -389,6 +389,51 @@ export const fetchGoodsDel = async (params) => {
         throw error; // 抛出错误以供调用者处理
     }
 };
+//  评价 list
+export const fetchEvaluateListPage = async (params, page, limit) => {
+    try {
+        const response = await get(API_ENDPOINTS.evaluteListAPI, {
+            ...params, page, limit, sort: 'id',
+        });
+        console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+// 评价 add
+export const fetchEvaluateAdd = async (params) => {
+    try {
+        const res = await post(API_ENDPOINTS.evaluteSaveAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+// 评价 update
+export const fetchEvaluateUpdate = async (params) => {
+    try {
+        const response = await await post(API_ENDPOINTS.evaluteUpdateAPI, params);
+        return response.code
+    } catch (error) {
+        console.error("Error sending chat message:", error);
+    }
+};
+export const fetchEvaluateDel = async (params) => {
+    try {
+        // console.log(params)
+        const res = await post(API_ENDPOINTS.evaluteDelAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+
 //  Comment list
 export const fetchCommentListPage = async (params, page, limit) => {
     try {

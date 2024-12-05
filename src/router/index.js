@@ -61,28 +61,12 @@ import SystemChat from '@/views/admin/SystemChat.vue'
 import GoodsCatrgory from '@/views/admin/GoodsCatrgory.vue'
 //艺术品管理-- 列表
 import GoodsList from '@/views/admin/GoodsList.vue'
+//艺术品管理-- 评价
+import GoodsEvaluate from '@/views/admin/GoodsEvaluate.vue'
 
 
 /* ***********后台 end************ */
-
 import NotFound from '@/views/404.vue'
-// import Login from '@/views/login.vue'
-// import UpdatePassword from '@/views/update-password.vue'
-// import pay from '@/views/pay.vue'
-// import register from '@/views/register.vue'
-// import center from '@/views/center.vue'
-// import news from '@/views/modules/news/list.vue'
-// import shangpinpingjia from '@/views/modules/shangpinpingjia/list.vue'
-// import yonghu from '@/views/modules/yonghu/list.vue'
-// import shangpinfenlei from '@/views/modules/shangpinfenlei/list.vue'
-// import chat from '@/views/modules/chat/list.vue'
-// import discussshangpinxinxi from '@/views/modules/discussshangpinxinxi/list.vue'
-// import shangpinxinxi from '@/views/modules/shangpinxinxi/list.vue'
-// import orders from '@/views/modules/orders/list.vue'
-// import storeup from '@/views/modules/storeup/list.vue'
-// import config from '@/views/modules/config/list.vue'
-// import heimingdan from '@/views/modules/heimingdan/list.vue'
-
 
 //图标
 import { IoFileTray } from "vue3-icons/io5";
@@ -312,11 +296,47 @@ const routes = [
             {
                 path: 'artcommend',
                 name: '艺术品评价',
-                component: UserManagBlack,
+                component: GoodsEvaluate,
                 icon: ''
             },
             ]
-        }]
+        },
+        {
+            path: 'ordermanag',
+            name: '订单管理',
+            show: true,
+            icon: IoFileTray,
+            children: [{
+                path: 'index',
+                name: '未支付',
+                component: UserCenter,
+                icon: ''
+            },
+            {
+                path: 'payed',
+                name: '已支付',
+                component: UserInfo,
+                icon: ''
+            },
+            {
+                path: 'paycanceled',
+                name: '已取消',
+                component: UserInfo,
+                icon: ''
+            },
+            {
+                path: 'paysent',
+                name: '已发货',
+                component: UserInfo,
+                icon: ''
+            },
+            {
+                path: 'payok',
+                name: '已完成',
+                component: UserInfo,
+                icon: ''
+            }]
+        },]
     },
     {
         path: '/login',

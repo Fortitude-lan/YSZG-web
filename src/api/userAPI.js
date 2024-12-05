@@ -54,7 +54,11 @@ export const API_ENDPOINTS = {
   goodsListAPI: 'shangpinxinxi/page',//商品 list
   goodsAddAPI: 'shangpinxinxi/save',//商品 add
   goodsUpdateAPI: 'shangpinxinxi/update',//商品 ip
-  goodsEvaluteAPI: 'shangpinpingjia/save',//商品 评价
+  evaluteAPI: 'shangpinpingjia/save',//商品 评价
+  evaluteListAPI:'shangpinpingjia/page',
+  evaluteSaveAPI:'shangpinpingjia/save',
+  evaluteUpdateAPI:'shangpinpingjia/update',
+  evaluteDelAPI:'shangpinpingjia/delete',
   goodsDelAPI: 'shangpinxinxi/delete',//商品 del
   commentListAPI: 'discussshangpinxinxi/page',//商品 评价
   commentUpdateAPI: 'discussshangpinxinxi/update',//商品 回复
