@@ -99,7 +99,8 @@ export default class Environment {
 				describe: this.texture_info[key].shangpinxiangqing,
 				index: key,
 				src: this.texture_boards[key].image.src,
-				show_boards: true
+				show_boards: true,
+				datas:this.texture_info[key]
 			};
 
 			// board.userData = {

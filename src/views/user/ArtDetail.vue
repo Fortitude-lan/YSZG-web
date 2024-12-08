@@ -103,7 +103,7 @@
                   <div class="rkt-1">
                     <el-avatar
                       :size="50"
-                      src="https://pic1.zhimg.com/v2-7c3aa1bc7e87dd05b0083d8d7a85a268_r.jpg"
+                      src="https://img95.699pic.com/element/40203/4444.png_300.png!/fw/431/clip/0x300a0a0"
                     />
                     <span
                       ><strong>{{ item.userid }}</strong></span

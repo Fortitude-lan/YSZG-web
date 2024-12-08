@@ -73,6 +73,15 @@ export default class UI {
 					verify: () => (e.target as HTMLElement).classList.contains("music"),
 					handler: () => this.core.world.getAudio().stopAudio()
 				},
+				{
+					verify: () => (e.target as HTMLElement).classList.contains("detail"),
+					handler: () => {
+						// console.log('first', e.target)
+						//跳转到详情
+						let id = localStorage.getItem('artItemID')
+						window.location.href = `/front/artdetail/${id}`;
+					}
+				},
 			];
 
 			const event = MAP_EVENT.find(item => item.verify());
@@ -98,7 +107,7 @@ export default class UI {
 		this.doms.operating_intro.classList.add("display-none");
 	}
 
-	showBoardsBox(title: string, author: string, describe: string, img_src: string) {
+	showBoardsBox(title: string, author: string, describe: string, img_src: string, itms: Object) {
 		if (this.doms.boards_dialog.style.visibility === "visible") return;
 		this.doms.boards_dialog.style.visibility = "visible";
 		this.doms.boards_container.classList.remove("hide");
@@ -107,6 +116,9 @@ export default class UI {
 		this.doms.boards_describe.innerHTML = describe;
 		this.doms.boards_img.src = img_src;
 		this.doms.boards_content.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+		// console.log('跳转到详情', itms)
+		localStorage.setItem('artItemID', itms.id)
+		//front/artdetail/48
 	}
 
 	hideBoardsBox() {
@@ -116,6 +128,7 @@ export default class UI {
 		this.doms.boards_author.textContent = "";
 		this.doms.boards_describe.textContent = "";
 		this.doms.boards_img.src = "";
+		localStorage.removeItem('artItemID');
 	}
 
 	showPreviewTooltip(msg: string, show_preview_tips = true) {

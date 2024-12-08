@@ -4,7 +4,7 @@
  * @Author: Hesin
  * @Date: 2024-10-23 14:25:06
  * @LastEditors: Hesin
- * @LastEditTime: 2024-10-26 16:58:36
+ * @LastEditTime: 2024-12-08 12:11:08
  */
 import Core from "../core";
 import Environment from "../environment";
@@ -127,6 +127,7 @@ export default class World {
 			object.userData.author,
 			object.userData.describe,
 			object.userData.src,
+			object.userData.datas
 		);
 	}
 

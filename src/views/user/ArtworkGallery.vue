@@ -49,6 +49,7 @@
             <div class="describe"></div>
           </section>
           <section class="img">
+            <div class="detail">去商城详情</div>
             <img src="" alt="" />
           </section>
         </div>
@@ -60,47 +61,44 @@
     <div class="help" title="帮助">?</div>
     <div class="operating-intro display-none">
       <h2>操作指引</h2>
-      <!-- <img class="operating-intro-img" src="/operating.png" alt="" /> -->
+      <img class="operating-intro-img" :src="operating" alt="" />
       <div class="close operating-intro-close" title="关闭"></div>
     </div>
-    <div class="music" title="音乐">音</div>
-    <div class="menu">
+    <!--    <div class="music" title="音乐">音</div>
+<div class="menu">
       <input type="checkbox" class="checkbox" />
       <span class="button-menu"></span>
       <button class="option-a option">A</button>
       <button class="option-b option">B</button>
       <button class="option-c option">C</button>
-    </div>
+    </div> -->
     <!-- 虚拟摇杆 -->
     <div id="joystick"></div>
   </div>
 </template>
 
-<script>
+<script setup>
 import { onMounted, onBeforeUnmount, ref } from "vue";
 import Core from "@/components/exhibition/core";
-export default {
-  setup() {
-    let core = null;
+import operating from "@/assets/img/operating.png";
+let core = null;
 
-    onMounted(() => {
-      if (core) {
-        console.log("销毁旧的 Core 实例");
-        core.destroy(); // 清理旧的实例
-      }
-      console.log("创建新的 Core 实例");
-      core = new Core(); // 创建新的 Core 实例
-      console.log("开始加载");
-      core.render(); // 渲染
-    });
-    onBeforeUnmount(() => {
-      if (core) {
-        console.log("组件卸载，清理 Core 实例");
-        core.destroy(); // 清理实例
-      }
-    });
-  },
-};
+onMounted(() => {
+  if (core) {
+    console.log("销毁旧的 Core 实例");
+    core.destroy(); // 清理旧的实例
+  }
+  console.log("创建新的 Core 实例");
+  core = new Core(); // 创建新的 Core 实例
+  console.log("开始加载");
+  core.render(); // 渲染
+});
+onBeforeUnmount(() => {
+  if (core) {
+    console.log("组件卸载，清理 Core 实例");
+    core.destroy(); // 清理实例
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -228,5 +226,51 @@ export default {
   letter-spacing: 0px;
   transform: skew(-10deg) translateY(8px);
   box-shadow: 0 0 0 var(--😀😀😀);
+}
+.help {
+  position: absolute;
+  top: 70px;
+}
+.detail {
+  position: absolute;
+  top: 20px;
+}
+.detail {
+  cursor: pointer;
+  padding: 5px 15px;
+  border: unset;
+  border-radius: 15px;
+  color: #40505e;
+  z-index: 1;
+  background: #e8e8e8;
+  font-weight: 1000;
+  font-size: 10px;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+  overflow: hidden;
+}
+
+.detail::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  border-radius: 15px;
+  background-color: #533aad;
+  z-index: -1;
+  -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+  transition: all 250ms;
+}
+
+.detail:hover {
+  color: #e8e8e8;
+}
+
+.detail:hover::before {
+  width: 100%;
 }
 </style>
