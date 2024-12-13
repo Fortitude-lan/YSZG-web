@@ -535,7 +535,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .page {
   margin-top: 60px;
-  min-height: 400px;
+  min-height: 500px;
   width: 1000px;
   margin: 60px auto 20px;
 }

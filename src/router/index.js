@@ -88,11 +88,11 @@ export const getFrontendRoutes = () => {
 };
 export const getBackRoutesAdmin = () => {
     const backRoute = routes.find(route => route.path === '/back');
-    return backRoute ? backRoute.children.filter(child => child.show === true) : [];
+    return backRoute ? backRoute.children.filter(child => child.show === true && (child.auth == 0 || !child.auth)) : [];
 };
 export const getBackRoutesUser = () => {
     const backRoute = routes.find(route => route.path === '/back');
-    return backRoute ? backRoute.children.filter(child => child.show === true && !child.auth) : [];
+    return backRoute ? backRoute.children.filter(child => child.show === true && (child.auth == 0 || child.auth == 1)) : [];
 };
 export const getUrls = () => {
     let urls = [];
@@ -232,7 +232,6 @@ const routes = [
             path: 'systemanagement',
             name: '系统管理',
             show: true,
-            auth: true,
             icon: IoFileTray,
             children: [{
                 path: 'index',
@@ -257,6 +256,7 @@ const routes = [
             path: 'usercenter',
             name: '账号管理',
             show: true,
+            auth: 0,
             icon: IoFileTray,
             children: [{
                 path: 'index',
@@ -275,7 +275,6 @@ const routes = [
             path: 'usermanagement',
             name: '用户管理',
             show: true,
-            auth: true,
             icon: IoFileTray,
             children: [{
                 path: 'index',
@@ -294,7 +293,6 @@ const routes = [
             path: 'artmanagement',
             name: '艺术品管理',
             show: true,
-            auth: true,
             icon: IoFileTray,
             children: [{
                 path: 'index',
@@ -307,38 +305,30 @@ const routes = [
                 name: '艺术品信息',
                 component: GoodsList,
                 icon: ''
-            },
-            {
-                path: 'artcommend',
-                name: '艺术品评价',
-                component: GoodsEvaluate,
-                icon: ''
-            },
+            }
             ]
         },
         {
-            path: 'spmanag',
-            name: '商品管理',
+            path: 'evaluatemanag',
+            name: '评价管理',
+            auth: 0,
             show: true,
+            component: GoodsEvaluate,
             icon: IoFileTray,
-            children: [
-                {
-                    path: 'evaluatemanag',
-                    name: '评价管理',
-                    component: GoodsEvaluate,
-                    icon: ''
-                },
-                {
-                    path: 'favormanag',
-                    name: '收藏管理',
-                    component: FavorList,
-                    icon: ''
-                },
-            ]
+
+        },
+        {
+            path: 'favormanag',
+            name: '收藏管理',
+            auth: 1,
+            show: true,
+            component: FavorList,
+            icon: IoFileTray,
         },
         {
             path: 'ordermanag',
             name: '订单管理',
+            auth: 0,
             show: true,
             component: OrderList,
             icon: IoFileTray,

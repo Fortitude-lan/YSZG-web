@@ -10,7 +10,9 @@
           status-icon
           :rules="rules"
         >
-          <label for="chk" aria-hidden="true">登录</label>
+          <label for="chk" aria-hidden="true"
+            >数字艺术展馆后台登录</label
+          >
           <el-form-item label="账  号" class="form-item" prop="username">
             <el-input
               v-model="signinValidateForm.username"
@@ -300,10 +302,12 @@ onMounted(() => {
 
   label {
     color: #fff;
-    font-size: 2.3em;
+    font-size: 25px;
+    letter-spacing: 2px;
+    text-align: center;
     justify-content: center;
     display: flex;
-    margin: 50px;
+    margin: 50px 0;
     font-weight: bold;
     cursor: pointer;
     transition: 0.5s ease-in-out;
@@ -380,7 +384,7 @@ onMounted(() => {
       font-size: 1.2rem;
       text-align: center;
       letter-spacing: 5px;
-      margin-top: 40px;
+      margin-top: 20px;
       width: 50%;
     }
   }

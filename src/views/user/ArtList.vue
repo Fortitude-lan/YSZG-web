@@ -252,7 +252,7 @@ onMounted(() => {
 
 .nft {
   cursor: pointer;
-  user-select: none;
+  // user-select: none;
   max-width: 300px;
   border: 1px solid #ffffff22;
   background-color: #979bc4;

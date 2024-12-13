@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 .pageM {
-  padding: 100px 5%;
+  padding: 60px 5%;
   min-height: 80vh;
 }
 .dialog {
