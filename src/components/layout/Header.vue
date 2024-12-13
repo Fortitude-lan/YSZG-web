@@ -65,20 +65,28 @@
             :model="signinValidateForm"
             class="form-layout"
           >
-            <el-form-item label="用户名" class="form-item">
+            <el-form-item label="用户名" class="form-item" prop="username">
               <el-input
                 v-model="signinValidateForm.username"
                 placeholder="用户名"
                 required
               />
             </el-form-item>
-            <el-form-item label="密  码" class="form-item">
+            <el-form-item label="密  码" class="form-item" prop="password">
               <el-input
-                type="password"
+                :type="isPasswordVisible ? 'text' : 'password'"
                 v-model="signinValidateForm.password"
                 placeholder="密码"
                 required
-              />
+              >
+                <template #append>
+                  <component
+                    :is="isPasswordVisible ? PiEyeBold : PiEyeClosed"
+                    @click="togglePasswordVisibility"
+                    style="cursor: pointer; font-size: 20px"
+                  />
+                </template>
+              </el-input>
             </el-form-item>
             <button type="submit" @click.prevent="handleLogin(formSigninRef)">
               登录
@@ -102,11 +110,19 @@
 
             <el-form-item label="密码" class="form-item">
               <el-input
-                type="password"
+                :type="isPasswordVisible ? 'text' : 'password'"
                 v-model="signupValidateForm.mima"
                 placeholder="密码"
                 required
-              />
+              >
+                <template #append>
+                  <component
+                    :is="isPasswordVisible ? PiEyeBold : PiEyeClosed"
+                    @click="togglePasswordVisibility"
+                    style="cursor: pointer; font-size: 20px"
+                  />
+                </template>
+              </el-input>
             </el-form-item>
             <!-- <el-form-item label="确认密码" class="form-item">
               <el-input
@@ -149,9 +165,12 @@ import { signUpService } from "@/services/backServices";
 import { loginService } from "@/services/headerServices";
 import { ElMessage } from "element-plus";
 import { reactive, ref, onMounted, computed } from "vue";
+import { useStore } from "vuex";
+//icon
 import { FaUserAstronaut } from "vue3-icons/fa";
 import { CiStar } from "vue3-icons/ci";
-import { useStore } from "vuex";
+import { PiEyeBold, PiEyeClosed } from "vue3-icons/pi";
+
 const store = useStore();
 // 获取 isLoggedIn 状态
 const isLoggedIn = computed(() => store.state.isLoggedIn);
@@ -177,7 +196,6 @@ const isActive = (path) => {
 };
 
 //登陆注册
-
 const formSignupRef = ref();
 const signupValidateForm = reactive({
   xingming: "",
@@ -190,6 +208,13 @@ const signinValidateForm = reactive({
   username: "",
   password: "",
 });
+
+// 控制密码显示/隐藏的状态
+const isPasswordVisible = ref(false);
+// 切换密码可见性
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value;
+};
 // 登录处理
 const handleLogin = (formEl) => {
   if (!formSigninRef) return; // 处理注册逻辑
@@ -256,7 +281,9 @@ const handleLogout = () => {
     message: "退出成功",
     type: "success",
   });
+  resetForm(formSigninRef);
 };
+
 // 检查登录状态
 const checkLoginStatus = () => {
   const role = localStorage.getItem("role");
@@ -267,7 +294,11 @@ const checkLoginStatus = () => {
     });
   }
 };
-
+const resetForm = (formEl) => {
+  console.log(formEl.value.resetFields());
+  if (!formEl) return;
+  formEl.value.resetFields();
+};
 // 在组件挂载时调用
 onMounted(() => {
   checkLoginStatus();
