@@ -483,3 +483,42 @@ export const fetchFavorPage = async (params, page, limit) => {
         throw error; // 抛出错误以供调用者处理
     }
 };
+
+//订单 list orderUpdateAPI
+export const fetchOrderPage = async (params, page, limit) => {
+    try {
+        const response = await get(API_ENDPOINTS.orderPageAPI, {
+            ...params,
+            page,
+            limit,
+        });
+        // console.log(response.data)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+// 订单 update
+export const fetchOrderUpdate = async (params) => {
+    try {
+        const res = await post(API_ENDPOINTS.orderUpdateAPI, { ...params });
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};
+//订单 orderDelAPI
+export const fetchOrderDel = async (params) => {
+    try {
+        // console.log(params)
+        const res = await post(API_ENDPOINTS.orderDelAPI, params);
+        return res.code
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};

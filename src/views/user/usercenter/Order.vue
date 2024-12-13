@@ -62,21 +62,15 @@
               >
                 退款
               </el-button>
-              <!-- <el-popconfirm title="确定要删除吗?">
-                <template #reference>
-                  <el-button link type="danger" size="small"> 删除 </el-button>
-                </template>
-                <template #actions="{ confirm, cancel }">
-                  <el-button size="small" @click="cancel">否</el-button>
-                  <el-button
-                    type="danger"
-                    size="small"
-                    @click="delConfirm(scope.row)"
-                  >
-                    是
-                  </el-button>
-                </template>
-              </el-popconfirm> -->
+              <el-button
+                link
+                type="primary"
+                size="small"
+                @click="sendGoods(scope.row, '已完成')"
+                v-if="activeName == '已发货'"
+              >
+                确认收货
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -99,6 +93,7 @@
 
 <script setup>
 import { reactive, onMounted, ref } from "vue";
+import { fetchOrderUpdate } from "@/services/backServices";
 
 import { fetchOrderList, fetchRefond } from "@/services/userServices";
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -158,6 +153,16 @@ const fetchData = async () => {
   } catch (error) {
     console.error("Failed to fetch table columns:", error);
   }
+};
+const sendGoods = async (itm) => {
+  const msg = await fetchOrderUpdate({ ...itm, status: "已完成" });
+  if (msg == 0) {
+    ElMessage({
+      message: "收货成功",
+      type: "success",
+    });
+  }
+  await fetchData();
 };
 const handleOrder = (name) => {
   console.log(name);

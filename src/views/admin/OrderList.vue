@@ -7,14 +7,20 @@
         :label="tab.label"
         :name="tab.name"
       >
+        <div class="noraml-btn">
+          <button @click="delSubmit()">删除</button>
+        </div>
         <!-- 动态渲染表头 -->
         <el-table
           :data="tableData"
+          @selection-change="handleSelectionChange"
           :row-key="(row) => row.id"
           ref="tableRef"
           style="width: 100%"
           class="table"
         >
+          <!-- 多选框 -->
+          <el-table-column type="selection" width="55"></el-table-column>
           <!-- 动态渲染表头 -->
           <el-table-column
             v-for="(column, index) in columns"
@@ -57,19 +63,28 @@
                 link
                 type="primary"
                 size="small"
-                @click="refund(scope.row)"
-                v-if="activeName == '已支付'"
+                @click="sendGoods(scope.row, '已完成')"
+                v-if="activeName == '已发货' && role == '用户'"
               >
-                退款
+                确认收货
               </el-button>
               <el-button
                 link
                 type="primary"
                 size="small"
-                @click="onEvaluate(scope.row)"
-                v-else-if="activeName == '已完成'"
+                @click="sendGoods(scope.row, '已发货')"
+                v-if="activeName == '已支付' && role == '管理员'"
               >
-                评价
+                发货
+              </el-button>
+              <el-button
+                link
+                type="primary"
+                size="small"
+                @click="delConfirm(scope.row)"
+                else="activeName == '已支付'"
+              >
+                删除
               </el-button>
             </template>
           </el-table-column>
@@ -254,9 +269,14 @@
 import { reactive, onMounted, ref } from "vue";
 import { fetchSPInfoList } from "@/services/homeServices";
 import { getSession } from "@/services/headerServices";
-import { fetchOrderList, fetchRefond } from "@/services/userServices";
+import {
+  fetchOrderPage,
+  fetchOrderUpdate,
+  fetchOrderDel,
+} from "@/services/backServices";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { baseUrl, httpURL } from "@/utils/util";
+const role = localStorage.getItem("role"); //
 
 // 存储 tab 数据
 const tabs = [
@@ -279,7 +299,7 @@ const headers = ref({
 // 分页状态
 const pagination = reactive({
   currentPage: 1, // 当前页码
-  pageSize: 5, // 每页条数
+  pageSize: 15, // 每页条数
   totalPage: 0, // 总页数，从接口返回
 });
 
@@ -298,7 +318,8 @@ const infoValidateForm = reactive({
   yonghuming: "",
   pingjianeirong: "",
 });
-
+// 选中的行
+const selectedRows = ref([]);
 // 表头数据
 const tableData = ref([]);
 // 自定义表头
@@ -340,7 +361,7 @@ const buildQueryParams = () => {
 const fetchData = async () => {
   try {
     const query = buildQueryParams(); // 使用统一查询方法
-    const { list, totalPage, currPage } = await fetchOrderList(
+    const { list, totalPage, currPage } = await fetchOrderPage(
       query,
       pagination.currentPage,
       pagination.pageSize
@@ -352,6 +373,11 @@ const fetchData = async () => {
   } catch (error) {
     console.error("Failed to fetch table columns:", error);
   }
+};
+// 监听选中行变化
+const handleSelectionChange = (rows) => {
+  selectedRows.value = rows;
+  console.log("当前选中的行:", selectedRows.value);
 };
 const handleOrder = (name) => {
   console.log(name);
@@ -371,16 +397,68 @@ const onEvaluate = async (row) => {
   selectRow.value = row;
   drawerVisible.value = true;
 };
-const refund = async (itm) => {
-  const msg = await fetchRefond(itm);
-  console.log("退款款", msg);
+const sendGoods = async (itm, status) => {
+  const msg = await fetchOrderUpdate({ ...itm, status });
   if (msg == 0) {
     ElMessage({
-      message: "退款成功",
+      message: `${status}`,
       type: "success",
     });
   }
   await fetchData();
+};
+// del
+const delSubmit = () => {
+  console.log("del");
+  if (selectedRows.value.length <= 0) {
+    ElMessage({
+      message: "至少选择一行",
+      type: "warning",
+    });
+  } else {
+    ElMessageBox.confirm("确认删除选中行?", "删除", {
+      confirmButtonText: "删除",
+      cancelButtonText: "取消",
+      type: "warning",
+    })
+      .then(async () => {
+        const ids = selectedRows.value.map((i) => i.id);
+        console.log(ids);
+        const msg = await fetchOrderDel(ids);
+        if (msg == 0) {
+          ElMessage({
+            type: "success",
+            message: "删除成功",
+          });
+          //刷新
+          await fetchData();
+        }
+      })
+      .catch(() => {
+        ElMessage({
+          type: "error",
+          message: "删除失败",
+        });
+      });
+  }
+};
+//del row
+const delConfirm = async (row) => {
+  console.log(row);
+  const msg = await fetchOrderDel([row.id]);
+  if (msg == 0) {
+    ElMessage({
+      type: "success",
+      message: "删除成功",
+    });
+    //刷新
+    await fetchData();
+  } else {
+    ElMessage({
+      type: "error",
+      message: "删除失败",
+    });
+  }
 };
 const onSubmit = async (formEl) => {
   if (!formEl) return;

@@ -67,5 +67,7 @@ export const API_ENDPOINTS = {
   chatSaveAPI: 'chat/save',//客服
   storeAPI: 'storeup/page',//收藏
   storeDelAPI: 'storeup/delete',//收藏
-  favorPageAPI: 'orders/page',//订单
+  orderPageAPI: 'orders/page',//订单
+  orderDelAPI: 'orders/delete',//订单
+
 };
