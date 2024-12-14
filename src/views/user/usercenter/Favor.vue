@@ -1,17 +1,7 @@
 <template>
-  <div class="page">
+  <div class="min300">
     <!-- 内容区域 -->
-    <main class="container">
-      <!-- 面包屑 -->
-      <el-breadcrumb separator="/" class="breadcrumb">
-        <el-breadcrumb-item :to="{ path: '/front/ucenter' }"
-          >当前位置：个人中心</el-breadcrumb-item
-        >
-        <el-breadcrumb-item :to="{ path: route.path }">{{
-          route.name
-        }}</el-breadcrumb-item>
-      </el-breadcrumb>
-
+    <main class="container" v-if="favorList.length">
       <!-- 选择器 -->
       <el-form ref="formRef" :model="form" label-width="auto" class="form">
         <el-form-item label="名称:" prop="name">
@@ -22,7 +12,6 @@
           <el-button @click="resetForm(formRef)">重置</el-button>
         </el-form-item>
       </el-form>
-
       <!-- 内容 -->
       <el-row :gutter="20">
         <!-- 设置卡片间距 -->
@@ -48,6 +37,7 @@
         </el-col>
       </el-row>
     </main>
+    <main class="container" v-else>暂无收藏</main>
   </div>
 </template>
 
@@ -66,7 +56,7 @@ const pagination = reactive({
 });
 
 // 响应式数据
-const favorList = ref({});
+const favorList = ref([]);
 
 const formRef = ref();
 const form = reactive({

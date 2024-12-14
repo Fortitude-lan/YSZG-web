@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="min300">
     <!-- 动态渲染表头 -->
     <el-table
       :data="tableData"

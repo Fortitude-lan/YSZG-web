@@ -48,7 +48,9 @@ body {
   background-color: #f4f4f4;
   color: #333;
 }
-
+.min300 {
+  min-height: 300px;
+}
 /* 按钮样式 */
 button {
   padding: 10px 15px;

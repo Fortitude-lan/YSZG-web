@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="min300">
     <div class="noraml-btn">
       <button @click="addFormVisible = true">+ 新增</button>
       <!--   <button @click="delSubmit()">删除</button> -->
@@ -38,7 +38,7 @@
             <span v-if="column.prop === 'isdefault'">
               <!-- 如果是 "是"，显示绿色的勾 -->
               <span v-if="scope.row[column.prop] === '是'">
-                <TiTick size='25' color="#77f5ab" />
+                <TiTick size="25" color="#77f5ab" />
               </span>
               <!-- 如果是 "否"，显示红色的叉 -->
               <span v-else> 否 </span>

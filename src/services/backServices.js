@@ -522,3 +522,30 @@ export const fetchOrderDel = async (params) => {
         throw error; // 抛出错误以供调用者处理
     }
 };
+
+//统计 所有用户
+export const fetchNum = async (page = 1, limit = 9999) => {
+    try {
+        const userD = await get(API_ENDPOINTS.userListAPI, {
+            page, limit, sort: 'id',
+        });
+        const artD = await get(API_ENDPOINTS.goodsListAPI, {
+            page, limit, sort: 'id',
+        });
+        const artD1 = await get(API_ENDPOINTS.categoryListAPI, {
+            page, limit, sort: 'id',
+        });
+        const orderD = await get(API_ENDPOINTS.orderPageAPI, {
+            page, limit, sort: 'id',
+        });
+        return {
+            usernum: userD.data.total,
+            artnum: artD.data.total,
+            catnum: artD1.data.total,
+            ordernum: orderD.data.total,
+        }
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+        throw error; // 抛出错误以供调用者处理
+    }
+};

@@ -31,7 +31,7 @@
           </p>
           <p><strong>分类：</strong>{{ artItem.shangpinfenlei }}</p>
           <p><strong>作者/系列：</strong>{{ artItem.pinpai }}</p>
-          <p><strong>点击数：</strong>{{ artItem.clicknum }}</p>
+          <p><strong>浏览量：</strong>{{ artItem.clicknum }}</p>
           <el-button
             :type="isfavor.status ? 'danger' : 'warning'"
             :icon="FaStar"
